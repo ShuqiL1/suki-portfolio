@@ -1,0 +1,2446 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#f8f8f5;font-family:'DM Sans',sans-serif;color:#0f0e0c;overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+.cur{position:fixed;width:5px;height:5px;background:#3d35c8;border-radius:50%;pointer-events:none;z-index:999;transform:translate(-50%,-50%);transition:width .15s,height .15s}
+.cur.big{width:32px;height:32px;background:transparent;border:1px solid #3d35c8;opacity:0.5}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2.5rem;background:rgba(248,248,245,0.88);backdrop-filter:blur(14px);border-bottom:1px solid #e2e0da}
+.nav-logo{font-family:'DM Mono',monospace;font-size:12px;color:#3d35c8;font-weight:500;letter-spacing:0.06em;cursor:pointer}
+.nav-links{display:flex;gap:2rem}
+.nav-link{font-family:'DM Mono',monospace;font-size:11px;color:#8a8784;text-decoration:none;letter-spacing:0.1em;cursor:pointer;transition:color 0.2s;background:none;border:none}
+.nav-link:hover{color:#3d35c8}
+
+/* HERO */
+#hero{min-height:100vh;display:grid;grid-template-columns:0.92fr 1.08fr;align-items:center;padding:0 2.5rem;padding-top:64px;gap:0}
+.hero-left{position:relative;z-index:1;transform:translateX(10vw)}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:11px;color:#3d35c8;letter-spacing:0.18em;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem}
+.hero-eyebrow::before{content:'';width:22px;height:1px;background:#3d35c8}
+.hero-title{font-size:clamp(3rem,5.5vw,5rem);font-weight:300;line-height:1.05;letter-spacing:-0.025em;margin-bottom:1rem;color:#3d35c8;background:linear-gradient(90deg,#3d35c8,#6b5ce7,#3d35c8);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block;cursor:default;transition:transform 0.28s ease,filter 0.28s ease;animation:titleReveal 0.9s ease-out both,titleSheen 5.5s ease-in-out infinite 1s}
+.hero-title:hover{transform:translateY(-3px) scale(1.015);filter:drop-shadow(0 10px 18px rgba(61,53,200,0.18))}
+.hero-title em{font-style:normal;color:#3d35c8}
+@keyframes titleReveal{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes titleSheen{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero-sub{font-size:15px;color:#4a4845;font-weight:300;max-width:400px;line-height:1.75;margin-bottom:2.5rem}
+.cta{display:inline-flex;align-items:center;gap:0.6rem;font-family:'DM Mono',monospace;font-size:11px;color:#3d35c8;border:1px solid #3d35c8;padding:0.75rem 1.5rem;cursor:pointer;background:none;letter-spacing:0.1em;transition:all 0.2s}
+.cta:hover{background:#3d35c8;color:#f8f8f5}
+.cta .arr{transition:transform 0.2s}
+.cta:hover .arr{transform:translateY(4px)}
+
+/* HERO VISUAL */
+.hero-right{display:flex;align-items:center;justify-content:center;height:calc(100vh - 64px);overflow:hidden;transform:translateX(-3vw)}
+.orb-wrap{width:min(62vw,760px);height:min(74vh,680px);min-width:480px;min-height:460px;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d}
+#heroOrb{width:100%;height:100%;display:block;filter:drop-shadow(0 24px 48px rgba(61,53,200,0.12))}
+
+/* PROJECTS SECTION */
+#projects{padding:5rem 2.5rem 6rem;border-top:1px solid #e2e0da}
+.sec-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:3rem}
+.sec-num{font-family:'DM Mono',monospace;font-size:11px;color:#3d35c8;letter-spacing:0.15em}
+.sec-title{font-size:2rem;font-weight:300;letter-spacing:-0.02em}
+
+.proj-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem}
+.project-card{position:relative;min-width:0;overflow:hidden;border:1px solid #e2e0da;background:#fafaf8;cursor:pointer;transition:transform 0.22s,border-color 0.22s,box-shadow 0.22s,background 0.22s}
+.project-card:hover{transform:translateY(-6px);border-color:#3d35c8;box-shadow:0 20px 46px rgba(61,53,200,0.11);background:#fff}
+.project-card.soon{cursor:default;opacity:0.58}
+.project-card.soon:hover{transform:none;border-color:#e2e0da;box-shadow:none;background:#fafaf8}
+.project-media{position:relative;width:100%;max-width:100%;aspect-ratio:4/3;border-bottom:1px solid #e2e0da;background:linear-gradient(135deg,#f2f1ee,#eceafd);overflow:hidden}
+.project-media img{width:100%;max-width:100%;height:100%;object-fit:cover;object-position:center center;display:block;transition:transform 0.32s ease,filter 0.32s ease}
+.project-card:hover .project-media img{transform:scale(1.035);filter:saturate(1.05)}
+.project-media-placeholder{height:100%;display:flex;align-items:center;justify-content:center;padding:1.25rem;text-align:center;font-family:'DM Mono',monospace;font-size:11px;color:#8a8784;letter-spacing:0.08em;line-height:1.6;background:linear-gradient(135deg,#f2f1ee,#fafaf8)}
+.project-card-body{padding:1.35rem}
+.project-card-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:0.85rem}
+.proj-n{font-family:'DM Mono',monospace;font-size:11px;color:#8a8784;letter-spacing:0.05em}
+.proj-title{font-size:1.2rem;font-weight:400;letter-spacing:-0.01em;margin-bottom:0.45rem}
+.proj-desc{font-size:13px;color:#4a4845;line-height:1.55;max-width:66ch}
+.proj-tags{display:flex;gap:0.35rem;flex-wrap:wrap;margin-top:0.6rem}
+.ptag{font-family:'DM Mono',monospace;font-size:9px;color:#3d35c8;border:1px solid rgba(61,53,200,0.4);padding:0.15rem 0.45rem;letter-spacing:0.06em}
+.proj-year{font-family:'DM Mono',monospace;font-size:11px;color:#8a8784;letter-spacing:0.06em;text-align:right}
+.proj-arr{position:absolute;top:1rem;right:1rem;font-size:1rem;color:#3d35c8;transition:transform 0.2s;z-index:2}
+.project-card:hover .proj-arr{transform:translate(3px,-3px)}
+.project-card.soon .proj-arr{color:#8a8784}
+.soon-badge{font-family:'DM Mono',monospace;font-size:9px;color:#8a8784;border:1px solid #e2e0da;padding:0.15rem 0.45rem;margin-top:0.5rem;display:inline-block;letter-spacing:0.08em}
+
+/* DETAIL PAGES */
+#project-detail,#digiguard-detail,#edi-detail,#resoil-detail{display:none;padding:5rem calc(13rem + 5rem) 8rem clamp(1.25rem,3vw,4rem);border-top:1px solid #e2e0da}
+.back-btn{font-family:'DM Mono',monospace;font-size:11px;color:#8a8784;cursor:pointer;display:flex;align-items:center;gap:0.5rem;margin-bottom:3rem;background:none;border:none;letter-spacing:0.08em;transition:color 0.2s,transform 0.2s}
+.back-btn:hover{color:#3d35c8;transform:translateX(-4px)}
+.detail-hero{margin-bottom:5.5rem;width:100%;max-width:none}
+.brand-lockup{display:inline-flex;align-items:center;margin-bottom:1.5rem;padding:0.8rem 1rem;border:1px solid rgba(61,53,200,0.22);background:#fafaf8;transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s}
+.brand-lockup:hover{transform:translateY(-3px);border-color:#3d35c8;box-shadow:0 14px 30px rgba(61,53,200,0.08)}
+.brand-lockup img{height:34px;width:auto;display:block}
+.detail-tag{font-family:'DM Mono',monospace;font-size:11px;color:#3d35c8;letter-spacing:0.15em;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
+.detail-tag::before{content:'';display:inline-block;width:24px;height:1px;background:#3d35c8}
+.detail-title{font-size:clamp(2rem,4vw,3.5rem);font-weight:300;line-height:1.15;letter-spacing:-0.02em;margin-bottom:1rem}
+.detail-subtitle{font-size:1rem;color:#4a4845;max-width:none;line-height:1.7;font-weight:300;margin-bottom:2rem}
+.detail-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;padding:2rem;background:#f2f1ee;border:1px solid #e2e0da;margin-bottom:3rem}
+.meta-label{font-family:'DM Mono',monospace;font-size:10px;color:#8a8784;letter-spacing:0.1em;margin-bottom:0.25rem}
+.meta-val{font-size:13px;color:#0f0e0c}
+.meta-val a{color:#3d35c8;text-decoration:none;border-bottom:1px solid rgba(61,53,200,0.28);transition:color 0.18s,border-color 0.18s}
+.meta-val a:hover{color:#ff2d55;border-color:#ff2d55}
+.case-tags{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:1.5rem}
+.case-tag{font-family:'DM Mono',monospace;font-size:10px;color:#3d35c8;border:1px solid rgba(61,53,200,0.35);padding:0.25rem 0.6rem;background:rgba(61,53,200,0.05);letter-spacing:0.06em;transition:transform 0.18s,background 0.18s,border-color 0.18s;cursor:pointer}
+.case-tag:hover{transform:scale(1.06);background:#eceafd;border-color:#3d35c8}
+.confidential-note{font-size:13px;color:#4a4845;line-height:1.6;border-left:2px solid #3d35c8;background:#f2f1ee;padding:1rem 1.25rem;margin:-1rem 0 3rem;max-width:none}
+.confidential-note a{color:#3d35c8;text-decoration:none;border-bottom:1px solid rgba(61,53,200,0.28);transition:color 0.18s,border-color 0.18s}
+.confidential-note a:hover{color:#6b5ce7;border-color:#6b5ce7}
+.case-nav{position:fixed;top:7.5rem;right:2.5rem;width:13rem;z-index:20;border-left:1px solid #e2e0da;padding-left:1rem;max-height:calc(100vh - 9rem);overflow:auto}
+.case-nav-label{font-family:'DM Mono',monospace;font-size:10px;color:#8a8784;letter-spacing:0.12em;margin-bottom:0.8rem}
+.case-nav-list{display:flex;flex-direction:column;gap:0.25rem}
+.case-nav-link{font-family:'DM Mono',monospace;font-size:10px;line-height:1.35;color:#8a8784;text-align:left;background:none;border:none;border-left:2px solid transparent;padding:0.45rem 0 0.45rem 0.7rem;cursor:pointer;transition:color 0.18s,border-color 0.18s,transform 0.18s}
+.case-nav-link:hover{color:#3d35c8;transform:translateX(3px)}
+.case-nav-link.active{color:#0f0e0c;border-left-color:#3d35c8;background:linear-gradient(90deg,rgba(61,53,200,0.07),transparent)}
+.detail-section{width:100%;max-width:none;margin-bottom:8rem;padding-top:2rem;scroll-margin-top:6rem;opacity:0.2;filter:saturate(0.55);transform:translateY(10px);transition:opacity 0.45s ease,filter 0.45s ease,transform 0.45s ease}
+.detail-section.active-section{opacity:1;filter:saturate(1);transform:translateY(0)}
+.detail-section.near-section{opacity:0.42;filter:saturate(0.7);transform:translateY(4px)}
+.detail-section h2{font-size:1rem;font-weight:500;font-family:'DM Mono',monospace;color:#3d35c8;letter-spacing:0.08em;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
+.detail-section h2::after{content:'';flex:1;height:1px;background:#e2e0da}
+.detail-section p{font-size:14px;color:#4a4845;line-height:1.75;max-width:none;font-weight:300}
+.detail-section h3{font-size:1.05rem;font-weight:400;letter-spacing:-0.01em;margin:1.5rem 0 0.8rem;color:#0f0e0c}
+.decision-section h3{margin-top:4rem}
+.decision-section h2 + h3{margin-top:1.5rem}
+.decision-section p + h3{margin-top:5rem}
+.detail-list{list-style:none;font-size:13px;color:#4a4845;line-height:1.6;margin:1rem 0 0;max-width:none}
+.detail-list li{display:flex;gap:0.6rem;padding:0.25rem 0;transition:color 0.18s,transform 0.18s}
+.detail-list li::before{content:'→';font-family:'DM Mono',monospace;color:#3d35c8;flex-shrink:0;transition:transform 0.18s,color 0.18s}
+.detail-list li:hover{color:#0f0e0c;transform:translateX(4px)}
+.detail-list li:hover::before{transform:translateX(3px);color:#6b5ce7}
+.section-kicker{font-family:'DM Mono',monospace;font-size:11px;color:#8a8784;letter-spacing:0.1em;margin-bottom:0.75rem}
+.placeholder-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:1.5rem 0}
+.placeholder-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.mini-placeholder{min-height:180px;border:1px dashed #b9b6b0;background:linear-gradient(135deg,#fafaf8,#f2f1ee);display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;color:#8a8784;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.06em;line-height:1.6;transition:transform 0.2s,border-color 0.2s,background 0.2s,color 0.2s}
+.mini-placeholder:hover{transform:translateY(-4px);border-color:#3d35c8;background:#eceafd;color:#3d35c8}
+.principle-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:1.5rem 0}
+.principle-card{padding:1.25rem;border:1px solid #e2e0da;background:#fafaf8;transition:transform 0.2s,border-color 0.2s,background 0.2s}
+.principle-card:hover{transform:translateY(-4px);border-color:#3d35c8;background:#eceafd}
+.principle-card h4{font-family:'DM Mono',monospace;font-size:11px;color:#3d35c8;letter-spacing:0.08em;margin-bottom:0.55rem}
+.principle-card p{font-size:13px}
+.ui-direction-card{text-align:center}
+.ui-direction-card p{margin-left:auto;margin-right:auto}
+.center-card{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:210px}
+.center-card p{margin-left:auto;margin-right:auto}
+.insight-map{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin:2rem 0 0;padding:1rem;border:1px solid #e2e0da;background:linear-gradient(135deg,#fff,#f7f7f2);overflow:hidden}
+.insight-map::before{content:'';position:absolute;left:8%;right:8%;top:48px;height:1px;background:linear-gradient(90deg,transparent,#3d35c8,transparent);opacity:0.28}
+.insight-node{position:relative;min-height:260px;padding:1.15rem;border:1px solid rgba(61,53,200,0.16);background:rgba(255,255,255,0.82);display:flex;flex-direction:column;justify-content:flex-start;transition:transform 0.24s,border-color 0.24s,box-shadow 0.24s,background 0.24s}
+.insight-node::before{content:'';position:absolute;top:40px;left:50%;width:9px;height:9px;border-radius:50%;background:#3d35c8;box-shadow:0 0 0 7px rgba(61,53,200,0.08);transform:translate(-50%,-50%);transition:transform 0.24s,box-shadow 0.24s,background 0.24s}
+.insight-node:hover{transform:translateY(-7px);border-color:#3d35c8;background:#fff;box-shadow:0 18px 38px rgba(61,53,200,0.1)}
+.insight-node:hover::before{transform:translate(-50%,-50%) scale(1.35);background:#ff2d55;box-shadow:0 0 0 12px rgba(255,45,85,0.11)}
+.insight-index{font-family:'DM Mono',monospace;font-size:10px;color:#3d35c8;letter-spacing:0.1em;margin-bottom:3rem}
+.insight-node h4{font-size:13px;line-height:1.45;letter-spacing:0;margin:0 0 0.85rem;color:#0f0e0c}
+.insight-node p{font-size:13px;line-height:1.65;color:#4a4845}
+.insight-node:hover h4{color:#3d35c8}
+.principle-system{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0.75rem;margin:2rem 0 0}
+.principle-tile{position:relative;min-height:300px;padding:1rem;border:1px solid #e2e0da;background:#fafaf8;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:transform 0.24s,border-color 0.24s,box-shadow 0.24s,background 0.24s}
+.principle-tile::before{content:'';position:absolute;inset:auto -20% -34% -20%;height:54%;background:radial-gradient(circle at 50% 0,rgba(61,53,200,0.13),transparent 62%);opacity:0;transition:opacity 0.24s,transform 0.24s}
+.principle-tile:hover{transform:translateY(-7px);border-color:#3d35c8;background:#fff;box-shadow:0 18px 38px rgba(61,53,200,0.09)}
+.principle-tile:hover::before{opacity:0;transform:none}
+.principle-mark{position:relative;width:54px;height:54px;border:1px solid rgba(61,53,200,0.24);background:#fff;display:flex;align-items:center;justify-content:center;color:#3d35c8;margin-bottom:1.5rem;transition:transform 0.24s,border-color 0.24s,color 0.24s}
+.principle-mark svg{display:block;width:25px;height:25px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.principle-tile:hover .principle-mark{transform:rotate(-6deg) scale(1.08);border-color:#3d35c8;color:#ff2d55}
+.principle-num{font-family:'DM Mono',monospace;font-size:10px;color:#8a8784;letter-spacing:0.1em;margin-bottom:0.7rem}
+.principle-tile h4{font-size:18px;line-height:1.2;letter-spacing:-0.02em;margin:0 0 0.75rem;color:#0f0e0c}
+.principle-tile:hover h4{color:#3d35c8}
+.principle-tile p{font-size:13px;line-height:1.65;color:#4a4845}
+.principle-tile > div{text-align:center}
+.principle-tile .principle-mark{margin-left:auto;margin-right:auto}
+.habit-loop{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;gap:0.75rem;margin:1.5rem 0;padding:1rem;border:1px solid #dfe6d8;background:linear-gradient(135deg,#fbfff8,#f4faf0);align-items:center}
+.habit-step{position:relative;min-height:180px;border:1px solid rgba(69,123,58,0.18);background:#fff;padding:1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:transform 0.22s,border-color 0.22s,box-shadow 0.22s}
+.habit-step:hover{transform:translateY(-5px);border-color:#457b3a;box-shadow:0 14px 30px rgba(69,123,58,0.1)}
+.habit-icon{width:42px;height:42px;border:1px solid rgba(69,123,58,0.28);display:flex;align-items:center;justify-content:center;color:#457b3a;background:#fbfff8;margin-bottom:0.8rem;transition:transform 0.22s,border-color 0.22s,background 0.22s,color 0.22s}
+.habit-icon svg{display:block;width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.habit-step:hover .habit-icon{transform:rotate(-7deg) scale(1.12);border-color:#457b3a;background:#edf7e9;color:#315f29}
+.habit-step h4{font-family:'DM Mono',monospace;font-size:10px;color:#457b3a;letter-spacing:0.08em;margin:0 0 0.45rem}
+.habit-step p{font-size:13px;color:#4a4845;text-align:center;margin:0}
+.habit-arrow{font-size:20px;color:#457b3a;font-weight:700;text-align:center;transition:transform 0.22s,color 0.22s}
+.habit-arrow:hover{transform:translateX(3px);color:#315f29}
+.strategy-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0.85rem;margin:1.5rem 0 0}
+.strategy-card{position:relative;min-height:245px;border:1px solid #dfe6d8;background:#fff;padding:1rem;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:transform 0.24s,border-color 0.24s,box-shadow 0.24s,background 0.24s}
+.strategy-card::before{content:'';position:absolute;left:0;top:0;width:100%;height:4px;background:#457b3a;transform:scaleX(0);transform-origin:left;transition:transform 0.28s ease}
+.strategy-card::after{content:'';position:absolute;right:0.8rem;bottom:0.8rem;width:44px;height:44px;border:1px solid rgba(69,123,58,0.16);border-radius:50%;opacity:0.7;transition:transform 0.24s,opacity 0.24s}
+.strategy-card:hover{transform:translateY(-6px);border-color:#457b3a;background:#fbfff8;box-shadow:0 18px 38px rgba(69,123,58,0.1)}
+.strategy-card:hover::before{transform:scaleX(1)}
+.strategy-card:hover::after{transform:scale(1.35) rotate(12deg);opacity:1}
+.strategy-index{font-family:'DM Mono',monospace;font-size:10px;color:#457b3a;letter-spacing:0.1em;margin-bottom:0.45rem}
+.strategy-card h4{font-size:13px;line-height:1.65;letter-spacing:0;margin:0 0 0.45rem;color:#0f0e0c;transition:color 0.2s}
+.strategy-card p{font-size:13px;line-height:1.65;color:#4a4845;margin:0;text-align:center}
+.strategy-card:hover h4{color:#457b3a}
+.resoil-insight-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:1.6rem 0 0}
+.resoil-insight-card{position:relative;min-height:230px;border:1px solid #dfe6d8;background:linear-gradient(180deg,#fff,#fbfff8);padding:1.25rem;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:0;transition:transform 0.24s,border-color 0.24s,box-shadow 0.24s}
+.resoil-insight-card::before{content:'';position:absolute;right:-30px;top:-30px;width:92px;height:92px;border:1px solid rgba(69,123,58,0.18);border-radius:50%;transition:transform 0.28s,border-color 0.28s}
+.resoil-insight-card::after{content:'';position:absolute;right:20px;top:20px;width:16px;height:16px;border-radius:50%;background:#457b3a;opacity:0.12;transition:opacity 0.24s,transform 0.24s}
+.resoil-insight-card:hover{transform:translateY(-6px);border-color:#457b3a;box-shadow:0 18px 38px rgba(69,123,58,0.1)}
+.resoil-insight-card:hover::before{transform:scale(1.22);border-color:rgba(69,123,58,0.34)}
+.resoil-insight-card:hover::after{opacity:0.28;transform:scale(1.35)}
+.resoil-insight-label{font-family:'DM Mono',monospace;font-size:10px;color:#457b3a;letter-spacing:0.1em;margin-bottom:0.45rem}
+.resoil-insight-card h4{font-size:13px;line-height:1.65;letter-spacing:0;color:#0f0e0c;margin:0 0 0.45rem}
+.resoil-insight-card p{font-size:13px;line-height:1.65;color:#4a4845;margin:0;text-align:center}
+.resoil-insight-card:hover h4{color:#457b3a}
+.journey-image-wrap{position:relative;margin:1.5rem 0;border:1px solid #dfe6d8;background:#fff;overflow:hidden;box-shadow:0 16px 34px rgba(69,123,58,0.06)}
+.journey-image-wrap img{display:block;width:100%;height:auto}
+.journey-hotspot{position:absolute;top:5.2%;height:75.5%;border:1px solid transparent;border-radius:18px;background:rgba(69,123,58,0);transition:transform 0.24s,border-color 0.24s,background 0.24s,box-shadow 0.24s;cursor:pointer}
+.journey-hotspot:hover{border-color:rgba(69,123,58,0.62);background:rgba(69,123,58,0.06);box-shadow:0 18px 34px rgba(69,123,58,0.14)}
+.journey-hotspot:nth-of-type(1){left:2%;width:14.2%}
+.journey-hotspot:nth-of-type(2){left:18%;width:14.2%}
+.journey-hotspot:nth-of-type(3){left:33.4%;width:15.4%}
+.journey-hotspot:nth-of-type(4){left:50.4%;width:15.4%}
+.journey-hotspot:nth-of-type(5){left:67.4%;width:15.4%}
+.journey-hotspot:nth-of-type(6){left:84.4%;width:13.4%}
+.feature-card{position:relative;padding:1.25rem;border:1px solid #dfe6d8;background:#fff;min-height:190px;overflow:hidden;transition:transform 0.22s,border-color 0.22s,box-shadow 0.22s,background 0.22s}
+.feature-card::before{content:'';position:absolute;left:1.25rem;top:1.25rem;width:22px;height:2px;background:#457b3a;transition:width 0.22s,background 0.22s}
+.feature-card h4{font-family:'DM Mono',monospace;font-size:11px;color:#457b3a;letter-spacing:0.08em;margin:1.4rem 0 0.55rem;transition:color 0.22s,transform 0.22s}
+.feature-card p{font-size:13px;line-height:1.75;color:#4a4845;font-weight:300}
+.feature-card:hover{transform:translateY(-5px);border-color:#457b3a;background:#fbfff8;box-shadow:0 16px 34px rgba(69,123,58,0.09)}
+.feature-card:hover::before{width:44px;background:#315f29}
+.feature-card:hover h4{color:#315f29;transform:translateX(3px)}
+.process-timeline{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0.75rem;margin:1.5rem 0}
+.timeline-item{border-top:2px solid #457b3a;background:#fafaf8;padding:1rem;border-left:1px solid #e2e0da;border-right:1px solid #e2e0da;border-bottom:1px solid #e2e0da;transition:transform 0.22s,box-shadow 0.22s,border-color 0.22s}
+.timeline-item:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(15,14,12,0.08);border-color:#457b3a}
+.timeline-time{font-family:'DM Mono',monospace;font-size:10px;color:#457b3a;letter-spacing:0.08em;margin-bottom:0.55rem}
+.timeline-item p{font-size:13px;line-height:1.55}
+.principle-card .ui-screen-card{margin-top:1.1rem;height:50vh;width:max-content;max-width:100%;justify-self:center}
+.decision-phone{height:70vh;width:max-content;max-width:100%;justify-self:center;align-self:start}
+.ui-showcase{margin:2rem 0 0;padding:1.25rem;border:1px solid #e2e0da;background:linear-gradient(135deg,#fff,#faf7f8);box-shadow:0 18px 42px rgba(15,14,12,0.05);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;align-items:start}
+.ui-screen-card{position:relative;background:#111;border:1px solid rgba(15,14,12,0.22);border-radius:28px;box-shadow:0 16px 34px rgba(15,14,12,0.14);padding:0.55rem;transition:transform 0.22s,border-color 0.22s,box-shadow 0.22s}
+.ui-screen-card::before{content:'';position:absolute;top:0.38rem;left:50%;width:34%;height:0.28rem;border-radius:999px;background:#1f1f1f;transform:translateX(-50%);z-index:2}
+.ui-screen-card:hover{transform:translateY(-4px);border-color:rgba(255,45,85,0.45);box-shadow:0 18px 36px rgba(255,45,85,0.13)}
+.ui-screen-card img{display:block;width:auto;height:100%;max-width:100%;border-radius:21px;background:#fff}
+.component-card{min-height:180px;border:1px solid #e2e0da;background:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:0.85rem;color:#0f0e0c;transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s}
+.component-card:hover{transform:translateY(-4px);border-color:rgba(255,45,85,0.35);box-shadow:0 14px 30px rgba(255,45,85,0.09)}
+.component-card img{display:block;width:100%;height:auto;background:#fff;margin-bottom:0.85rem}
+.component-card h4{font-family:inherit;font-size:15px;color:#0f0e0c;letter-spacing:0;margin:0 0 0.35rem;font-weight:500}
+.component-card p{font-size:12px;line-height:1.55;margin:0;color:#4a4845}
+.component-masonry{display:block;columns:3 220px;column-gap:1rem;margin:1.5rem 0}
+.component-masonry .component-card{display:inline-flex;width:100%;margin:0 0 1rem;break-inside:avoid;page-break-inside:avoid}
+.final-design-board{margin:2rem 0 0;padding:1rem;border:1px solid #f3cbbb;border-radius:8px;background:linear-gradient(135deg,#fffaf6,#fff2f5);box-shadow:0 18px 42px rgba(255,45,85,0.08);display:grid;gap:0.8rem}
+.final-panel{border:1px solid rgba(255,45,85,0.18);border-radius:8px;background:rgba(255,255,255,0.72);padding:0.8rem;overflow:hidden}
+.final-panel-label{display:inline-flex;align-items:center;gap:0.35rem;border-radius:999px;background:#ffd8c7;color:#0f0e0c;font-family:'DM Mono',monospace;font-size:10px;font-weight:600;letter-spacing:0.03em;text-transform:uppercase;padding:0.25rem 0.65rem;margin-bottom:0.75rem}
+.final-hero-panel{display:grid;grid-template-columns:minmax(220px,0.95fr) minmax(360px,1.35fr);gap:1rem;align-items:center;min-height:420px}
+.final-brand-mark{font-size:clamp(1.45rem,2.5vw,2.2rem);font-weight:700;letter-spacing:-0.04em;margin-bottom:1.2rem;color:#111}
+.final-brand-mark span{color:#ff2d55;font-weight:500}
+.final-hero-copy h3{font-size:clamp(1.65rem,3.2vw,3.4rem);line-height:1.08;letter-spacing:-0.04em;margin:0 0 1rem;color:#0f0e0c;font-weight:700}
+.final-hero-copy p{font-size:14px;color:#2f3438;line-height:1.55;max-width:320px}
+.final-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.7rem;margin-top:1.6rem}
+.final-value{text-align:center;border-right:1px solid #ead8d2;padding:0 0.45rem;font-size:11px;line-height:1.25;color:#2f3438}
+.final-value:last-child{border-right:0}
+.final-value-icon{width:38px;height:38px;border-radius:50%;margin:0 auto 0.5rem;background:#fff;box-shadow:0 8px 18px rgba(255,45,85,0.12);display:flex;align-items:center;justify-content:center;color:#ff2d55}
+.final-phone-row{display:flex;justify-content:center;align-items:flex-end;gap:1rem}
+.final-phone{position:relative;aspect-ratio:786/1704;background:#111;border-radius:28px;padding:0.45rem;box-shadow:0 14px 30px rgba(15,14,12,0.18);width:min(100%,190px)}
+.final-phone::before{content:'';position:absolute;top:0.34rem;left:50%;width:34%;height:0.24rem;border-radius:999px;background:#202020;transform:translateX(-50%);z-index:2}
+.final-screen{height:100%;border-radius:22px;background:#fff;overflow:hidden;display:flex;flex-direction:column}
+.final-screen img.final-phone-image{display:block;width:100%;height:100%;object-fit:cover}
+.final-screen-top{height:27%;background:linear-gradient(135deg,#ff2d55,#ffc08a);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;text-align:center;padding:0.6rem}
+.final-screen-body{flex:1;padding:0.75rem;background:linear-gradient(180deg,#fff,#fff8f4);display:flex;flex-direction:column;gap:0.55rem}
+.final-screen-title{font-size:16px;line-height:1.15;font-weight:700;color:#111}
+.final-screen-line{height:0.55rem;border-radius:999px;background:#ffd8c7}
+.final-screen-line.short{width:64%}
+.final-screen-card{border:1px solid #ffd0db;border-radius:8px;background:#fff;padding:0.5rem;min-height:2.4rem}
+.final-screen-nav{margin-top:auto;height:2.2rem;border-radius:14px;background:#ffe8df;display:grid;grid-template-columns:repeat(4,1fr);gap:0.2rem;padding:0.35rem}
+.final-screen-nav span{border-radius:50%;background:#111;width:0.42rem;height:0.42rem;align-self:center;justify-self:center;opacity:0.85}
+.final-section-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0.75rem}
+.final-section-grid.compact{grid-template-columns:repeat(5,minmax(0,1fr))}
+.final-section-grid .final-phone{width:100%}
+.final-flow-grid{display:grid;grid-template-columns:1fr;gap:0.75rem}
+.final-phone-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem}
+.final-phone.tall{width:100%}
+.final-phone-row .final-phone,.final-section-grid .final-phone,.final-flow-grid .final-phone{width:min(100%,150px);margin:0 auto}
+.final-panel.full-row{grid-column:1/-1}
+.final-flow-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0.75rem;align-items:center}
+.final-flow-arrow{font-size:22px;color:#ff2d55;font-weight:700;line-height:1;text-align:center}
+.final-device-panel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.5rem}
+.final-device-tile{height:58px;border-radius:8px;background:linear-gradient(135deg,#ffe1d7,#fff);border:1px solid #ffcabc}
+.final-device-illustration{grid-column:1/-1;height:130px;border-radius:10px;background:radial-gradient(circle at 50% 45%,#ff6f61,transparent 34%),linear-gradient(135deg,#fff0e8,#fff);border:1px solid #ffcabc}
+.mood-board{margin:2rem 0 2.6rem;border:1px solid #e2e0da;background:#fff;padding:1rem;box-shadow:0 18px 42px rgba(15,14,12,0.05);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:auto repeat(5,64px);gap:0.85rem;overflow:hidden;transition:border-color 0.24s ease,box-shadow 0.24s ease}
+.mood-placeholder{border:0;background:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:0;font-family:'DM Mono',monospace;font-size:10px;line-height:1.5;letter-spacing:0.06em;color:#8a8784;transition:transform 0.22s,background 0.22s,color 0.22s}
+.mood-placeholder:hover{transform:translateY(-3px);background:#fff;color:#ff2d55}
+.mood-placeholder img{display:block;width:100%;height:100%;object-fit:cover}
+.mood-placeholder:nth-child(1){grid-column:1;grid-row:1}
+.mood-placeholder:nth-child(2){grid-column:1;grid-row:2 / span 1}
+.mood-placeholder:nth-child(3){grid-column:1;grid-row:3 / span 4}
+.mood-placeholder:nth-child(4){grid-column:2;grid-row:1 / span 3}
+.mood-placeholder:nth-child(5){grid-column:2;grid-row:4 / span 2}
+.mood-placeholder:nth-child(6){grid-column:2;grid-row:6 / span 1}
+.mood-placeholder:nth-child(7){grid-column:3;grid-row:1 / span 1}
+.mood-placeholder:nth-child(8){grid-column:3;grid-row:2 / span 3}
+.mood-placeholder:nth-child(9){grid-column:3;grid-row:5 / span 2}
+.mood-placeholder:nth-child(10){grid-column:4;grid-row:1 / span 2}
+.mood-placeholder:nth-child(11){grid-column:4;grid-row:3 / span 2}
+.mood-placeholder:nth-child(12){grid-column:4;grid-row:5 / span 2}
+.mood-board:hover{border-color:rgba(255,45,85,0.28);box-shadow:0 16px 34px rgba(15,14,12,0.09)}
+.mood-about{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#fff2f5;color:#2b3034;font-family:inherit;letter-spacing:0;line-height:1.45;padding:0.85rem}
+.mood-about h4{display:flex;align-items:center;justify-content:center;gap:0.45rem;font-size:clamp(13px,1.1vw,18px);line-height:1.15;margin:0 0 0.65rem;color:#111;font-weight:700;letter-spacing:-0.03em}
+.mood-about h4::before{content:'';width:28px;height:2px;background:#111;flex:none}
+.mood-about p{font-size:clamp(10px,0.8vw,13px);line-height:1.45;margin:0 0 0.65rem;color:#2f3438;font-weight:300}
+.mood-about p:last-child{margin-bottom:0}
+.mood-caption-card{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;background:#fff;text-align:left;color:#2b3034;font-family:inherit;letter-spacing:0;padding:0}
+.mood-caption-media{flex:1;min-height:0;overflow:hidden;background:#111}
+.mood-caption-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:center top}
+.mood-caption-text{padding:0.75rem 0.85rem;font-size:clamp(10px,0.85vw,13px);line-height:1.45;color:#2f3438;font-weight:300;text-align:left}
+.challenge-principles .principle-card{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.65rem 1.25rem}
+.challenge-icon{position:relative;width:34px;height:34px;margin-bottom:1rem;border:1px solid rgba(61,53,200,0.35);display:flex;align-items:center;justify-content:center;color:#3d35c8;background:rgba(61,53,200,0.05);transition:transform 0.22s,border-color 0.22s,background 0.22s,color 0.22s}
+.challenge-icon::after{content:'';position:absolute;left:50%;top:50%;width:4px;height:4px;border-radius:50%;background:#3d35c8;opacity:0;transform:translate(-50%,-50%) scale(0.3)}
+.challenge-icon svg{display:block;width:20px;height:20px;stroke-width:1.8}
+.challenge-principles .principle-card:hover .challenge-icon{border-color:#3d35c8;background:#fafaf8}
+.challenge-card-trust:hover .challenge-icon{animation:shieldPulse 0.72s ease-out both}
+.challenge-card-value:hover .challenge-icon{animation:questionTilt 0.72s ease-out both}
+.challenge-card-approach:hover .challenge-icon{animation:handshakeFloat 0.82s ease-out both}
+.challenge-card-trust:hover .challenge-icon::after{animation:iconBurst 0.58s ease-out}
+@keyframes shieldPulse{0%,100%{transform:rotate(-6deg) scale(1.12)}45%{transform:rotate(-6deg) scale(1.18)}70%{transform:rotate(-6deg) scale(1.04)}}
+@keyframes questionTilt{0%,100%{transform:rotate(-6deg) scale(1.12) translateY(0)}25%{transform:rotate(-13deg) scale(1.12) translateY(-2px)}55%{transform:rotate(3deg) scale(1.12) translateY(-1px)}}
+@keyframes handshakeFloat{0%,100%{transform:rotate(-6deg) scale(1.12) translateY(0)}40%{transform:rotate(-6deg) scale(1.12) translateY(-5px)}70%{transform:rotate(-6deg) scale(1.12) translateY(2px)}}
+.image-placeholder{border:1px dashed #b9b6b0;background:linear-gradient(135deg,#f2f1ee,#fafaf8);min-height:260px;margin:1.5rem 0;padding:1.25rem;display:flex;align-items:center;justify-content:center;text-align:center;color:#8a8784;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.06em;line-height:1.7;cursor:zoom-in;transition:transform 0.22s,border-color 0.22s,box-shadow 0.22s,color 0.22s}
+.image-placeholder:hover{transform:translateY(-4px);border-color:#3d35c8;box-shadow:0 16px 36px rgba(15,14,12,0.08);color:#3d35c8}
+.overview-wide-placeholder{aspect-ratio:16/7;min-height:0}
+.detail-image{display:block;width:100%;height:auto;margin:1.5rem 0;border:1px solid #e2e0da;background:#fafaf8;cursor:zoom-in;transition:transform 0.22s,border-color 0.22s,box-shadow 0.22s}
+.detail-image:hover{transform:translateY(-4px);border-color:#3d35c8;box-shadow:0 16px 36px rgba(15,14,12,0.08)}
+.detail-image.narrow-image{width:min(100%,760px);margin-left:auto;margin-right:auto}
+.annotated-block .detail-image{margin-top:0;margin-bottom:0}
+.annotated-block:has(.decision-image-40){grid-template-columns:minmax(420px,40vw) minmax(240px,1fr)}
+.decision-image-40{width:100%;max-width:100%;height:auto}
+.resoil-decision-image{height:60vh;width:auto;max-width:100%;margin-left:auto;margin-right:auto}
+.placeholder-large{min-height:360px}
+.visual-board{position:relative;margin:2rem 0 0;border:1px solid #e2e0da;background:radial-gradient(circle at 74% 24%,rgba(255,227,232,0.58),transparent 28%),linear-gradient(135deg,#fff,#f6f5f2);padding:clamp(1.5rem,3vw,2.6rem);box-shadow:0 18px 42px rgba(15,14,12,0.06);overflow:hidden}
+.visual-board::after{content:'';position:absolute;left:50%;top:7.8rem;bottom:2.6rem;width:1px;background:rgba(15,14,12,0.1);transform:translateX(-0.5px);pointer-events:none}
+.visual-board-kicker{font-family:'DM Mono',monospace;font-size:11px;color:#0f0e0c;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:1rem}
+.visual-board-title{font-size:clamp(2.2rem,4.8vw,4.6rem);font-weight:600;letter-spacing:-0.05em;line-height:0.95;color:#20242a;margin:0}
+.visual-board-subtitle{font-size:14px;line-height:1.75;color:#4a4845;margin:0 0 1.65rem;font-weight:300}
+.visual-rule{width:34px;height:2px;background:#ff2d55;margin-bottom:1.85rem}
+.visual-board-label{font-family:'DM Mono',monospace;font-size:10px;color:#ff2d55;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:0.85rem}
+.visual-board-main{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.5rem;align-items:start}
+.visual-logo-card{min-height:190px;border:1px solid rgba(15,14,12,0.07);border-radius:7px;background:#fff;box-shadow:0 10px 28px rgba(15,14,12,0.08);display:flex;align-items:center;justify-content:center;padding:1.5rem}
+.visual-logo-card img{display:block;width:100%;max-width:620px;height:auto}
+.dg-logo{display:flex;align-items:center;gap:1rem}
+.pixel-house{position:relative;width:118px;height:86px;flex:none;background:radial-gradient(circle,#ff2d55 2.5px,transparent 3px);background-size:9px 9px;clip-path:polygon(10% 42%,50% 12%,92% 42%,82% 42%,82% 88%,60% 88%,60% 62%,43% 62%,43% 88%,20% 88%,20% 42%);filter:drop-shadow(0 8px 12px rgba(255,45,85,0.16))}
+.pixel-house::before{content:'';position:absolute;inset:-18px 44% -10px -34px;background:radial-gradient(circle,#ff2d55 2.1px,transparent 2.7px);background-size:13px 13px;opacity:0.55;clip-path:polygon(0 8%,100% 0,72% 100%,0 86%)}
+.dg-wordmark{line-height:1}
+.dg-name{font-size:clamp(2rem,3.8vw,3.2rem);font-weight:700;letter-spacing:-0.06em;color:#111}
+.dg-name span{color:#ff2d55;font-weight:500}
+.dg-tagline{font-size:clamp(1rem,1.9vw,1.45rem);color:#111;margin-top:0.15rem}
+.visual-variations{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1.35rem}
+.visual-mini-logo{aspect-ratio:2.13/1;border:1px solid rgba(15,14,12,0.07);border-radius:7px;background:transparent;box-shadow:0 8px 24px rgba(15,14,12,0.07);display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden}
+.visual-mini-logo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.visual-mini-logo.dark{background:transparent;color:#fff}
+.visual-mini-logo.dark img{transform:scale(1.12)}
+.visual-mini-logo .pixel-house{width:58px;height:42px;background-size:6px 6px}
+.visual-mini-logo .pixel-house::before{background-size:8px 8px}
+.visual-mini-logo.dark .pixel-house,.visual-mini-logo.dark .pixel-house::before{background-image:radial-gradient(circle,#fff 1.8px,transparent 2.4px)}
+.visual-mini-logo .dg-logo{gap:0.55rem}
+.visual-mini-logo .dg-name{font-size:1.55rem}
+.visual-mini-logo .dg-tagline{font-size:0.78rem}
+.visual-mini-logo.dark .dg-name,.visual-mini-logo.dark .dg-name span,.visual-mini-logo.dark .dg-tagline{color:#fff}
+.visual-motif-panel{padding-top:0.4rem}
+.motif-stage{display:flex;justify-content:center;align-items:flex-start;padding-top:1.25rem}
+.motif-image{display:block;width:clamp(220px,62%,340px);max-width:100%;height:auto}
+.visual-board-lower{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.5rem;margin-top:1.65rem;align-items:stretch}
+.visual-board-lower>div{display:flex;flex-direction:column}
+.color-row{width:100%;flex:1;border:1px solid rgba(15,14,12,0.08);border-radius:7px;background:#fff;box-shadow:0 10px 30px rgba(15,14,12,0.07);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0.65rem;padding:1.15rem 0.85rem;align-items:center}
+.color-chip{height:100%;display:grid;grid-template-rows:auto 1.4em auto;align-content:center;justify-items:center;text-align:center;row-gap:0.7rem;font-size:11px;line-height:1.25;color:#20242a;font-weight:500;white-space:nowrap}
+.swatch{width:clamp(44px,4.7vw,72px);height:clamp(44px,4.7vw,72px);border-radius:7px;border:1px solid rgba(15,14,12,0.07);box-shadow:0 8px 18px rgba(15,14,12,0.06)}
+.swatch.red{background:#ff2d55}.swatch.pink{background:#ffe3e8}.swatch.black{background:#111}.swatch.gray{background:#f3f1ef}.swatch.white{background:#fff}
+.color-chip span{display:block;font-family:'DM Mono',monospace;font-size:10px;line-height:1.2;color:#6e7278;font-weight:400}
+.design-language-card{width:100%;flex:1;border:1px solid rgba(15,14,12,0.08);border-radius:7px;background:#fff;box-shadow:0 10px 30px rgba(15,14,12,0.07);display:grid;grid-template-columns:repeat(3,1fr);overflow:hidden}
+.language-item{min-height:128px;padding:1.15rem 0.9rem;display:grid;grid-template-rows:38px 2.35em auto;align-content:start;align-items:start;justify-items:center;text-align:center;row-gap:0.35rem;border-left:1px solid #e2e0da}
+.language-item:first-child{border-left:0}
+.language-icon{width:38px;height:38px;color:#ff2d55}
+.language-icon svg{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}
+.language-item h4{align-self:start;font-size:12px;line-height:1.25;color:#20242a;margin:0}
+.language-item p{align-self:start;font-size:11px!important;line-height:1.35!important;color:#4a4845!important;margin:-0.22rem 0 0}
+.visual-board .visual-logo-card,.visual-board .visual-mini-logo,.visual-board .color-row,.visual-board .design-language-card{transition:transform 0.24s ease,border-color 0.24s ease,box-shadow 0.24s ease}
+.visual-board .visual-logo-card img,.visual-board .visual-mini-logo img,.visual-board .motif-image,.visual-board .swatch,.visual-board .language-icon{transition:transform 0.28s ease,filter 0.28s ease}
+.visual-board .visual-logo-card:hover,.visual-board .visual-mini-logo:hover,.visual-board .color-row:hover,.visual-board .design-language-card:hover{transform:translateY(-3px);border-color:rgba(255,45,85,0.28);box-shadow:0 16px 34px rgba(15,14,12,0.09)}
+.visual-board .visual-logo-card:hover img{transform:scale(1.025)}
+.visual-board .visual-mini-logo:hover img{transform:scale(1.045)}
+.visual-board .visual-mini-logo.dark:hover img{transform:scale(1.16)}
+.visual-board .motif-stage:hover .motif-image{transform:translateY(-5px) scale(1.04);filter:saturate(1.08)}
+.visual-board .color-chip:hover .swatch{transform:translateY(-5px) scale(1.08);filter:saturate(1.08)}
+.visual-board .language-item{transition:background 0.22s ease}
+.visual-board .language-item:hover{background:rgba(255,227,232,0.26)}
+.visual-board .language-item:hover .language-icon{animation:visualIconLift 0.7s ease both}
+@keyframes visualIconLift{0%,100%{transform:translateY(0)}45%{transform:translateY(-5px)}70%{transform:translateY(1px)}}
+.photo-flow-collage{border:1px solid #e2e0da;background:linear-gradient(135deg,#f2f1ee,#fafaf8);margin:1.75rem 0 0;padding:2rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;align-items:center}
+.phone-shot{position:relative;border:1px solid rgba(61,53,200,0.18);background:#fafaf8;padding:0.65rem;box-shadow:0 14px 34px rgba(15,14,12,0.06);transition:transform 0.24s ease,border-color 0.24s ease,box-shadow 0.24s ease,filter 0.24s ease;cursor:zoom-in}
+.phone-shot:nth-child(1){transform:translateY(22px) rotate(-2deg)}
+.phone-shot:nth-child(2){transform:translateY(-10px)}
+.phone-shot:nth-child(3){transform:translateY(18px) rotate(2deg)}
+.phone-shot:hover{z-index:2;border-color:#3d35c8;box-shadow:0 22px 48px rgba(61,53,200,0.16);filter:saturate(1.05)}
+.phone-shot:nth-child(1):hover{transform:translateY(8px) rotate(-1deg) scale(1.035)}
+.phone-shot:nth-child(2):hover{transform:translateY(-24px) scale(1.035)}
+.phone-shot:nth-child(3):hover{transform:translateY(4px) rotate(1deg) scale(1.035)}
+.phone-shot img{width:100%;display:block;border:1px solid #e2e0da}
+.phone-shot-label{font-family:'DM Mono',monospace;font-size:10px;color:#8a8784;letter-spacing:0.08em;margin-top:0.65rem;text-align:left}
+.screen-overlay{position:absolute;left:1rem;right:1rem;bottom:2.6rem;padding:1rem;border:1px solid rgba(61,53,200,0.38);background:rgba(250,250,248,0.86);backdrop-filter:blur(10px);opacity:0;transform:translateY(10px);transition:opacity 0.22s ease,transform 0.22s ease;pointer-events:none;text-align:left}
+.phone-shot:hover .screen-overlay{opacity:1;transform:translateY(0)}
+.screen-overlay-title{font-family:'DM Mono',monospace;font-size:10px;color:#3d35c8;letter-spacing:0.08em;margin-bottom:0.45rem}
+.screen-overlay p{font-size:12px;line-height:1.55;color:#4a4845;margin:0}
+.screen-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;align-items:center;margin:1.25rem 0 1rem}
+.screen-flow .diagram-node{text-align:center}
+.screen-flow .diagram-arrow{display:none}
+.diagram-row{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin:1.5rem 0;font-family:'DM Mono',monospace;font-size:11px}
+.diagram-node{border:1px solid #e2e0da;background:#fafaf8;padding:0.75rem 1rem;color:#4a4845;transition:transform 0.18s,border-color 0.18s,color 0.18s}
+.diagram-node:hover{transform:translateY(-3px);border-color:#3d35c8;color:#3d35c8}
+.diagram-arrow{color:#3d35c8;transition:transform 0.18s}
+.diagram-arrow:hover{transform:scale(1.25)}
+.process-card{border:1px solid #e2e0da;background:#fafaf8;padding:1.25rem;margin:1.5rem 0;font-family:'DM Mono',monospace;font-size:12px;color:#4a4845;line-height:1.8;white-space:pre-line;transition:border-color 0.18s,transform 0.18s,box-shadow 0.18s}
+.process-card:hover{border-color:#3d35c8;transform:translateY(-3px);box-shadow:0 14px 32px rgba(15,14,12,0.06)}
+.problem-loop{border:1px solid #e2e0da;background:linear-gradient(135deg,#fafaf8,#f2f1ee);padding:1.25rem;margin:1.75rem 0;display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:0.65rem;align-items:stretch}
+.problem-step{display:flex;flex-direction:column;gap:0.8rem;padding:0.85rem;border:1px solid transparent;background:rgba(250,250,248,0.6);opacity:1;filter:saturate(1);transition:border-color 0.25s,transform 0.25s,background 0.25s,box-shadow 0.25s}
+.problem-step:hover{border-color:#3d35c8;background:#eceafd;transform:translateY(-6px);box-shadow:0 18px 36px rgba(61,53,200,0.12)}
+.problem-illustration{width:100%;aspect-ratio:1.18/1;object-fit:contain;display:block}
+.problem-step-title{font-family:'DM Mono',monospace;font-size:11px;color:#3d35c8;letter-spacing:0.08em;margin-bottom:0.35rem}
+.problem-step-copy{font-size:13px;color:#4a4845;line-height:1.45}
+.problem-arrow{font-family:'DM Mono',monospace;color:#3d35c8;text-align:center;font-size:18px;opacity:1;align-self:center;transition:transform 0.2s,color 0.2s}
+.problem-arrow:hover{transform:translateX(3px);color:#6b5ce7}
+.challenge-quote{position:relative;border:1px solid rgba(61,53,200,0.28);border-left:3px solid #3d35c8;background:linear-gradient(135deg,rgba(236,234,253,0.82),rgba(250,250,248,0.96));padding:2rem 2.25rem 2rem 4rem;margin:1.75rem 0;transition:transform 0.22s,border-color 0.22s,box-shadow 0.22s}
+.challenge-quote::before{content:'"';position:absolute;left:1.15rem;top:0.55rem;font-family:'DM Mono',monospace;font-size:4.5rem;line-height:1;color:rgba(61,53,200,0.28)}
+.challenge-quote p{font-size:18px;line-height:1.5;color:#0f0e0c;font-weight:300;letter-spacing:-0.01em}
+.challenge-quote:hover{transform:translateY(-4px);border-color:#3d35c8;box-shadow:0 18px 40px rgba(61,53,200,0.1)}
+.goals-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,0.75fr);gap:1rem;align-items:start}
+.goals-copy{padding-left:clamp(1rem,3vw,3.5rem)}
+.goals-copy .detail-list:first-child{margin-top:0}
+.metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.75rem;margin:0;padding-right:clamp(1rem,3vw,3.5rem)}
+.metric-grid .metric-card:nth-child(5){grid-column:1 / -1;width:calc(50% - 0.375rem);justify-self:center}
+.metric-card{border:1px solid #e2e0da;background:#fafaf8;padding:1rem;min-height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.85rem;text-align:center;font-family:'DM Mono',monospace;font-size:11px;color:#3d35c8;letter-spacing:0.06em;transition:transform 0.18s,border-color 0.18s,background 0.18s}
+.metric-card:hover{transform:translateY(-4px) scale(1.02);border-color:#3d35c8;background:#eceafd}
+.metric-icon{position:relative;width:34px;height:34px;border:1px solid rgba(61,53,200,0.35);display:flex;align-items:center;justify-content:center;color:#3d35c8;background:rgba(61,53,200,0.05);font-size:17px;line-height:1;transition:transform 0.22s,border-color 0.22s,background 0.22s}
+.metric-icon::after{content:'';position:absolute;left:50%;top:50%;width:4px;height:4px;border-radius:50%;background:#3d35c8;opacity:0;transform:translate(-50%,-50%) scale(0.3)}
+.metric-card:hover .metric-icon{transform:rotate(-6deg) scale(1.12);border-color:#3d35c8;background:#fafaf8}
+.metric-card:hover .icon-quality::after{animation:iconBurst 0.58s ease-out}
+.metric-label{display:block}
+.metric-card:hover .icon-check{animation:checkWiggle 0.72s ease-out}
+.metric-card:hover .icon-retake{animation:retakeSpin 0.82s ease-out}
+.icon-coverage{font-size:10px;font-weight:500}
+.icon-coverage::before{content:'0%'}
+.metric-card:hover .icon-coverage{animation:coveragePop 1.05s ease-out}
+.metric-card:hover .icon-coverage::before{animation:coverageCount 1.05s steps(4,end) forwards}
+.icon-eye svg{width:23px;height:14px;display:block;overflow:visible}
+.icon-eye path,.icon-eye circle{stroke:#3d35c8;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.icon-eye circle{fill:#3d35c8;stroke:none}
+.metric-card:hover .eye-pupil{animation:eyeLook 0.95s ease-out}
+.metric-card:hover .eye-lid{animation:eyeBlink 0.95s ease-out;transform-origin:center}
+@keyframes iconBurst{
+  0%{opacity:0.9;box-shadow:0 0 0 #3d35c8,0 0 0 #6b5ce7,0 0 0 #3d35c8,0 0 0 #6b5ce7;transform:translate(-50%,-50%) scale(0.3)}
+  100%{opacity:0;box-shadow:-18px -14px 0 #3d35c8,17px -16px 0 #6b5ce7,20px 12px 0 #3d35c8,-15px 16px 0 #6b5ce7;transform:translate(-50%,-50%) scale(1)}
+}
+@keyframes checkWiggle{0%{transform:rotate(0) scale(1)}18%{transform:rotate(-14deg) scale(1.12)}36%{transform:rotate(13deg) scale(1.22) translateY(-3px)}58%{transform:rotate(-6deg) scale(1.12) translateY(-1px)}78%{transform:rotate(3deg) scale(1.04)}100%{transform:rotate(0) scale(1)}}
+@keyframes retakeSpin{0%{transform:rotate(0) scale(1)}45%{transform:rotate(180deg) scale(1.28)}100%{transform:rotate(360deg) scale(1)}}
+@keyframes coveragePop{0%{transform:scale(1)}55%{transform:scale(1.16)}100%{transform:scale(1)}}
+@keyframes coverageCount{0%{content:'0%'}25%{content:'25%'}50%{content:'50%'}75%{content:'75%'}100%{content:'100%'}}
+@keyframes eyeLook{0%,100%{transform:translateX(0)}22%{transform:translateX(-4px)}48%{transform:translateX(4px)}70%{transform:translateX(0)}}
+@keyframes eyeBlink{0%,64%,100%{transform:scaleY(1)}72%,80%{transform:scaleY(0.12)}}
+.annotated-block{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:1.5rem;align-items:start;margin:1.5rem 0 2rem}
+.interactive-annotated-block{align-items:center}
+.phone-frame{border:1px solid #0f0e0c;border-radius:28px;padding:0.75rem;background:#0f0e0c;max-width:320px;transition:transform 0.22s,box-shadow 0.22s}
+.phone-frame:hover{box-shadow:0 18px 38px rgba(15,14,12,0.14)}
+.phone-ui-wrap{position:relative;border-radius:20px;overflow:hidden;background:#0f0e0c}
+.interactive-phone{max-width:280px}
+.phone-ui-image{display:block;width:100%;height:auto}
+.ui-hotspot{position:absolute;border:1px solid transparent;background:rgba(61,53,200,0);cursor:crosshair;transition:border-color 0.18s,background 0.18s,box-shadow 0.18s,transform 0.18s}
+.ui-hotspot:hover,.ui-hotspot.active{border-color:rgba(236,234,253,0.9);background:rgba(61,53,200,0.14);box-shadow:0 0 0 4px rgba(236,234,253,0.18);transform:scale(1.02)}
+.ui-hotspot[data-anchor="a"]{left:43%;top:15.4%;width:22%;height:5%}
+.ui-hotspot[data-anchor="b"]{left:7%;top:33%;width:86%;height:32%}
+.ui-hotspot[data-anchor="c"]{left:40.8%;top:87.8%;width:23%;height:10%}
+.ui-hotspot[data-anchor="a"].thumb-anchor{left:6%;top:89%;width:20%;height:8%}
+.ui-hotspot[data-anchor="d"].thumb-anchor{left:6%;top:89%;width:18%;height:8%}
+.dd3-phone .ui-hotspot[data-anchor="a"]{left:18%;top:24%;width:64%;height:42%}
+.dd3-phone .ui-hotspot[data-anchor="b"]{left:6%;top:88%;width:24%;height:9%}
+.dd3-phone .ui-hotspot[data-anchor="c"]{left:83%;top:7%;width:14%;height:6%}
+.dd4-phone .ui-hotspot[data-anchor="a"]{left:5%;top:17%;width:90%;height:39%}
+.dd4-phone .ui-hotspot[data-anchor="b"]{left:5%;top:59%;width:90%;height:39%}
+.dd4-phone .ui-hotspot[data-anchor="c"]{left:5%;top:59%;width:43%;height:20%;z-index:2}
+.dd5-phone .ui-hotspot[data-anchor="a"]{left:5%;top:17%;width:90%;height:81%;z-index:1}
+.dd5-phone .ui-hotspot[data-anchor="b"]{z-index:2}
+.dd5-phone .ui-hotspot[data-anchor="c"]{left:86%;top:2%;width:10%;height:7%;z-index:3}
+.dd5-phone .select-all-anchor{left:70%;top:10%;width:24%;height:5%}
+.dd5-phone .box-anchor-1{left:36%;top:32%;width:9%;height:5%}
+.dd5-phone .box-anchor-2{left:85%;top:32%;width:9%;height:5%}
+.dd5-phone .box-anchor-3{left:36%;top:54%;width:9%;height:5%}
+.dd5-phone .box-anchor-4{left:85%;top:54%;width:9%;height:5%}
+.dd5-phone .box-anchor-5{left:36%;top:76%;width:9%;height:5%}
+.dd5-phone .box-anchor-6{left:85%;top:76%;width:9%;height:5%}
+.dd5-phone .box-anchor-7{left:36%;top:94%;width:9%;height:5%}
+.dd5-phone .box-anchor-8{left:85%;top:94%;width:9%;height:5%}
+.dd6-phone .ui-hotspot[data-anchor="a"]{left:11%;top:57.4%;width:78%;height:7%}
+.dd6-phone .ui-hotspot[data-anchor="b"]{left:18%;top:63.3%;width:29%;height:7%}
+.dd6-phone .ui-hotspot[data-anchor="c"]{left:54%;top:63.3%;width:30%;height:7%}
+.wire-note{transition:background 0.18s,border-color 0.18s,transform 0.18s}
+.flowchart{margin:2rem 0 2.5rem;border:1px solid #e2e0da;background:linear-gradient(135deg,#fafaf8,#f2f1ee);padding:2rem 1.5rem;display:flex;flex-direction:column;align-items:center;gap:0.75rem;overflow:hidden}
+.flow-terminal{width:86px;height:86px;border-radius:50%;background:#0f0e0c;color:#fafaf8;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;border:1px solid #0f0e0c;transition:transform 0.18s,box-shadow 0.18s}
+.flow-node{width:min(100%,430px);min-height:86px;padding:0.95rem 1.2rem;border:1px solid rgba(61,53,200,0.24);background:rgba(236,234,253,0.72);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform 0.18s,border-color 0.18s,box-shadow 0.18s,background 0.18s}
+.flow-node:hover,.flow-terminal:hover,.flow-branch-card:hover{transform:translateY(-2px);border-color:#3d35c8;box-shadow:0 12px 24px rgba(61,53,200,0.09)}
+.flow-node:hover{background:#eceafd}
+.flow-system,.flow-review,.flow-final{background:rgba(236,234,253,0.72);border-color:rgba(61,53,200,0.24)}
+.flow-num{font-family:'DM Mono',monospace;font-size:10px;color:#8a8784;letter-spacing:0.1em;margin-bottom:0.35rem}
+.flow-title{font-family:'DM Mono',monospace;font-size:12px;color:#3d35c8;letter-spacing:0.04em;line-height:1.35}
+.flow-arrow-down{font-family:'DM Mono',monospace;color:#3d35c8;font-size:18px;line-height:1;transition:transform 0.18s,color 0.18s}
+.flow-arrow-down:hover{transform:translateY(2px);color:#6b5ce7}
+.flow-decision-group{display:flex;flex-direction:column;align-items:center;gap:0.8rem}
+.flow-decision{width:190px;height:190px;position:relative;display:flex;align-items:center;justify-content:center;transition:transform 0.18s}
+.flow-decision::before{content:'';position:absolute;inset:28px;border:1px solid rgba(191,142,41,0.42);background:rgba(255,242,197,0.88);transform:rotate(45deg);transition:transform 0.18s,border-color 0.18s,box-shadow 0.18s}
+.flow-decision:hover{transform:translateY(-2px)}
+.flow-decision:hover::before{transform:rotate(45deg) scale(1.03);border-color:#b98718;box-shadow:0 12px 24px rgba(185,135,24,0.11)}
+.flow-decision-inner{position:relative;z-index:1;width:122px;text-align:center}
+.flow-decision .flow-title{color:#6f5312}
+.flow-quality-branches,.flow-branch-two{width:min(100%,760px);display:grid;gap:1rem;position:relative;margin:0.45rem 0 0.15rem}
+.flow-quality-branches{grid-template-columns:1fr 1.45fr;align-items:stretch}
+.flow-branch-two{grid-template-columns:repeat(2,1fr)}
+.flow-quality-branches::before,.flow-branch-two::before{content:'';position:absolute;top:-0.65rem;left:12%;right:12%;height:1px;background:#cbc7bd}
+.flow-warning-group{display:grid;grid-template-columns:1fr 1fr;gap:1rem;position:relative}
+.flow-warning-group::before{content:'Photo Warning';position:absolute;top:-1.55rem;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:10px;color:#8a8784;letter-spacing:0.04em;background:#f6f5f2;padding:0 0.35rem}
+.flow-branch-card{min-height:86px;padding:0.8rem;border:1px solid rgba(61,53,200,0.22);background:#fafaf8;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.35rem;transition:transform 0.18s,border-color 0.18s,box-shadow 0.18s,background 0.18s}
+.flow-branch-card:hover{background:#f5f3ff}
+.flow-branch-card.warning{border-color:rgba(210,118,92,0.32);background:rgba(255,239,232,0.74)}
+.flow-branch-card.warning:hover{background:#fff0e8}
+.flow-branch-title{font-family:'DM Mono',monospace;font-size:11px;line-height:1.35;color:#3d35c8;letter-spacing:0.04em}
+.flow-branch-copy{font-size:12px;color:#4a4845;line-height:1.35}
+.flow-return{font-family:'DM Mono',monospace;font-size:10px;color:#8a8784;letter-spacing:0.04em}
+.flow-return-link{margin-top:0.4rem;padding-top:0.45rem;border-top:1px dashed rgba(210,118,92,0.5);font-family:'DM Mono',monospace;font-size:10px;color:#9d5c44;letter-spacing:0.03em;line-height:1.35}
+.flow-return-link::before{content:'↩ ';font-size:12px}
+.phone-screen{min-height:520px;border-radius:20px;background:#fafaf8;padding:1rem;display:flex;flex-direction:column;gap:0.85rem;color:#0f0e0c}
+.phone-top{font-family:'DM Mono',monospace;font-size:10px;color:#3d35c8;display:flex;justify-content:space-between}
+.camera-area{flex:1;border:1px dashed #8a8784;background:#f2f1ee;display:flex;align-items:center;justify-content:center;text-align:center;color:#8a8784;font-family:'DM Mono',monospace;font-size:11px;line-height:1.6;padding:1rem}
+.capture-row{display:flex;align-items:center;justify-content:space-between}
+.thumb{width:44px;height:44px;border:1px solid #e2e0da;background:#eceafd}
+.capture-btn{width:54px;height:54px;border-radius:50%;border:2px solid #3d35c8;background:#fafaf8;transition:transform 0.18s,background 0.18s}
+.phone-frame:hover .capture-btn{transform:scale(1.08);background:#eceafd}
+.phone-cta{border:1px solid #3d35c8;color:#3d35c8;font-family:'DM Mono',monospace;font-size:10px;text-align:center;padding:0.6rem}
+.wire-notes{border-top:1px solid #e2e0da}
+.wire-note{display:grid;grid-template-columns:24px 1fr;gap:0.75rem;padding:0.75rem 0;border-bottom:1px solid #e2e0da;font-size:13px;color:#4a4845;line-height:1.5}
+.wire-note span{font-family:'DM Mono',monospace;color:#3d35c8;font-size:11px}
+.wire-notes .wire-note{padding-left:0.75rem}
+.wire-note.active{background:#eceafd;border-bottom-color:#3d35c8;transform:translateX(4px)}
+.wire-note.note-gap-after{margin-bottom:4.5rem}
+.frame-tag{display:inline-flex;vertical-align:middle;margin-left:0.65rem;padding:0.3rem 0.5rem;border:1px solid rgba(61,53,200,0.28);background:#eceafd;color:#3d35c8;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;line-height:1.2}
+.hifi-placeholder{border:1px dashed #b9b6b0;background:#f2f1ee;color:#8a8784;font-family:'DM Mono',monospace;font-size:11px;min-height:220px;display:flex;align-items:center;justify-content:center;text-align:center;margin-top:1rem;padding:1rem;letter-spacing:0.06em;cursor:zoom-in;transition:transform 0.22s,border-color 0.22s,box-shadow 0.22s,color 0.22s}
+.hifi-placeholder:hover{transform:translateY(-4px);border-color:#3d35c8;box-shadow:0 16px 36px rgba(15,14,12,0.08);color:#3d35c8}
+.flow-diagram{display:flex;flex-direction:column;align-items:flex-start;gap:0;margin:1.5rem 0;font-family:'DM Mono',monospace;font-size:12px}
+.flow-step{display:flex;align-items:center;gap:0.75rem;padding:0.6rem 1rem;border:1px solid #e2e0da;color:#4a4845;min-width:220px;transition:all 0.2s}
+.flow-step.active-step{border-color:#3d35c8;color:#3d35c8;background:#eceafd}
+.flow-arrow{width:1px;height:20px;background:#e2e0da;margin-left:1.5rem;position:relative}
+.flow-arrow::after{content:'';position:absolute;bottom:0;left:-3px;border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid #e2e0da}
+.decision-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;margin-top:1rem}
+.decision-table th{font-family:'DM Mono',monospace;font-size:10px;color:#8a8784;letter-spacing:0.1em;text-align:left;padding:0 1rem 0.45rem;font-weight:400}
+.decision-table td{position:relative;padding:1rem 1.1rem;border-top:1px solid #e2e0da;border-bottom:1px solid #e2e0da;background:#fafaf8;color:#4a4845;vertical-align:top;line-height:1.55;transition:transform 0.2s,border-color 0.2s,background 0.2s,box-shadow 0.2s,color 0.2s}
+.decision-table td:first-child{border-left:1px solid #e2e0da;color:#0f0e0c}
+.decision-table td:last-child{border-right:1px solid #e2e0da}
+.decision-table tbody tr:hover td{background:linear-gradient(135deg,#fafaf8,#eceafd);border-color:rgba(61,53,200,0.35);box-shadow:0 14px 30px rgba(61,53,200,0.08);transform:translateY(-3px)}
+.decision-table tbody tr:hover td:first-child{box-shadow:inset 3px 0 0 #3d35c8,0 14px 30px rgba(61,53,200,0.08);color:#3d35c8}
+.scope-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1rem}
+.scope-col{padding:1.25rem;border:1px solid #e2e0da;transition:transform 0.18s,border-color 0.18s}
+.scope-col:hover{transform:translateY(-4px);border-color:#3d35c8}
+.scope-col h3{font-family:'DM Mono',monospace;font-size:10px;color:#3d35c8;letter-spacing:0.1em;margin-bottom:0.75rem}
+.scope-tag{display:inline-flex;align-items:center;margin-bottom:1rem;padding:0.35rem 0.55rem;border:1px solid rgba(61,53,200,0.22);background:#eceafd;color:#3d35c8;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;line-height:1.2}
+.scope-col.v2-col .scope-tag{border-color:#d5d2cc;background:#f2f1ee;color:#8a8784}
+.scope-col ul{list-style:none;font-size:13px;color:#4a4845}
+.scope-col ul li{padding:0.3rem 0;display:flex;gap:0.5rem;line-height:1.4}
+.scope-col ul li::before{content:'→';color:#3d35c8;flex-shrink:0}
+.scope-col.v2-col h3{color:#8a8784}
+.v2-col ul li::before{content:'○';color:#8a8784}
+.outcome-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem}
+.outcome-card{padding:1.25rem;border:1px solid #e2e0da;transition:border-color 0.2s,transform 0.2s,background 0.2s}
+.outcome-card:hover{border-color:#3d35c8;transform:translateY(-4px);background:#fafaf8}
+.outcome-card h4{font-family:'DM Mono',monospace;font-size:11px;color:#3d35c8;margin-bottom:0.5rem;letter-spacing:0.06em}
+.outcome-card p{font-size:13px;color:#4a4845;line-height:1.5}
+
+/* ABOUT + CONTACT */
+#about{display:block;padding:5rem 0 6rem;border-top:1px solid #e2e0da;max-width:980px;margin:0 2.5rem 0 calc(2.5rem + 10vw);text-align:left}
+#about .back-btn{display:none}
+.about-photo-placeholder{position:relative;width:180px;height:180px;border-radius:50%;border:1px solid rgba(61,53,200,0.28);margin:0.5rem 0 2rem;overflow:hidden;background:#fff;box-shadow:0 14px 30px rgba(61,53,200,0.08);--mx:50%;--my:50%;--reveal:0px;transition:transform 0.24s,border-color 0.24s,box-shadow 0.24s}
+.about-photo-placeholder:hover{border-color:#3d35c8;box-shadow:0 20px 42px rgba(61,53,200,0.14);--reveal:54px}
+.about-photo-placeholder img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.about-photo-real{z-index:1;transform:scale(1.08);object-position:50% 30%}
+.about-photo-watercolor{z-index:2;pointer-events:none;transform:translateY(31px) scale(1.35);-webkit-mask:radial-gradient(circle var(--reveal) at var(--mx) var(--my),transparent 0 var(--reveal),#000 calc(var(--reveal) + 1px));mask:radial-gradient(circle var(--reveal) at var(--mx) var(--my),transparent 0 var(--reveal),#000 calc(var(--reveal) + 1px))}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.about-left,.about-right{display:flex;flex-direction:column;align-items:flex-start}
+.about-text{font-size:14px;color:#4a4845;line-height:1.8;margin-bottom:1.5rem;font-weight:300;text-align:left;transition:color 0.18s,transform 0.18s}
+.about-text:hover{color:#0f0e0c;transform:translateY(-2px)}
+.skills-block{margin-top:2rem;text-align:left}
+.skills-label{font-family:'DM Mono',monospace;font-size:10px;color:#8a8784;letter-spacing:0.1em;margin-bottom:0.75rem}
+.skill-tags{display:flex;flex-wrap:wrap;gap:0.4rem;justify-content:flex-start}
+.skill-tag{font-family:'DM Mono',monospace;font-size:10px;color:#3d35c8;border:1px solid rgba(61,53,200,0.35);padding:0.2rem 0.55rem;background:rgba(61,53,200,0.05);letter-spacing:0.04em;transition:transform 0.18s,background 0.18s,border-color 0.18s}
+.skill-tag:hover{transform:translateY(-3px);background:#eceafd;border-color:#3d35c8}
+.exp-item{width:100%;margin-bottom:2rem;padding:1.25rem 1rem 2rem;border-bottom:1px solid #e2e0da;text-align:left;transition:transform 0.22s,border-color 0.22s,box-shadow 0.22s,background 0.22s}
+.exp-item:hover{transform:translateY(-5px);border-color:#3d35c8;background:#fafaf8;box-shadow:0 14px 30px rgba(61,53,200,0.08)}
+.exp-item:last-child{border:none}
+.exp-company{font-weight:500;font-size:14px}
+.exp-company a{color:#0f0e0c;text-decoration:none;border-bottom:1px solid rgba(61,53,200,0.28);transition:color 0.18s,border-color 0.18s}
+.exp-company a:hover{color:#3d35c8;border-color:#3d35c8}
+.exp-role{font-family:'DM Mono',monospace;font-size:11px;color:#3d35c8;letter-spacing:0.06em;margin:0.25rem 0}
+.exp-period{font-family:'DM Mono',monospace;font-size:11px;color:#8a8784;margin-bottom:0.5rem}
+.exp-desc{font-size:13px;color:#4a4845;line-height:1.6;font-weight:300}
+#contact{display:none;padding:5rem 2.5rem 6rem;border-top:1px solid #e2e0da;min-height:90vh;align-items:center;justify-content:center;text-align:center}
+#contact .back-btn{position:absolute;top:5rem;left:2.5rem}
+.contact-inner{width:100%;max-width:620px;margin:0 auto}
+.contact-eyebrow{font-family:'DM Mono',monospace;font-size:11px;color:#3d35c8;letter-spacing:0.18em;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:0.6rem}
+.contact-eyebrow::before{content:'';width:22px;height:1px;background:#3d35c8}
+.contact-eyebrow::after{content:'';width:22px;height:1px;background:#3d35c8}
+.contact-title{font-size:clamp(2.2rem,4vw,3.3rem);font-weight:300;letter-spacing:-0.02em;margin-bottom:1rem;line-height:1.12}
+.contact-sub{font-size:14px;color:#4a4845;margin:0 auto 3rem;line-height:1.75;font-weight:300;max-width:500px}
+.contact-links{display:flex;flex-direction:column;gap:1rem}
+.contact-link{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border:1px solid #e2e0da;text-decoration:none;color:#0f0e0c;transition:all 0.2s;cursor:pointer}
+.contact-link>div:first-child{text-align:left}
+.contact-link:hover{border-color:#3d35c8;color:#3d35c8;background:#eceafd}
+.contact-link-label{font-family:'DM Mono',monospace;font-size:10px;color:#8a8784;letter-spacing:0.1em;margin-bottom:0.2rem}
+.contact-link-val{font-size:14px}
+.contact-arr{font-size:16px;transition:transform 0.2s}
+.contact-link:hover .contact-arr{transform:translate(4px,-4px)}
+
+@media (max-width: 1100px){
+  #project-detail,#digiguard-detail,#edi-detail,#resoil-detail{padding-right:2.5rem}
+  .case-nav{display:none}
+  .ui-showcase{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media (max-width: 760px){
+  body{cursor:auto}
+  .cur{display:none}
+  nav{padding:1rem 1.25rem}
+  .nav-links{gap:1rem}
+  #hero{grid-template-columns:1fr;padding:7rem 1.25rem 4rem}
+  .hero-left{transform:none}
+  .hero-right{height:auto;overflow:hidden;transform:none}
+  .orb-wrap{width:100%;height:360px;min-width:0;min-height:320px}
+  #projects,#about,#contact{padding-left:1.25rem;padding-right:1.25rem}
+  #about{margin:0;max-width:none}
+  #contact .back-btn{position:static}
+  #project-detail,#digiguard-detail,#edi-detail,#resoil-detail{padding-left:1.25rem;padding-right:1.25rem}
+  .case-nav{display:none}
+  .proj-list{grid-template-columns:1fr}
+  .project-media{aspect-ratio:4/3}
+  .proj-year{display:none}
+  .about-grid{grid-template-columns:1fr;gap:2.5rem}
+  .mood-board{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;grid-auto-rows:120px;gap:0.55rem;padding:0.75rem}
+  .mood-placeholder:nth-child(n){grid-column:auto;grid-row:auto}
+  .mood-placeholder:nth-child(3n+1){grid-row:span 2}
+  .mood-placeholder.mood-about{grid-row:auto}
+  .visual-board-main,.visual-board-lower{grid-template-columns:1fr}
+  .visual-board::after{display:none}
+  .motif-stage{justify-content:center}
+  .motif-image{width:min(100%,300px)}
+  .visual-variations,.color-row,.design-language-card{grid-template-columns:1fr}
+  .language-item{border-left:0;border-top:1px solid #e2e0da}
+  .language-item:first-child{border-top:0}
+  .detail-meta,.scope-grid,.outcome-grid,.placeholder-grid,.placeholder-grid.two,.principle-grid,.ui-showcase{grid-template-columns:1fr}
+  .insight-map{grid-template-columns:1fr}
+  .insight-map::before{top:1rem;bottom:1rem;left:50%;right:auto;width:1px;height:auto}
+  .principle-system{grid-template-columns:1fr}
+  .habit-loop,.process-timeline,.resoil-insight-grid,.strategy-grid{grid-template-columns:1fr}
+  .habit-arrow{transform:rotate(90deg)}
+  .habit-arrow:hover{transform:rotate(90deg) translateX(3px)}
+  .component-masonry{columns:1;margin:1.5rem 0}
+  .final-hero-panel,.final-section-grid,.final-flow-grid,.final-phone-pair{grid-template-columns:1fr}
+  .final-flow-row{grid-template-columns:1fr;justify-items:center}
+  .final-flow-arrow{transform:rotate(90deg)}
+  .final-phone-row{flex-direction:column;align-items:center}
+  .final-phone{width:min(100%,220px)}
+  .ui-showcase{padding:0.75rem;gap:0.75rem}
+  .ui-screen-card{padding:0.55rem}
+  .principle-card .ui-screen-card{height:auto;width:100%}
+  .decision-phone{height:auto;width:100%}
+  .resoil-decision-image{height:auto;width:100%}
+  .ui-screen-card img{width:100%;height:auto}
+  .goals-layout,.metric-grid,.annotated-block{grid-template-columns:1fr}
+  .annotated-block:has(.decision-image-40){grid-template-columns:1fr}
+  .goals-copy,.metric-grid{padding-left:0;padding-right:0}
+  .metric-grid .metric-card:nth-child(5){grid-column:auto;width:100%}
+  .flowchart{padding:1rem}
+  .flow-node{width:100%}
+  .flow-decision{width:180px;height:180px}
+  .flow-quality-branches,.flow-branch-two,.flow-warning-group{grid-template-columns:1fr;width:100%}
+  .flow-quality-branches::before,.flow-branch-two::before{left:50%;right:auto;width:1px;height:0.65rem}
+  .flow-warning-group::before{position:static;transform:none;text-align:center}
+  .photo-flow-collage{grid-template-columns:1fr;padding:1rem}
+  .phone-shot,.phone-shot:nth-child(1),.phone-shot:nth-child(2),.phone-shot:nth-child(3){transform:none}
+  .screen-flow{grid-template-columns:1fr}
+  .screen-overlay{position:static;opacity:1;transform:none;margin-top:0.75rem}
+  .problem-loop{grid-template-columns:1fr;padding:1rem}
+  .problem-arrow{transform:rotate(90deg)}
+  .diagram-row{align-items:stretch}
+  .diagram-node{width:100%}
+  .diagram-arrow{width:100%;text-align:center}
+  .decision-table{display:block;overflow-x:auto;white-space:normal}
+}
+</style>
+
+<div class="cur" id="cur"></div>
+
+<nav>
+  <div class="nav-logo" onclick="showMain('hero')">SL.PORTFOLIO</div>
+  <div class="nav-links">
+    <button class="nav-link" onclick="showMain('hero')">HOME</button>
+    <button class="nav-link" onclick="showMain('about')">ABOUT</button>
+    <button class="nav-link" onclick="showMain('projects')">PROJECTS</button>
+    <button class="nav-link" onclick="showDetail('contact')">CONTACT</button>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Product & UX Designer</div>
+    <h1 class="hero-title">Shuqi Liu</h1>
+    <p class="hero-sub">Designing clearer, more reliable digital workflows — across B2B SaaS, mobile, and web. Based in Sydney.</p>
+    <button class="cta" onclick="showMain('projects')">
+      VIEW WORK <span class="arr">↓</span>
+    </button>
+  </div>
+  <div class="hero-right">
+    <div class="orb-wrap">
+      <canvas id="heroOrb" aria-label="Transparent morphing sphere visual"></canvas>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="sec-header">
+    <span class="sec-num">SELECTED WORK</span>
+    <h2 class="sec-title">Projects</h2>
+  </div>
+  <div class="proj-list">
+
+    <article class="project-card" onclick="showDetail('project-detail')">
+      <div class="project-media">
+        <img src="suki_portfolio_assets/project-1-motorplatform.jpg" alt="MotorPlatform vehicle record and media action sheet preview">
+      </div>
+      <div class="project-card-body">
+        <div class="project-card-top">
+          <div class="proj-n">001</div>
+          <div class="proj-year">2025–2026</div>
+        </div>
+        <div class="proj-title">MotorPlatform — Photo Capture Flow</div>
+        <div class="proj-desc">Guided mobile vehicle photo capture for B2B automotive SaaS. Designing for speed, compliance, and consistent coverage at scale.</div>
+        <div class="proj-tags">
+          <span class="ptag">B2B SaaS</span>
+          <span class="ptag">Mobile UX</span>
+          <span class="ptag">Workflow Design</span>
+          <span class="ptag">Automotive</span>
+        </div>
+        <div class="proj-arr">↗</div>
+      </div>
+    </article>
+
+    <article class="project-card" onclick="showDetail('digiguard-detail')">
+      <div class="project-media">
+        <img src="suki_portfolio_assets/project-2-digiguard.jpg" alt="DigiGuard smart home security mobile app preview">
+      </div>
+      <div class="project-card-body">
+        <div class="project-card-top">
+          <div class="proj-n">002</div>
+          <div class="proj-year">2024</div>
+        </div>
+        <div class="proj-title">DigiGuard — Digital Security Product</div>
+        <div class="proj-desc">Brand-led UI design for a trustworthy, clear, and modern digital security product experience.</div>
+        <div class="proj-tags">
+          <span class="ptag">Brand Design</span>
+          <span class="ptag">UI Design</span>
+          <span class="ptag">Landing Page</span>
+        </div>
+        <div class="proj-arr">↗</div>
+      </div>
+    </article>
+
+    <article class="project-card" onclick="showDetail('edi-detail')">
+      <div class="project-media">
+        <img src="suki_portfolio_assets/project-3-edi.jpg" alt="EDI inclusive access and representation project preview">
+      </div>
+      <div class="project-card-body">
+        <div class="project-card-top">
+          <div class="proj-n">003</div>
+          <div class="proj-year">2024</div>
+        </div>
+        <div class="proj-title">EDI — Inclusive Access and Representation</div>
+        <div class="proj-desc">A research-led inclusive design project exploring access barriers, clarity, accessibility, and respectful digital interactions.</div>
+        <div class="proj-tags">
+          <span class="ptag">Inclusive Design</span>
+          <span class="ptag">UX Research</span>
+          <span class="ptag">Accessibility</span>
+        </div>
+        <div class="proj-arr">↗</div>
+      </div>
+    </article>
+
+    <article class="project-card" onclick="showDetail('resoil-detail')">
+      <div class="project-media">
+        <img src="suki_portfolio_assets/project-4-resoil.jpg" alt="ReSoil sustainability habit app project preview">
+      </div>
+      <div class="project-card-body">
+        <div class="project-card-top">
+          <div class="proj-n">004</div>
+          <div class="proj-year">2024</div>
+        </div>
+        <div class="proj-title">ReSoil — Daily Sustainability Habit</div>
+        <div class="proj-desc">A 24-hour designathon product concept turning kitchen waste reuse into a simple, visible, and rewarding daily habit.</div>
+        <div class="proj-tags">
+          <span class="ptag">Sustainability</span>
+          <span class="ptag">Product Design</span>
+          <span class="ptag">Behaviour Change</span>
+        </div>
+        <div class="proj-arr">↗</div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section id="project-detail">
+  <button class="back-btn" onclick="showMain('projects')">← BACK TO WORK</button>
+  <div class="detail-hero">
+    <div class="brand-lockup">
+      <img src="suki_portfolio_assets/motorplatform-logo.png" alt="MotorPlatform logo">
+    </div>
+    <div class="detail-tag">Hero / Project Intro</div>
+    <h1 class="detail-title">MotorPlatform — Product & UX Design for Automotive Operations</h1>
+    <p class="detail-subtitle">Designing clearer, more reliable workflows for vehicle inspection, test drive setup, document review, and dealership operations in a B2B automotive SaaS platform.</p>
+    <div class="case-tags">
+      <span class="case-tag">B2B SaaS</span>
+      <span class="case-tag">Product Design</span>
+      <span class="case-tag">UX Design</span>
+      <span class="case-tag">Workflow Optimisation</span>
+      <span class="case-tag">Mobile & Desktop</span>
+      <span class="case-tag">Automotive Operations</span>
+    </div>
+  </div>
+  <div class="detail-meta">
+    <div class="meta-item"><div class="meta-label">COMPANY</div><div class="meta-val">MotorPlatform</div></div>
+    <div class="meta-item"><div class="meta-label">ROLE</div><div class="meta-val">Product / UX Designer</div></div>
+    <div class="meta-item"><div class="meta-label">PLATFORM</div><div class="meta-val">Web app, mobile web/app</div></div>
+    <div class="meta-item"><div class="meta-label">TIMELINE</div><div class="meta-val">2025–2026</div></div>
+    <div class="meta-item"><div class="meta-label">TEAM</div><div class="meta-val">Product, Engineering, QA, Operations</div></div>
+    <div class="meta-item"><div class="meta-label">STATUS</div><div class="meta-val">Real product work, anonymised for portfolio</div></div>
+  </div>
+  <div class="confidential-note"><strong>Confidentiality note.</strong> Some interface details, business logic, and data have been modified or anonymised due to confidentiality.</div>
+  <aside class="case-nav" aria-label="MotorPlatform section navigation">
+    <div class="case-nav-label">CASE STUDY</div>
+    <div class="case-nav-list" id="caseNavList"></div>
+  </aside>
+
+  <div class="detail-section">
+    <h2>Context</h2>
+    <p>MotorPlatform is a B2B automotive SaaS platform that supports dealerships and internal operations teams in managing vehicle-related workflows, including vehicle intake, inspections, test drives, trade-ins, document review, and communication between stakeholders.</p>
+    <br>
+    <p>My work focused on improving complex workflows where users need to collect, verify, and review vehicle information accurately.</p>
+    <h3>Problem Background</h3>
+    <ul class="detail-list">
+      <li>Vehicle identity: VIN, registration, stock number</li>
+      <li>Vehicle condition: photos, videos, damage notes</li>
+      <li>Operational documents: payout letters, finance details</li>
+      <li>User actions: test drive setup, media upload, chat updates</li>
+    </ul>
+    <div class="diagram-row" aria-label="Product ecosystem diagram">
+      <div class="diagram-node">Dealership user</div>
+      <div class="diagram-arrow">→</div>
+      <div class="diagram-node">Vehicle data collection</div>
+      <div class="diagram-arrow">→</div>
+      <div class="diagram-node">MotorPlatform review</div>
+      <div class="diagram-arrow">→</div>
+      <div class="diagram-node">Operations decision / valuation / next action</div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>My Role</h2>
+    <p>As a Product / UX Designer at MotorPlatform, I translated complex automotive workflows into clearer user experiences across vehicle inspection, media capture, test drive setup, payout document review, and desktop operations.</p>
+    <h3>Key responsibilities</h3>
+    <ul class="detail-list">
+      <li>Audited existing workflows and identified UX issues</li>
+      <li>Designed mobile and desktop interaction improvements</li>
+      <li>Refined UX copy, information hierarchy, and edge-case behaviours</li>
+      <li>Prepared Jira tickets and developer handoff notes</li>
+      <li>Collaborated with product, engineering, QA, and operations stakeholders</li>
+    </ul>
+  </div>
+
+  <div class="detail-section">
+    <h2>Main Case Study</h2>
+    <div class="section-kicker">Designing a Guided Vehicle Photo Capture Flow</div>
+    <p>Vehicle photo capture is a critical part of the automotive listing and review process, but users can easily submit the wrong photo type, miss required shots, or provide low-quality images when the flow is unclear.</p>
+    <br>
+    <p>I worked on Photo Flow, a mobile-first guided capture experience that helps dealership users take the right vehicle photos quickly and consistently. My role focused on structuring the PRD, defining the core user flow, clarifying V1 and V2 scope, and translating business requirements into clear UX behaviours for design and development handoff.</p>
+  </div>
+
+  <div class="detail-section">
+    <h2>Photo Flow Context</h2>
+    <p>Vehicle photos are an important part of the automotive listing and review process. They help the business assess vehicle condition, ensure photo coverage, and maintain consistent listing quality. However, photo capture can easily become inconsistent when users are in a hurry or unsure what angle, object, or quality standard is expected. The business needed a flow that could guide users without slowing them down.</p>
+    <div class="photo-flow-collage" aria-label="Photo Flow mobile screen collage">
+      <figure class="phone-shot">
+        <img src="suki_portfolio_assets/photo-flow-screen-2.png" alt="Photo Flow mobile screen 2">
+        <div class="screen-overlay">
+          <div class="screen-overlay-title">Screen 01 — Entry Point</div>
+          <p>Users enter Photo Flow from the vehicle record and choose how to add media: take photo, start video, select from gallery, or upload a file.</p>
+        </div>
+        <figcaption class="phone-shot-label">SCREEN 01</figcaption>
+      </figure>
+      <figure class="phone-shot">
+        <img src="suki_portfolio_assets/photo-flow-screen-1.jpg" alt="Photo Flow mobile screen 1">
+        <div class="screen-overlay">
+          <div class="screen-overlay-title">Screen 02 — Guided Capture</div>
+          <p>The camera screen uses visual guidance and photo type labels to help users capture the expected vehicle angle.</p>
+        </div>
+        <figcaption class="phone-shot-label">SCREEN 02</figcaption>
+      </figure>
+      <figure class="phone-shot">
+        <img src="suki_portfolio_assets/photo-flow-screen-3.jpg" alt="Photo Flow mobile screen 3">
+        <div class="screen-overlay">
+          <div class="screen-overlay-title">Screen 03 — Media Review</div>
+          <p>Users can review the captured vehicle photo set before final submission.</p>
+        </div>
+        <figcaption class="phone-shot-label">SCREEN 03</figcaption>
+      </figure>
+    </div>
+    <div class="screen-flow" aria-label="Photo Flow screen journey">
+      <div class="diagram-node">Entry Point</div>
+      <div class="diagram-arrow">→</div>
+      <div class="diagram-node">Guided Capture</div>
+      <div class="diagram-arrow">→</div>
+      <div class="diagram-node">Media Review</div>
+    </div>
+    <p>The flow starts from the vehicle record, guides users through camera-based capture, and allows them to review the completed media set before submission.</p>
+  </div>
+
+  <div class="detail-section">
+    <h2>Problem Statement</h2>
+    <p>The existing vehicle photo capture process created several operational risks. Users could take the wrong photo type, submit blurry or dark photos, miss mandatory shots, or require follow-up corrections after submission. These issues increased rework for the team and made it difficult to assess photo quality consistently at scale.</p>
+    <div class="problem-loop" aria-label="Problem statement loop">
+      <div class="problem-step">
+        <img class="problem-illustration" src="suki_portfolio_assets/problem-step-1.jpg" alt="Illustration of a user moving quickly">
+        <div>
+          <div class="problem-step-title">01 / USER WANTS TO MOVE FAST</div>
+          <div class="problem-step-copy">Dealership users need to complete capture quickly while moving through operational tasks.</div>
+        </div>
+      </div>
+      <div class="problem-arrow">→</div>
+      <div class="problem-step">
+        <img class="problem-illustration" src="suki_portfolio_assets/problem-step-4.jpg" alt="Illustration of wrong or poor quality photos">
+        <div>
+          <div class="problem-step-title">02 / WRONG OR LOW-QUALITY PHOTOS</div>
+          <div class="problem-step-copy">They may capture the wrong type, miss required shots, or submit poor-quality images.</div>
+        </div>
+      </div>
+      <div class="problem-arrow">→</div>
+      <div class="problem-step">
+        <img class="problem-illustration" src="suki_portfolio_assets/problem-step-3.jpg" alt="Illustration of operations follow-up">
+        <div>
+          <div class="problem-step-title">03 / OPS TEAM NEEDS FOLLOW-UP</div>
+          <div class="problem-step-copy">Operations teams need to ask for corrections, clarification, or additional media.</div>
+        </div>
+      </div>
+      <div class="problem-arrow">→</div>
+      <div class="problem-step">
+        <img class="problem-illustration" src="suki_portfolio_assets/problem-step-2.jpg" alt="Illustration of higher rework and cost">
+        <div>
+          <div class="problem-step-title">04 / HIGHER REWORK AND COST</div>
+          <div class="problem-step-copy">The process creates extra review work, coaching effort, and operational cost at scale.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Design Challenge</h2>
+    <div class="challenge-quote">
+      <p>The challenge was to balance speed and compliance: users needed a fast capture flow, while the business needed complete, high-quality, and reviewable photo evidence.</p>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Goals & Success Metrics</h2>
+    <div class="goals-layout">
+      <div class="goals-copy">
+        <ul class="detail-list">
+          <li>Guide users to take the right photo</li>
+          <li>Improve photo quality without blocking users</li>
+          <li>Reduce retakes and post-upload corrections</li>
+          <li>Ensure required photo coverage</li>
+          <li>Enable quality visibility for managers</li>
+        </ul>
+        <ul class="detail-list">
+          <li>Percentage of listings meeting photo requirements on first pass</li>
+          <li>Reduction in average retakes per listing</li>
+          <li>Time to complete full photo set</li>
+          <li>Average photo quality score</li>
+          <li>Manager-reported reduction in coaching overhead</li>
+        </ul>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-card"><span class="metric-icon icon-check">✓</span><span class="metric-label">Right Photo</span></div>
+        <div class="metric-card"><span class="metric-icon icon-quality">✦</span><span class="metric-label">Photo Quality</span></div>
+        <div class="metric-card"><span class="metric-icon icon-retake">↺</span><span class="metric-label">Fewer Retakes</span></div>
+        <div class="metric-card"><span class="metric-icon icon-coverage"></span><span class="metric-label">Required Coverage</span></div>
+        <div class="metric-card"><span class="metric-icon icon-eye"><svg viewBox="0 0 28 18" aria-hidden="true"><path class="eye-lid" d="M2 9c3.5-5 7.5-7 12-7s8.5 2 12 7c-3.5 5-7.5 7-12 7S5.5 14 2 9z"></path><circle class="eye-pupil" cx="14" cy="9" r="3"></circle></svg></span><span class="metric-label">Manager Visibility</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>User Flow</h2>
+    <p>I structured the experience around a simple capture loop: guide, capture, auto-save, progress, and review. This allowed users to move quickly while still ensuring required photo coverage.</p>
+    <div class="flowchart" aria-label="Photo Flow user journey diagram">
+      <div class="flow-terminal">START</div>
+      <div class="flow-arrow-down">↓</div>
+      <div class="flow-node"><div class="flow-num">01</div><div class="flow-title">Start from Photo Checklist</div></div>
+      <div class="flow-arrow-down">↓</div>
+      <div class="flow-node"><div class="flow-num">02</div><div class="flow-title">Open Guided Camera</div></div>
+      <div class="flow-arrow-down">↓</div>
+      <div class="flow-node"><div class="flow-num">03</div><div class="flow-title">Capture Required Photo</div></div>
+      <div class="flow-arrow-down">↓</div>
+      <div class="flow-node flow-system"><div class="flow-num">04</div><div class="flow-title">System Checks Photo Quality</div></div>
+      <div class="flow-arrow-down">↓</div>
+      <div class="flow-decision">
+        <div class="flow-decision-inner"><div class="flow-num">05</div><div class="flow-title">Is photo quality ok?</div></div>
+      </div>
+      <div class="flow-quality-branches">
+        <div class="flow-branch-card"><div class="flow-branch-title">Photo OK</div><div class="flow-branch-copy">Continue</div></div>
+        <div class="flow-warning-group">
+          <div class="flow-branch-card warning"><div class="flow-branch-title">Retake</div><div class="flow-return-link">Return to step 03: Capture Required Photo</div></div>
+          <div class="flow-branch-card warning"><div class="flow-branch-title">Keep and continue</div></div>
+        </div>
+      </div>
+      <div class="flow-arrow-down">↓</div>
+      <div class="flow-node"><div class="flow-num">06</div><div class="flow-title">Repeat Until Photo Set Complete</div></div>
+      <div class="flow-arrow-down">↓</div>
+      <div class="flow-node flow-review"><div class="flow-num">07</div><div class="flow-title">Review All Photos</div></div>
+      <div class="flow-arrow-down">↓</div>
+      <div class="flow-decision">
+        <div class="flow-decision-inner"><div class="flow-num">08</div><div class="flow-title">Are the photos all good?</div></div>
+      </div>
+      <div class="flow-branch-two">
+        <div class="flow-branch-card"><div class="flow-branch-title">All photos good</div><div class="flow-branch-copy">Save & Submit</div></div>
+        <div class="flow-branch-card warning"><div class="flow-branch-title">Issue found</div><div class="flow-branch-copy">Retake specific one</div><div class="flow-return-link">Return to step 08: Are the photos all good?</div></div>
+      </div>
+      <div class="flow-arrow-down">↓</div>
+      <div class="flow-node flow-final"><div class="flow-num">09</div><div class="flow-title">Internal Quality Review</div></div>
+      <div class="flow-arrow-down">↓</div>
+      <div class="flow-terminal">END</div>
+    </div>
+    <p>The flow was designed as a fast capture loop, with auto-save and progress visibility reducing friction while still supporting required photo coverage.</p>
+  </div>
+
+  <div class="detail-section">
+    <h2>Scope</h2>
+    <p>To keep the first version focused and feasible, the flow prioritised core capture guidance, efficiency, progress visibility, mandatory photo coverage, exit/resume behaviour, and preview before submission. More advanced AI behaviours, such as real-time feedback, photo type validation, compliance photo checks, quality scoring, and post-capture scoring, were treated as V2 enhancements.</p>
+    <div class="scope-grid">
+      <div class="scope-col">
+        <h3>V1 Focus</h3>
+        <div class="scope-tag">Core Capture Experience</div>
+        <ul>
+          <li>Camera visual guidance</li>
+          <li>Sequential capture flow</li>
+          <li>Auto-save after capture</li>
+          <li>Progress visibility</li>
+          <li>Exit and resume</li>
+          <li>Final preview</li>
+        </ul>
+      </div>
+      <div class="scope-col v2-col">
+        <h3>V2 / Future Enhancement</h3>
+        <div class="scope-tag">AI-assisted Quality Layer</div>
+        <ul>
+          <li>AI photo type validation</li>
+          <li>AI quality checks</li>
+          <li>Scoring system</li>
+          <li>Compliance photos: plate & VIN</li>
+          <li>Retake/delete behaviour refinement</li>
+          <li>Non-blocking real-time feedback</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-section decision-section">
+    <h2>Key Design Decisions</h2>
+
+    <h3>Design Decision 1 — Visual Camera Guidance</h3>
+    <div class="annotated-block interactive-annotated-block">
+      <div>
+        <div class="phone-frame interactive-phone">
+          <div class="phone-ui-wrap">
+            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-1-camera.jpg" alt="Guided camera screen for vehicle photo capture">
+            <button class="ui-hotspot" data-anchor="a" type="button" aria-label="Expected photo label"></button>
+            <button class="ui-hotspot" data-anchor="b" type="button" aria-label="Vehicle silhouette guide"></button>
+            <button class="ui-hotspot" data-anchor="c" type="button" aria-label="Capture button"></button>
+            <button class="ui-hotspot thumb-anchor" data-anchor="d" type="button" aria-label="Latest photo thumbnail and progress reference"></button>
+          </div>
+        </div>
+      </div>
+      <div class="wire-notes">
+        <div class="wire-note" data-anchor="a"><span>A</span><div>Expected photo label: example "Front"</div></div>
+        <div class="wire-note" data-anchor="b"><span>B</span><div>Silhouette / visual guide shows the expected angle or object</div></div>
+        <div class="wire-note" data-anchor="c"><span>C</span><div>Capture button keeps the primary action obvious</div></div>
+        <div class="wire-note" data-anchor="d"><span>D</span><div>Latest captured thumbnail helps users confirm capture status</div></div>
+      </div>
+    </div>
+    <p>The camera screen uses visual overlays and short labels to reduce reliance on long written instructions. Users can understand what photo is expected at the moment of capture.</p>
+
+    <h3>Design Decision 2 — After Capture / Auto Advance State</h3>
+    <div class="annotated-block interactive-annotated-block">
+      <div>
+        <div class="phone-frame interactive-phone">
+          <div class="phone-ui-wrap">
+            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-2-camera.jpg" alt="After capture camera screen with saved thumbnail">
+            <button class="ui-hotspot thumb-anchor" data-anchor="a" type="button" aria-label="Saved photo thumbnail"></button>
+          </div>
+        </div>
+      </div>
+      <div class="wire-notes">
+        <div class="wire-note note-gap-after" data-anchor="a"><span>A</span><div>Saved photo thumbnail confirms the captured image is stored before users continue.</div></div>
+        <div class="wire-note"><span>B</span><div>Next required photo appears automatically</div></div>
+        <div class="wire-note"><span>C</span><div>User does not need to manually choose the next photo</div></div>
+      </div>
+    </div>
+    <p>Auto-save and automatic progression reduce repeated actions and keep users moving through the required photo set.</p>
+
+    <h3>Design Decision 3 — Progress Visibility</h3>
+    <div class="annotated-block interactive-annotated-block">
+      <div>
+        <div class="phone-frame interactive-phone dd3-phone">
+          <div class="phone-ui-wrap">
+            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-3-media.jpg" alt="Camera screen at the end of the capture process">
+            <button class="ui-hotspot" data-anchor="a" type="button" aria-label="End of process without silhouette"></button>
+            <button class="ui-hotspot" data-anchor="b" type="button" aria-label="Photo count thumbnail"></button>
+            <button class="ui-hotspot" data-anchor="c" type="button" aria-label="Close process"></button>
+          </div>
+        </div>
+      </div>
+      <div class="wire-notes">
+        <div class="wire-note" data-anchor="a"><span>A</span><div>Without Silhouette indicating reached the end of process</div></div>
+        <div class="wire-note" data-anchor="b"><span>B</span><div>Photo count: 16</div></div>
+        <div class="wire-note" data-anchor="c"><span>C</span><div>User can select to close the process</div></div>
+      </div>
+    </div>
+    <p>Progress visibility helps users understand how much of the required set is complete without leaving the camera experience.</p>
+
+    <h3>Design Decision 4 — Exit and Resume</h3>
+    <div class="annotated-block interactive-annotated-block">
+      <div>
+        <div class="phone-frame interactive-phone dd4-phone">
+          <div class="phone-ui-wrap">
+            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-4-media.png" alt="Media gallery with saved photos and remaining required photo placeholders">
+            <button class="ui-hotspot" data-anchor="a" type="button" aria-label="Saved photos remain visible"></button>
+            <button class="ui-hotspot" data-anchor="b" type="button" aria-label="Incomplete placeholder status"></button>
+            <button class="ui-hotspot" data-anchor="c" type="button" aria-label="Resume from placeholder"></button>
+          </div>
+        </div>
+      </div>
+      <div class="wire-notes">
+        <div class="wire-note" data-anchor="a"><span>A</span><div>Saved photos remain visible</div></div>
+        <div class="wire-note" data-anchor="b"><span>B</span><div>Incomplete placeholder status</div></div>
+        <div class="wire-note" data-anchor="c"><span>C</span><div>User can resume anytime by clicking the placeholders</div></div>
+      </div>
+    </div>
+    <p>Since users may be interrupted during vehicle capture, the flow supports leaving and resuming later without losing captured photos.</p>
+
+    <h3>Design Decision 5 — Preview Before Final Submission</h3>
+    <div class="annotated-block interactive-annotated-block">
+      <div>
+        <div class="phone-frame interactive-phone dd5-phone">
+          <div class="phone-ui-wrap">
+            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-5-media.jpg" alt="Media preview grid with selected vehicle photos">
+            <button class="ui-hotspot" data-anchor="a" type="button" aria-label="Full photo preview"></button>
+            <button class="ui-hotspot select-all-anchor" data-anchor="b" type="button" aria-label="Select all delete option"></button>
+            <button class="ui-hotspot box-anchor-1" data-anchor="b" type="button" aria-label="Photo selection checkbox"></button>
+            <button class="ui-hotspot box-anchor-2" data-anchor="b" type="button" aria-label="Photo selection checkbox"></button>
+            <button class="ui-hotspot box-anchor-3" data-anchor="b" type="button" aria-label="Photo selection checkbox"></button>
+            <button class="ui-hotspot box-anchor-4" data-anchor="b" type="button" aria-label="Photo selection checkbox"></button>
+            <button class="ui-hotspot box-anchor-5" data-anchor="b" type="button" aria-label="Photo selection checkbox"></button>
+            <button class="ui-hotspot box-anchor-6" data-anchor="b" type="button" aria-label="Photo selection checkbox"></button>
+            <button class="ui-hotspot box-anchor-7" data-anchor="b" type="button" aria-label="Photo selection checkbox"></button>
+            <button class="ui-hotspot box-anchor-8" data-anchor="b" type="button" aria-label="Photo selection checkbox"></button>
+            <button class="ui-hotspot" data-anchor="c" type="button" aria-label="Close final preview"></button>
+          </div>
+        </div>
+      </div>
+      <div class="wire-notes">
+        <div class="wire-note" data-anchor="a"><span>A</span><div>Full photo preview</div></div>
+        <div class="wire-note" data-anchor="b"><span>B</span><div>Delete option</div></div>
+        <div class="wire-note" data-anchor="c"><span>C</span><div>Final finish button</div></div>
+      </div>
+    </div>
+    <p>The preview screen gives users a final checkpoint before submission, supporting fast capture first and focused review afterwards.</p>
+
+    <h3>Design Decision 6 — Non-blocking AI Feedback V2 <span class="frame-tag">WIREFRAME</span></h3>
+    <div class="annotated-block interactive-annotated-block">
+      <div>
+        <div class="phone-frame interactive-phone dd6-phone">
+          <div class="phone-ui-wrap">
+            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-6-wireframe.jpg" alt="Wireframe concept for non-blocking AI feedback">
+            <button class="ui-hotspot" data-anchor="a" type="button" aria-label="Non-blocking warning text"></button>
+            <button class="ui-hotspot" data-anchor="b" type="button" aria-label="Continue remains available"></button>
+            <button class="ui-hotspot" data-anchor="c" type="button" aria-label="Retake suggested primary action"></button>
+          </div>
+        </div>
+      </div>
+      <div class="wire-notes">
+        <div class="wire-note" data-anchor="a"><span>A</span><div>Non-blocking warning texts</div></div>
+        <div class="wire-note" data-anchor="b"><span>B</span><div>"Continue" remains available</div></div>
+        <div class="wire-note note-gap-after" data-anchor="c"><span>C</span><div>Retake is suggested (primary action), not forced</div></div>
+        <div class="wire-note"><span>D</span><div>Feedback improves quality without stopping flow</div></div>
+      </div>
+    </div>
+    <p>AI feedback was positioned as a future enhancement and designed to be non-blocking, so it can improve awareness without slowing down users who need to move quickly.</p>
+  </div>
+
+  <div class="detail-section">
+    <h2>Requirements to Design</h2>
+    <table class="decision-table">
+      <thead>
+        <tr><th>PRD REQUIREMENT</th><th>DESIGN TRANSLATION</th><th>WHY IT MATTERS</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Guide users on what photo is expected</td><td>Camera overlay with labels, silhouettes, and visual guidance</td><td>Reduces wrong photo type and helps users capture the right angle</td></tr>
+        <tr><td>Minimise number of clicks</td><td>Sequential capture flow with auto-advance</td><td>Helps users move quickly through the full photo set</td></tr>
+        <tr><td>Save photos immediately after capture</td><td>Auto-save after each photo</td><td>Prevents data loss and supports interrupted workflows</td></tr>
+        <tr><td>Show number of photos taken</td><td>Progress count such as 6 / 18</td><td>Makes completion status visible without leaving camera mode</td></tr>
+        <tr><td>Show latest captured photo</td><td>Recent thumbnail inside camera screen</td><td>Gives quick confirmation that the last photo was saved</td></tr>
+        <tr><td>Allow exit and resume</td><td>Incomplete state + Resume Photo Flow CTA</td><td>Supports real dealership workflows where users may be interrupted</td></tr>
+        <tr><td>Ensure mandatory photo coverage</td><td>Required photo checklist / missing photo indicators</td><td>Reduces missing required photos before submission</td></tr>
+        <tr><td>Provide final preview</td><td>Preview grid with delete / retake options</td><td>Lets users review before final submission</td></tr>
+        <tr><td>AI feedback as V2</td><td>Non-blocking warnings instead of hard rejection</td><td>Improves quality without slowing users down</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="detail-section">
+    <h2>Design Outcome</h2>
+    <div class="outcome-grid">
+      <div class="outcome-card"><h4>Outcome 1</h4><p>Clearer capture flow</p></div>
+      <div class="outcome-card"><h4>Outcome 2</h4><p>Fewer ambiguities during photo taking</p></div>
+      <div class="outcome-card"><h4>Outcome 3</h4><p>Better support for interrupted workflows</p></div>
+      <div class="outcome-card"><h4>Outcome 4</h4><p>Better review readiness</p></div>
+    </div>
+    <br>
+    <p>The proposed Photo Flow created a clearer and more controlled capture experience. By combining visual guidance, sequential capture, auto-save, progress visibility, and final preview, the flow helped users understand what to capture, move through the required photo set efficiently, and review their photos before submission.</p>
+    <br>
+    <p>Although advanced AI validation was scoped for V2, the V1 structure established a foundation for future quality checks and scoring by making the capture process more consistent and trackable.</p>
+    <br>
+    <table class="decision-table">
+      <thead>
+        <tr><th>BEFORE</th><th>AFTER</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Users may not know which photo is expected</td><td>Visual guidance shows the expected angle/object</td></tr>
+        <tr><td>Photos may be missing</td><td>Progress count and mandatory coverage make completion visible</td></tr>
+        <tr><td>Users may lose progress if interrupted</td><td>Auto-save and resume keep captured photos persistent</td></tr>
+        <tr><td>Review happens after problems occur</td><td>Preview screen gives users a checkpoint before finishing</td></tr>
+        <tr><td>Quality issues are hard to assess at scale</td><td>V2 AI checks and scoring can build on the structured flow</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="detail-section">
+    <h2>Reflection</h2>
+    <div class="outcome-grid">
+      <div class="outcome-card"><h4>Reflection 1</h4><p>Speed vs compliance</p></div>
+      <div class="outcome-card"><h4>Reflection 2</h4><p>Guidance should be embedded into the action</p></div>
+      <div class="outcome-card"><h4>Reflection 3</h4><p>V1/V2 scope control is a design skill</p></div>
+    </div>
+    <br>
+    <p>This project helped me understand how to design for operational workflows where users need to move quickly, but the business still requires consistent and compliant evidence. The key was not to slow users down with heavy instructions or hard blocking, but to guide them at the moment of action.</p>
+    <br>
+    <p>I also learned that V1/V2 scope control is an important part of product design. While AI feedback, validation, and scoring could improve photo quality in the future, the first version needed to focus on a reliable capture foundation: clear guidance, auto-save, progress visibility, exit/resume, and final review.</p>
+    <br>
+    <p>Overall, this project strengthened my ability to translate business requirements into practical UX behaviours and design decisions.</p>
+  </div>
+</section>
+
+<section id="digiguard-detail">
+  <button class="back-btn" onclick="showMain('projects')">← BACK TO WORK</button>
+  <div class="detail-hero">
+    <div class="detail-tag">Hero / Project Intro</div>
+    <h1 class="detail-title">DigiGuard — Brand-led UI Design for a Digital Security Product</h1>
+    <p class="detail-subtitle">A brand and UI design project focused on creating a trustworthy, clear, and modern digital experience for a security-focused product.</p>
+    <div class="case-tags">
+      <span class="case-tag">Brand Design</span>
+      <span class="case-tag">UI Design</span>
+      <span class="case-tag">Visual Identity</span>
+      <span class="case-tag">Digital Product Experience</span>
+      <span class="case-tag">Landing Page</span>
+      <span class="case-tag">Trust-building Design</span>
+    </div>
+  </div>
+  <div class="detail-meta">
+    <div class="meta-item"><div class="meta-label">COMPANY</div><div class="meta-val">Cultiv8 Group</div></div>
+    <div class="meta-item"><div class="meta-label">ROLE</div><div class="meta-val">Brand & UI Designer</div></div>
+    <div class="meta-item"><div class="meta-label">PLATFORM</div><div class="meta-val">Web / Digital Product</div></div>
+    <div class="meta-item"><div class="meta-label">TIMELINE</div><div class="meta-val">03.2024 - 06.2024</div></div>
+    <div class="meta-item"><div class="meta-label">TOOLS</div><div class="meta-val">Figma, Adobe Illustrator / Photoshop, Webflow</div></div>
+    <div class="meta-item"><div class="meta-label">FOCUS</div><div class="meta-val">Brand-led digital experience</div></div>
+  </div>
+  <aside class="case-nav" aria-label="DigiGuard section navigation">
+    <div class="case-nav-label">CASE STUDY</div>
+    <div class="case-nav-list"></div>
+  </aside>
+
+  <div class="detail-section">
+    <h2>Project Overview</h2>
+    <p>DigiGuard is a digital protection product concept developed during my work at Cultiv8 Group. The project focused on building a visual identity and digital interface that communicates security, reliability, and ease of use.</p>
+    <p>My role was to explore the brand direction, define the visual style, design key digital touchpoints, and create a consistent UI experience that could help users quickly understand the product's value.</p>
+    <img class="detail-image" src="suki_portfolio_assets/digiguard-project-overview.jpg" alt="DigiGuard smart home security brand and product overview visual">
+  </div>
+
+  <div class="detail-section">
+    <h2>Design Context</h2>
+    <p>For a digital security product, visual trust is critical. Users need to quickly understand what the product does, why it matters, and whether the brand feels reliable enough to protect their information or digital assets.</p>
+    <p>The design challenge was not only to make the interface look polished, but also to create a visual language that feels secure, professional, and approachable.</p>
+  </div>
+
+  <div class="detail-section">
+    <h2>Design Challenge</h2>
+    <div class="challenge-quote">
+      <p>How might we create a digital security brand experience that feels trustworthy and professional, while still being simple and approachable for users?</p>
+    </div>
+    <div class="principle-grid challenge-principles">
+      <div class="principle-card challenge-card-trust">
+        <div class="challenge-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3 5 6v5c0 4.6 2.9 8.8 7 10 4.1-1.2 7-5.4 7-10V6l-7-3Z"/>
+            <path d="m9.5 12 1.7 1.7 3.6-4"/>
+          </svg>
+        </div>
+        <h4>01 / Build Trust Quickly</h4>
+        <p>The product needs to feel credible within the first few seconds.</p>
+      </div>
+      <div class="principle-card challenge-card-value">
+        <div class="challenge-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9.1 9a3 3 0 1 1 4.8 2.4c-1.2.8-1.9 1.5-1.9 2.9"/>
+            <path d="M12 18h.01"/>
+            <circle cx="12" cy="12" r="9"/>
+          </svg>
+        </div>
+        <h4>02 / Explain Value Clearly</h4>
+        <p>Users should understand the product purpose without technical overload.</p>
+      </div>
+      <div class="principle-card challenge-card-approach">
+        <div class="challenge-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="3"/>
+            <path d="M6.5 19c.55-3.5 2.55-5.4 5.5-5.4s4.95 1.9 5.5 5.4"/>
+          </svg>
+        </div>
+        <h4>03 / Keep It Approachable</h4>
+        <p>Security products can feel intimidating, so the UI should feel clear and easy to navigate.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>My Role</h2>
+    <p>As a Brand and UI Designer, I worked on the visual direction and digital interface for DigiGuard. My role focused on translating the product's security-focused positioning into a clear, consistent, and trustworthy visual experience.</p>
+    <h3>Key Responsibilities</h3>
+    <ul class="detail-list">
+      <li>Explored brand direction and visual references</li>
+      <li>Defined colour, typography, icon, and layout direction</li>
+      <li>Designed key web and product interface screens</li>
+      <li>Created reusable UI components for consistency</li>
+      <li>Refined visual hierarchy and content presentation</li>
+      <li>Prepared design assets for presentation and handoff</li>
+    </ul>
+  </div>
+
+  <div class="detail-section">
+    <h2>Visual Strategy</h2>
+    <h3>Visual Strategy: Making Security Feel Clear and Trustworthy</h3>
+    <p>The visual direction was built around three keywords: secure, modern, and approachable. I wanted the product to feel reliable without becoming too cold or overly technical.</p>
+    <div class="principle-grid">
+      <div class="principle-card"><h4>Secure</h4><p>Use structured layouts, strong contrast, and stable visual hierarchy to communicate reliability.</p></div>
+      <div class="principle-card"><h4>Modern</h4><p>Use clean UI patterns, geometric elements, and digital gradients to create a technology-driven feel.</p></div>
+      <div class="principle-card"><h4>Approachable</h4><p>Avoid overly complex technical visuals and keep the content easy to scan.</p></div>
+    </div>
+    <div class="mood-board" aria-label="DigiGuard visual strategy mood board">
+      <div class="mood-placeholder mood-about">
+        <h4>About DigiGuard</h4>
+        <p>Smart home security that adapts to modern life. Seamless protection, intelligent alerts, complete peace of mind.</p>
+        <p>Themes: Protection, intelligence, trust, simplicity, connection, warmth.</p>
+      </div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-02.png" alt="DigiGuard mood board color palette reference"></div>
+      <div class="mood-placeholder mood-caption-card">
+        <div class="mood-caption-media"><img src="suki_portfolio_assets/digiguard-mood-placeholder-03.jpg" alt="DigiGuard pixelated house motif"></div>
+        <div class="mood-caption-text">The pixelated house motif represents smart protection that's always learning.</div>
+      </div>
+      <div class="mood-placeholder mood-caption-card">
+        <div class="mood-caption-media"><img src="suki_portfolio_assets/digiguard-mood-placeholder-04-clean.jpg" alt="Family using smart home security at home"></div>
+        <div class="mood-caption-text">Peace of mind at home.<br>So you can focus on what matters.</div>
+      </div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-05.jpg" alt="DigiGuard mood board image reference"></div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-06.jpg" alt="DigiGuard mood board image reference"></div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-07.jpg" alt="DigiGuard mood board image reference"></div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-08.jpg" alt="DigiGuard mood board image reference"></div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-09.jpg" alt="DigiGuard mood board image reference"></div>
+      <div class="mood-placeholder mood-caption-card">
+        <div class="mood-caption-media"><img src="suki_portfolio_assets/digiguard-mood-placeholder-10.jpg" alt="DigiGuard layered protection visual reference"></div>
+        <div class="mood-caption-text">Layers of protection.<br>Designed to adapt and respond.</div>
+      </div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-11.jpg" alt="DigiGuard mood board image reference"></div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-12.jpg" alt="DigiGuard mood board image reference"></div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Brand System</h2>
+    <p>I developed a visual system that could support both marketing communication and digital interface design. The system focused on consistency across colour, typography, iconography, spacing, and visual elements.</p>
+    <div class="outcome-grid">
+      <div class="outcome-card"><h4>Colour</h4><p>Darker tones communicate security, while brighter accents guide attention to key actions.</p></div>
+      <div class="outcome-card"><h4>Typography</h4><p>The typography direction focused on clarity and professionalism for quick scanning.</p></div>
+      <div class="outcome-card"><h4>Iconography</h4><p>Icons explain security-related features quickly and reduce reliance on long technical descriptions.</p></div>
+      <div class="outcome-card"><h4>Layout System</h4><p>Clear spacing, card-based sections, and strong hierarchy make product information easier to understand.</p></div>
+    </div>
+    <div class="visual-board" aria-label="DigiGuard visual direction board built with HTML and CSS">
+      <div class="visual-board-kicker">Visual Direction</div>
+      <div class="visual-board-subtitle">Brand system, graphic motif, and color language</div>
+      <div class="visual-rule"></div>
+
+      <div class="visual-board-main">
+        <div>
+          <div class="visual-board-label">1. Primary Logo</div>
+          <div class="visual-logo-card">
+            <img src="suki_portfolio_assets/digiguard-primary-logo.png" alt="DigiGuard smart home security primary logo">
+          </div>
+
+          <div class="visual-board-label" style="margin-top:1.45rem">2. Secondary Logo Variations</div>
+          <div class="visual-variations">
+            <div class="visual-mini-logo">
+              <img src="suki_portfolio_assets/digiguard-logo-red-variation.jpg" alt="DigiGuard red logo variation">
+            </div>
+            <div class="visual-mini-logo dark">
+              <img src="suki_portfolio_assets/digiguard-logo-black-variation.png" alt="DigiGuard dark logo variation">
+            </div>
+          </div>
+        </div>
+
+        <div class="visual-motif-panel">
+          <div class="visual-board-label">4. Graphic Motif</div>
+          <div class="motif-stage">
+            <img class="motif-image" src="suki_portfolio_assets/digiguard-graphic-motif.png" alt="DigiGuard pixel house graphic motif">
+          </div>
+        </div>
+      </div>
+
+      <div class="visual-board-lower">
+        <div>
+          <div class="visual-board-label">3. Color Language</div>
+          <div class="color-row">
+            <div class="color-chip"><div class="swatch red"></div>Coral Red<span>#FF2D55</span></div>
+            <div class="color-chip"><div class="swatch pink"></div>Soft Pink<span>#FFE3E8</span></div>
+            <div class="color-chip"><div class="swatch black"></div>Charcoal Black<span>#111111</span></div>
+            <div class="color-chip"><div class="swatch gray"></div>Warm Gray<span>#F3F1EF</span></div>
+            <div class="color-chip"><div class="swatch white"></div>White<span>#FFFFFF</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="visual-board-label">5. Design Language</div>
+          <div class="design-language-card">
+            <div class="language-item">
+              <div class="language-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 3.2 5 5.9v5.2c0 4.7 2.8 8.3 7 9.9 4.2-1.6 7-5.2 7-9.9V5.9l-7-2.7Z"/><path d="M8.2 12.2 12 8.9l3.8 3.3"/><path d="M9.4 11.3v5.1h2.1v-2.7h1v2.7h2.1v-5.1"/></svg>
+              </div>
+              <h4>Trust & Security</h4>
+              <p>Confident, protective, always on.</p>
+            </div>
+            <div class="language-item">
+              <div class="language-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><rect x="4" y="5" width="2.1" height="2.1"/><rect x="11" y="4" width="2.1" height="2.1"/><rect x="18" y="5.2" width="2.1" height="2.1"/><rect x="7.2" y="10.4" width="1.9" height="1.9"/><rect x="14.8" y="10" width="1.9" height="1.9"/><rect x="11.1" y="15.2" width="2" height="2"/><rect x="4.4" y="18.1" width="2.1" height="2.1"/><rect x="18.1" y="17.8" width="2.1" height="2.1"/><path d="M3.2 12.8h1.9"/><path d="M18.9 12.8h1.9"/><path d="M12.2 8.2v1.9"/></svg>
+              </div>
+              <h4>Digital Native</h4>
+              <p>Built from pixels. Future-ready.</p>
+            </div>
+            <div class="language-item">
+              <div class="language-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4.2 12.1 12 5.2l7.8 6.9"/><path d="M6.6 11.4v8"/><path d="M17.4 11.4v8"/><path d="M10 19.4v-5.2h4v5.2"/></svg>
+              </div>
+              <h4>Smart Living</h4>
+              <p>Simple solutions for a connected home.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>UI Direction</h2>
+    <p>After defining the brand direction, I translated it into key UI screens and digital touchpoints. The interface was designed to help users quickly understand the product value, explore key features, and take action with confidence.</p>
+    <div class="principle-grid">
+      <div class="principle-card ui-direction-card">
+        <h4>Clear First Impression</h4>
+        <p>The hero section should immediately communicate what DigiGuard does.</p>
+        <div class="ui-screen-card">
+          <img src="suki_portfolio_assets/digiguard-ui-direction-02.png" alt="DigiGuard clear first impression UI screen">
+        </div>
+      </div>
+      <div class="principle-card ui-direction-card">
+        <h4>Scannable Feature Explanation</h4>
+        <p>Feature cards and icons help users understand benefits quickly.</p>
+        <div class="ui-screen-card">
+          <img src="suki_portfolio_assets/digiguard-ui-direction-04.png" alt="DigiGuard scannable feature explanation UI screen">
+        </div>
+      </div>
+      <div class="principle-card ui-direction-card">
+        <h4>Strong Call-to-action</h4>
+        <p>Primary actions are visually clear and placed where users naturally make decisions.</p>
+        <div class="ui-screen-card">
+          <img src="suki_portfolio_assets/digiguard-ui-direction-03.png" alt="DigiGuard strong call to action UI screen">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-section decision-section">
+    <h2>Key Design Decisions</h2>
+    <h3>Design Decision 1: Use visual hierarchy to build trust quickly</h3>
+    <p>Users should be able to understand the product's value within the first few seconds. I used a clear hero message, strong contrast, and focused CTA placement to make the landing experience feel confident and easy to understand.</p>
+    <div class="annotated-block">
+      <div class="ui-screen-card decision-phone">
+        <img src="suki_portfolio_assets/digiguard-design-decision-01.png" alt="DigiGuard landing page UI showing visual hierarchy">
+      </div>
+      <div class="wire-notes">
+        <div class="wire-note"><span>A</span><div>Clear headline</div></div>
+        <div class="wire-note"><span>B</span><div>Security-focused visual element</div></div>
+        <div class="wire-note"><span>C</span><div>Primary CTA</div></div>
+        <div class="wire-note"><span>D</span><div>Supporting trust message</div></div>
+      </div>
+    </div>
+
+    <h3>Design Decision 2: Turn technical value into simple feature blocks</h3>
+    <p>Security products can become difficult to understand when information is too technical. I used feature cards, icons, and short descriptions to make the product benefits easier to scan.</p>
+    <div class="annotated-block">
+      <div class="ui-screen-card decision-phone">
+        <img src="suki_portfolio_assets/digiguard-design-decision-02.jpg" alt="DigiGuard feature card layout UI screen">
+      </div>
+      <div class="wire-notes">
+        <div class="wire-note"><span>A</span><div>Icon communicates feature category</div></div>
+        <div class="wire-note"><span>B</span><div>Short title supports quick scanning</div></div>
+        <div class="wire-note"><span>C</span><div>Description avoids technical overload</div></div>
+        <div class="wire-note"><span>D</span><div>Card layout keeps information grouped</div></div>
+      </div>
+    </div>
+
+    <h3>Design Decision 3: Build trust through visual hierarchy</h3>
+    <p>Security products need to communicate status clearly and quickly. I designed the home dashboard to give users an immediate overview of their home safety, connected devices, and room status, so they can understand whether anything needs attention without navigating through multiple pages.</p>
+    <div class="annotated-block">
+      <div class="ui-screen-card decision-phone">
+        <img src="suki_portfolio_assets/digiguard-design-decision-03-hierarchy.png" alt="DigiGuard home dashboard UI showing status hierarchy">
+      </div>
+      <div class="wire-notes">
+        <div class="wire-note"><span>A</span><div>Security status is placed at the top for immediate reassurance</div></div>
+        <div class="wire-note"><span>B</span><div>Colour-coded threat levels make risk easier to understand</div></div>
+        <div class="wire-note"><span>C</span><div>Quick access supports everyday device control</div></div>
+        <div class="wire-note"><span>D</span><div>Room-based grouping makes the system feel familiar</div></div>
+      </div>
+    </div>
+
+    <h3>Design Decision 4: Create a clear device management system</h3>
+    <p>Smart home security products often involve multiple devices across different rooms, which can quickly become difficult to manage.</p>
+    <div class="annotated-block">
+      <div class="ui-screen-card decision-phone">
+        <img src="suki_portfolio_assets/digiguard-design-decision-04-device-management.png" alt="DigiGuard device management UI screen">
+      </div>
+      <div class="wire-notes">
+        <div class="wire-note"><span>A</span><div>Room filters help users narrow down devices quickly</div></div>
+        <div class="wire-note"><span>B</span><div>Status tabs separate authorised and blocked devices</div></div>
+        <div class="wire-note"><span>C</span><div>Clear ON/OFF controls support quick action</div></div>
+        <div class="wire-note"><span>D</span><div>Room labels provide context for each device</div></div>
+      </div>
+    </div>
+
+    <h3>Design Decision 5: Create consistency through reusable UI components</h3>
+    <p>To keep the experience consistent across pages, I created reusable UI patterns such as buttons, cards, navigation elements, and section layouts.</p>
+    <div class="placeholder-grid component-masonry">
+      <div class="component-card">
+        <img src="suki_portfolio_assets/digiguard-component-security-status.png" alt="DigiGuard Security Status component">
+        <div>
+          <h4>Security Status</h4>
+          <p>Monitor your home's safety at a glance with live status and health score.</p>
+        </div>
+      </div>
+      <div class="component-card">
+        <img src="suki_portfolio_assets/digiguard-component-device-management.png" alt="DigiGuard Device Management component">
+        <div>
+          <h4>Device Management</h4>
+          <p>Add, view, and manage all your smart devices from one secure and simple dashboard.</p>
+        </div>
+      </div>
+      <div class="component-card">
+        <img src="suki_portfolio_assets/digiguard-component-instant-alerts.png" alt="DigiGuard Instant Alerts component">
+        <div>
+          <h4>Instant Alerts</h4>
+          <p>Get real-time notifications for any unusual activity in your home.</p>
+        </div>
+      </div>
+      <div class="component-card">
+        <img src="suki_portfolio_assets/digiguard-component-smart-control.jpg" alt="DigiGuard Smart Control component">
+        <div>
+          <h4>Smart Control</h4>
+          <p>Control cameras, sensors, and automations with ease and confidence.</p>
+        </div>
+      </div>
+      <div class="component-card">
+        <img src="suki_portfolio_assets/digiguard-component-form-fields.png" alt="DigiGuard form fields component">
+        <div>
+          <h4>Secure Account Setup</h4>
+          <p>Create and manage your account with protected login details and clear user information.</p>
+        </div>
+      </div>
+      <div class="component-card">
+        <img src="suki_portfolio_assets/digiguard-component-section-layouts.png" alt="DigiGuard section layouts component">
+        <div>
+          <h4>Simple Navigation</h4>
+          <p>Access key areas of the app quickly, including home status, connected devices, alerts, and account settings.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="detail-section">
+    <h2>Final Design</h2>
+    <p>The final design presents DigiGuard as a modern and trustworthy digital protection product, with a visual system that supports both brand communication and user understanding.</p>
+    <div class="final-design-board" aria-label="DigiGuard final UI design placeholder board">
+      <div class="final-panel final-hero-panel">
+        <div class="final-hero-copy">
+          <div class="final-brand-mark">Digi<span>Guard</span></div>
+          <h3>Brand-led UI Design for a Digital Security Product</h3>
+          <p>Trusted protection. Crystal clarity. Modern security for every smart home.</p>
+          <div class="final-values">
+            <div class="final-value"><div class="final-value-icon">▱</div>Trustworthy<br>& Secure</div>
+            <div class="final-value"><div class="final-value-icon">⌂</div>Smart Home<br>Centric</div>
+            <div class="final-value"><div class="final-value-icon">▯</div>Intuitive &<br>Modern</div>
+          </div>
+        </div>
+        <div>
+          <div class="final-panel-label">01 Onboarding</div>
+          <div class="final-phone-row">
+            <div class="final-phone">
+              <div class="final-screen">
+                <img class="final-phone-image" src="suki_portfolio_assets/digiguard-final-onboarding-02.png" alt="DigiGuard sign in UI screen">
+              </div>
+            </div>
+            <div class="final-phone">
+              <div class="final-screen">
+                <img class="final-phone-image" src="suki_portfolio_assets/digiguard-final-onboarding-01.png" alt="DigiGuard onboarding UI screen">
+              </div>
+            </div>
+            <div class="final-phone">
+              <div class="final-screen">
+                <img class="final-phone-image" src="suki_portfolio_assets/digiguard-final-onboarding-03.png" alt="DigiGuard onboarding confirmation UI screen">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="final-panel">
+        <div class="final-panel-label">02 Dashboard & Monitoring</div>
+        <div class="final-section-grid">
+          <div class="final-phone"><div class="final-screen"><img class="final-phone-image" src="suki_portfolio_assets/digiguard-final-dashboard-03.png" alt="DigiGuard device detail UI screen"></div></div>
+          <div class="final-phone"><div class="final-screen"><img class="final-phone-image" src="suki_portfolio_assets/digiguard-final-dashboard-new-02.png" alt="DigiGuard dashboard monitoring UI screen"></div></div>
+          <div class="final-phone"><div class="final-screen"><img class="final-phone-image" src="suki_portfolio_assets/digiguard-final-dashboard-01.png" alt="DigiGuard dashboard UI screen"></div></div>
+          <div class="final-phone"><div class="final-screen"><img class="final-phone-image" src="suki_portfolio_assets/digiguard-final-dashboard-02.png" alt="DigiGuard devices UI screen"></div></div>
+          <div class="final-phone"><div class="final-screen"><img class="final-phone-image" src="suki_portfolio_assets/digiguard-final-dashboard-05.png" alt="DigiGuard add device UI screen"></div></div>
+        </div>
+      </div>
+
+      <div class="final-flow-grid">
+        <div class="final-panel full-row">
+          <div class="final-panel-label">03 Device Management</div>
+          <div class="final-flow-row">
+            <div class="final-phone tall"><div class="final-screen"><img class="final-phone-image" src="suki_portfolio_assets/digiguard-final-dashboard-04.png" alt="DigiGuard notification UI screen"></div></div>
+            <div class="final-phone tall"><div class="final-screen"><img class="final-phone-image" src="suki_portfolio_assets/digiguard-final-device-management-02.png" alt="DigiGuard room selection UI screen"></div></div>
+            <div class="final-phone tall"><div class="final-screen"><img class="final-phone-image" src="suki_portfolio_assets/digiguard-final-device-management-01.png" alt="DigiGuard device management UI screen"></div></div>
+            <div class="final-phone tall"><div class="final-screen"><img class="final-phone-image" src="suki_portfolio_assets/digiguard-final-device-management-03.png" alt="DigiGuard device setup UI screen"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Design Outcome</h2>
+    <p>The project resulted in a clearer and more consistent digital identity for DigiGuard. The final design helped communicate the product as secure, modern, and approachable, while providing a UI direction that could scale across marketing pages and product touchpoints.</p>
+    <ul class="detail-list">
+      <li>Established a trustworthy visual direction for a digital security product</li>
+      <li>Created a consistent UI system across key screens</li>
+      <li>Improved clarity of product communication through structured content blocks</li>
+      <li>Translated abstract security concepts into visual and interface patterns</li>
+      <li>Produced design assets suitable for presentation and handoff</li>
+    </ul>
+  </div>
+
+  <div class="detail-section">
+    <h2>Reflection</h2>
+    <p>This project helped me understand how visual design can influence trust in digital products. For security-related products, users do not only evaluate the interface based on aesthetics; they also read visual cues such as hierarchy, contrast, consistency, and tone to decide whether the product feels credible.</p>
+    <p>I also learned the importance of designing a flexible visual system rather than isolated screens. By defining reusable colours, typography, components, and layout patterns, the design became easier to scale across different digital touchpoints.</p>
+  </div>
+</section>
+
+<section id="edi-detail">
+  <button class="back-btn" onclick="showMain('projects')">← BACK TO WORK</button>
+  <aside class="case-nav" aria-label="EDI case study navigation">
+    <div class="case-nav-label">CASE STUDY</div>
+    <div class="case-nav-list"></div>
+  </aside>
+
+  <div class="detail-hero">
+    <div class="detail-tag">Hero / Project Intro</div>
+    <h1 class="detail-title">EDI — A Research-led Inclusive Design Project</h1>
+    <p class="detail-subtitle">An inclusive design project exploring how digital experiences can better support diverse user needs, reduce access barriers, and create more respectful interactions.</p>
+    <div class="case-tags">
+      <span class="case-tag">Inclusive Design</span>
+      <span class="case-tag">UX Research</span>
+      <span class="case-tag">Accessibility</span>
+      <span class="case-tag">Service Design</span>
+      <span class="case-tag">Social Impact</span>
+      <span class="case-tag">Research-led UX</span>
+    </div>
+  </div>
+
+  <div class="detail-meta">
+    <div><div class="meta-label">PROJECT TYPE</div><div class="meta-val">Academic / UX Research / Inclusive Design</div></div>
+    <div><div class="meta-label">ROLE</div><div class="meta-val">UX Designer / Researcher</div></div>
+    <div><div class="meta-label">PLATFORM</div><div class="meta-val">Digital experience / Service concept</div></div>
+    <div><div class="meta-label">TIMELINE</div><div class="meta-val">05.2024 - 07.2024</div></div>
+    <div><div class="meta-label">TOOLS</div><div class="meta-val">Figma, Miro, Notion, Adobe Suite</div></div>
+    <div><div class="meta-label">FOCUS</div><div class="meta-val">Access barriers, clarity, inclusive interaction</div></div>
+    <div><div class="meta-label">WEBSITE LINK</div><div class="meta-val"><a href="https://editeq.net/" target="_blank" rel="noopener noreferrer">https://editeq.net/</a></div></div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Project Overview</h2>
+    <p>EDI is an inclusive design project focused on understanding how digital experiences can better support users with diverse needs, backgrounds, and access conditions. The project explored how design can reduce barriers, improve clarity, and create a more respectful and inclusive user experience.</p>
+    <p>My role involved researching user needs, identifying accessibility and inclusion barriers, translating insights into design principles, and developing design responses that support clearer and more equitable access.</p>
+    <div class="image-placeholder overview-wide-placeholder">PROJECT OVERVIEW VISUAL PLACEHOLDER<br>Inclusive access, research synthesis, and design direction overview</div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Design Context</h2>
+    <p>Digital products are often designed around an assumed "average user", but real users have different abilities, language backgrounds, confidence levels, cultural expectations, and access conditions. When these differences are not considered, the experience can become confusing, exclusionary, or difficult to use.</p>
+    <p>This project focused on designing with inclusion in mind, ensuring that the experience is not only functional, but also accessible, understandable, and respectful for a wider range of users.</p>
+  </div>
+
+  <div class="detail-section">
+    <h2>Design Challenge</h2>
+    <h3>How might we design a digital experience that reduces access barriers and supports users with diverse needs in a clearer, more inclusive way?</h3>
+    <div class="principle-grid">
+      <div class="principle-card center-card"><h4>01 / Reduce access barriers</h4><p>The experience should be easier to understand and use for people with different levels of confidence, ability, and digital familiarity.</p></div>
+      <div class="principle-card center-card"><h4>02 / Improve clarity</h4><p>Information should be structured in a way that is easy to scan, understand, and act on.</p></div>
+      <div class="principle-card center-card"><h4>03 / Support respectful representation</h4><p>The design should avoid assumptions and create a more inclusive experience for different user groups.</p></div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>My Role</h2>
+    <p>As a UX Designer and Researcher, I focused on understanding user barriers and translating inclusive design principles into practical design decisions. My role involved research synthesis, problem framing, design principle development, concept exploration, and interface refinement.</p>
+    <h3>Key Responsibilities</h3>
+    <ul class="detail-list">
+      <li>Analysed user needs and access barriers</li>
+      <li>Synthesised research into key inclusion insights</li>
+      <li>Developed inclusive design principles</li>
+      <li>Explored design solutions that support clarity and accessibility</li>
+      <li>Created wireframes and interface concepts</li>
+      <li>Evaluated the design against accessibility and inclusion considerations</li>
+    </ul>
+  </div>
+
+  <div class="detail-section">
+    <h2>Research Focus</h2>
+    <h3>Understanding Barriers Before Designing Solutions</h3>
+    <p>Before moving into design, I focused on identifying what kinds of barriers users might experience when interacting with the service or digital interface. These barriers were not only functional, but also emotional, cognitive, social, and accessibility-related.</p>
+    <div class="outcome-grid">
+      <div class="outcome-card"><h4>Information barriers</h4><p>Users may struggle when information is too complex, hidden, or written in unclear language.</p></div>
+      <div class="outcome-card"><h4>Accessibility barriers</h4><p>Users may experience difficulty due to low contrast, small text, unclear navigation, or limited interaction options.</p></div>
+      <div class="outcome-card"><h4>Confidence barriers</h4><p>Some users may hesitate when they are unsure what action to take or whether they are making the right choice.</p></div>
+      <div class="outcome-card"><h4>Representation barriers</h4><p>Users may feel excluded when the experience assumes one default background, ability, or behaviour pattern.</p></div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Key Insights</h2>
+    <div class="insight-map">
+      <div class="insight-node">
+        <div class="insight-index">INSIGHT 01</div>
+        <div><h4>Clarity is part of inclusion</h4><p>Inclusive design is not only about adding accessibility features. Clear language, visible structure, and predictable navigation can reduce cognitive load and help more users feel confident.</p></div>
+      </div>
+      <div class="insight-node">
+        <div class="insight-index">INSIGHT 02</div>
+        <div><h4>Users need flexibility, not a one-size-fits-all path</h4><p>Different users may need different levels of guidance, information detail, or interaction support. The experience should allow users to move through the journey in a way that suits their needs.</p></div>
+      </div>
+      <div class="insight-node">
+        <div class="insight-index">INSIGHT 03</div>
+        <div><h4>Representation affects trust</h4><p>The tone, imagery, labels, and content structure can influence whether users feel recognised, respected, and included.</p></div>
+      </div>
+      <div class="insight-node">
+        <div class="insight-index">INSIGHT 04</div>
+        <div><h4>Accessibility should be embedded, not added at the end</h4><p>Accessibility considerations such as contrast, readable text, clear hierarchy, and simple interactions should shape the design from the beginning.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Inclusive Design Principles</h2>
+    <div class="principle-system">
+      <div class="principle-tile">
+        <div><div class="principle-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/><path d="m17 15 2 2 3-4"/></svg></div><div class="principle-num">PRINCIPLE 01</div><h4>Clear</h4></div>
+        <p>Use plain language, visible structure, and clear calls to action to reduce confusion.</p>
+      </div>
+      <div class="principle-tile">
+        <div><div class="principle-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 7h10v10H7z"/><path d="M3 12h4"/><path d="M17 12h4"/><path d="M12 3v4"/><path d="M12 17v4"/></svg></div><div class="principle-num">PRINCIPLE 02</div><h4>Flexible</h4></div>
+        <p>Support different user behaviours, confidence levels, and access needs.</p>
+      </div>
+      <div class="principle-tile">
+        <div><div class="principle-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M4 19c.6-3.6 2.5-5.4 5-5.4s4.4 1.8 5 5.4"/><path d="M14.5 14.2c2.4.3 4 1.9 4.5 4.8"/></svg></div><div class="principle-num">PRINCIPLE 03</div><h4>Respectful</h4></div>
+        <p>Avoid assumptions and use inclusive language and representation.</p>
+      </div>
+      <div class="principle-tile">
+        <div><div class="principle-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><path d="M5 10h14"/><path d="M12 10v10"/><path d="m8 20 4-10 4 10"/></svg></div><div class="principle-num">PRINCIPLE 04</div><h4>Accessible</h4></div>
+        <p>Prioritise readable typography, sufficient contrast, simple navigation, and screen-friendly layouts.</p>
+      </div>
+      <div class="principle-tile">
+        <div><div class="principle-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z"/><path d="M9 12h6"/><path d="M12 9v6"/></svg></div><div class="principle-num">PRINCIPLE 05</div><h4>Supportive</h4></div>
+        <p>Provide guidance at moments where users may hesitate or need reassurance.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Design Response</h2>
+    <p>Based on the research insights, I developed a design response that focuses on clarity, accessibility, and supportive guidance. The goal was to make the experience easier to understand and more inclusive for users with different levels of familiarity, confidence, and access needs.</p>
+
+    <h3>Solution 1: Clearer Information Hierarchy</h3>
+    <p>I reorganised the information structure so that users can quickly understand what the page is about, what information matters most, and what action they can take next.</p>
+    <div class="annotated-block">
+      <img class="detail-image" src="suki_portfolio_assets/edi-solution-1-information-hierarchy.png" alt="EDI clearer information hierarchy design response">
+      <div class="wire-notes">
+        <div class="wire-note"><span>A</span><div>Primary information appears first</div></div>
+        <div class="wire-note"><span>B</span><div>Related content is grouped together</div></div>
+        <div class="wire-note"><span>C</span><div>Key actions are visually separated</div></div>
+        <div class="wire-note"><span>D</span><div>Supporting information is placed after the main task</div></div>
+      </div>
+    </div>
+
+    <h3>Solution 2: More Accessible Visual Design</h3>
+    <p>I refined the visual design to improve readability and reduce visual strain. This included stronger hierarchy, more readable spacing, clearer button states, and more accessible colour contrast.</p>
+    <div class="annotated-block">
+      <img class="detail-image narrow-image" src="suki_portfolio_assets/edi-solution-2-accessible-visual-design.png" alt="EDI accessible visual design response">
+      <div class="wire-notes">
+        <div class="wire-note"><span>A</span><div>Larger text improves readability</div></div>
+        <div class="wire-note"><span>B</span><div>Clear contrast supports visual accessibility</div></div>
+        <div class="wire-note"><span>C</span><div>Buttons use clear active and inactive states</div></div>
+        <div class="wire-note"><span>D</span><div>Spacing helps reduce cognitive load</div></div>
+      </div>
+    </div>
+
+    <h3>Solution 3: Supportive Guidance</h3>
+    <p>To reduce uncertainty, I introduced guidance at key moments in the experience. Instead of assuming users know what to do, the design provides short explanations, helper text, and clearer next steps.</p>
+    <div class="annotated-block">
+      <img class="detail-image" src="suki_portfolio_assets/edi-solution-3-supportive-guidance.png" alt="EDI supportive guidance design response">
+      <div class="wire-notes">
+        <div class="wire-note"><span>A</span><div>Helper text explains why information is needed</div></div>
+        <div class="wire-note"><span>B</span><div>Error messages guide users toward recovery</div></div>
+        <div class="wire-note"><span>C</span><div>Progress indicators show where users are in the journey</div></div>
+        <div class="wire-note"><span>D</span><div>Confirmation states provide reassurance</div></div>
+      </div>
+    </div>
+
+    <h3>Solution 4: Inclusive Language and Representation</h3>
+    <p>I reviewed the tone and content to avoid unnecessary assumptions and make the experience feel more respectful and welcoming.</p>
+    <table class="decision-table">
+      <thead><tr><th>Before</th><th>After</th></tr></thead>
+      <tbody>
+        <tr><td>"Invalid input"</td><td>"Please check this field and try again."</td></tr>
+        <tr><td>"You must complete this"</td><td>"Complete this step to continue."</td></tr>
+        <tr><td>"Normal user"</td><td>"User" / specific user group name</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="detail-section decision-section">
+    <h2>Key Design Decisions</h2>
+    <h3>Design Decision 1: Make key information easier to scan</h3>
+    <p>Users should not need to read every detail to understand what to do next. I used clearer headings, grouped content, and visible CTAs to make the experience easier to navigate.</p>
+    <div class="annotated-block">
+      <img class="detail-image decision-image-40" src="suki_portfolio_assets/edi-decision-1-scan-information.png" alt="EDI design decision showing scannable key information">
+      <div class="wire-notes">
+        <div class="wire-note"><span>A</span><div>Clear page title sets context</div></div>
+        <div class="wire-note"><span>B</span><div>Grouped sections reduce information overload</div></div>
+        <div class="wire-note"><span>C</span><div>Primary action is visually prominent</div></div>
+        <div class="wire-note"><span>D</span><div>Supporting information is kept secondary</div></div>
+      </div>
+    </div>
+
+    <h3>Design Decision 2: Design for different confidence levels</h3>
+    <p>Not all users approach the experience with the same level of confidence or digital familiarity. I used helper text, confirmation states, and step-by-step guidance to support users who may need extra reassurance.</p>
+    <div class="annotated-block">
+      <img class="detail-image decision-image-40" src="suki_portfolio_assets/edi-decision-2-confidence-levels.png" alt="EDI design decision showing support for different confidence levels">
+      <div class="wire-notes">
+        <div class="wire-note"><span>A</span><div>Helper text reduces uncertainty</div></div>
+        <div class="wire-note"><span>B</span><div>Progress indication supports orientation</div></div>
+        <div class="wire-note"><span>C</span><div>Confirmation message reassures users</div></div>
+        <div class="wire-note"><span>D</span><div>Back / edit options give users control</div></div>
+      </div>
+    </div>
+
+    <h3>Design Decision 3: Use accessibility as a design foundation</h3>
+    <p>Accessibility was considered as part of the core interface design, not as a final adjustment. I focused on readable text, sufficient spacing, clear controls, and predictable interaction patterns.</p>
+    <div class="annotated-block">
+      <img class="detail-image decision-image-40" src="suki_portfolio_assets/edi-decision-3-accessibility-foundation.png" alt="EDI design decision showing accessibility as a design foundation">
+      <div class="wire-notes">
+        <div class="wire-note"><span>A</span><div>Readable typography supports accessibility</div></div>
+        <div class="wire-note"><span>B</span><div>Clear visual contrast improves legibility</div></div>
+        <div class="wire-note"><span>C</span><div>Large touch targets support mobile usability</div></div>
+        <div class="wire-note"><span>D</span><div>Predictable navigation reduces cognitive load</div></div>
+      </div>
+    </div>
+
+    <h3>Design Decision 4: Use inclusive language to reduce exclusion</h3>
+    <p>Microcopy can shape how users feel in an experience. I refined language to be clearer, more respectful, and less judgmental.</p>
+    <div class="annotated-block">
+      <img class="detail-image decision-image-40" src="suki_portfolio_assets/edi-decision-4-inclusive-language.png" alt="EDI design decision showing inclusive language and microcopy">
+      <div class="wire-notes">
+        <div class="wire-note"><span>A</span><div>Plain language reduces confusion</div></div>
+        <div class="wire-note"><span>B</span><div>Supportive tone avoids blame</div></div>
+        <div class="wire-note"><span>C</span><div>Labels avoid unnecessary assumptions</div></div>
+        <div class="wire-note"><span>D</span><div>Error states explain how to recover</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Final Design</h2>
+    <p>The final design focuses on clarity, accessibility, and supportive guidance. It aims to help users understand information more easily, complete tasks with confidence, and feel respected throughout the experience.</p>
+    <img class="detail-image" src="suki_portfolio_assets/edi-final-design.jpg" alt="EDI final design screen overview">
+  </div>
+
+  <div class="detail-section">
+    <h2>Outcome</h2>
+    <p>The project resulted in a clearer and more inclusive design direction. By focusing on information hierarchy, accessibility, supportive guidance, and inclusive language, the design better supports users with different needs, confidence levels, and access conditions.</p>
+    <ul class="detail-list">
+      <li>Identified key access and inclusion barriers</li>
+      <li>Developed inclusive design principles to guide the solution</li>
+      <li>Improved clarity through stronger information hierarchy</li>
+      <li>Reduced cognitive load through simpler structure and guidance</li>
+      <li>Considered accessibility across typography, contrast, spacing, and interaction states</li>
+      <li>Created a design direction that feels more respectful and supportive</li>
+    </ul>
+  </div>
+
+  <div class="detail-section">
+    <h2>Reflection</h2>
+    <p>This project helped me understand that inclusive design is not a separate layer added at the end of a product. It needs to shape the way information is structured, how language is written, how users are guided, and how different needs are considered throughout the experience.</p>
+    <p>I also learned that designing inclusively requires questioning assumptions. A design that feels simple for one user may still create barriers for someone with different abilities, confidence levels, language backgrounds, or access conditions.</p>
+    <p>This project strengthened my ability to translate research insights into practical design decisions and evaluate interface choices through an accessibility and inclusion lens.</p>
+  </div>
+</section>
+
+<section id="resoil-detail">
+  <button class="back-btn" onclick="showMain('projects')">← BACK TO WORK</button>
+  <aside class="case-nav" aria-label="ReSoil case study navigation">
+    <div class="case-nav-label">CASE STUDY</div>
+    <div class="case-nav-list"></div>
+  </aside>
+
+  <div class="detail-hero">
+    <div class="detail-tag">Hero / Project Intro</div>
+    <h1 class="detail-title">ReSoil — Turning Kitchen Waste into a Daily Sustainability Habit</h1>
+    <p class="detail-subtitle">A sustainability product concept designed during a 24-hour designathon, encouraging users to reuse daily kitchen waste to cultivate organic soil through simple, rewarding habits.</p>
+    <div class="case-tags">
+      <span class="case-tag">Product Design</span>
+      <span class="case-tag">Sustainability</span>
+      <span class="case-tag">Behaviour Change</span>
+      <span class="case-tag">Designathon</span>
+      <span class="case-tag">UX/UI Design</span>
+      <span class="case-tag">Habit Formation</span>
+    </div>
+  </div>
+
+  <div class="detail-meta">
+    <div><div class="meta-label">PROJECT TYPE</div><div class="meta-val">24-hour Designathon</div></div>
+    <div><div class="meta-label">ROLE</div><div class="meta-val">Product / UX Designer</div></div>
+    <div><div class="meta-label">TEAM</div><div class="meta-val">4</div></div>
+    <div><div class="meta-label">TIMELINE</div><div class="meta-val">29.09.2024</div></div>
+    <div><div class="meta-label">OUTCOME</div><div class="meta-val">Second Place, SUEDE Designathon</div></div>
+    <div><div class="meta-label">TOOLS</div><div class="meta-val">Figma, Miro, Canva</div></div>
+  </div>
+  <p class="confidential-note">Awarded <strong>2nd place</strong> at the <a href="https://suede-designathon-2024.devpost.com/" target="_blank" rel="noopener noreferrer">2024 SUEDE 24-hour Designathon</a>.</p>
+
+  <div class="detail-section">
+    <h2>Project Overview</h2>
+    <p>ReSoil is a sustainability app concept developed during a 24-hour designathon. The project encourages users to reuse daily kitchen waste to cultivate organic soil, turning a small household action into a visible and rewarding habit.</p>
+    <p>My role focused on product concept development, user journey design, behaviour change strategy, UI design, and pitch storytelling. Our team developed the concept, prototype, and final presentation within 24 hours and achieved second place in the competition.</p>
+    <div class="image-placeholder placeholder-large">PROJECT OVERVIEW VISUAL PLACEHOLDER<br>ReSoil concept, app flow, and sustainability habit loop overview</div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Design Context</h2>
+    <p>Food waste is often treated as something to dispose of, rather than a resource that can be reused. Although many people are interested in sustainable living, it can be difficult to maintain eco-friendly habits when the action feels inconvenient, invisible, or disconnected from immediate reward.</p>
+    <p>ReSoil explores how a digital product can make kitchen waste reuse feel easier, more visible, and more motivating in everyday life.</p>
+  </div>
+
+  <div class="detail-section">
+    <h2>Design Challenge</h2>
+    <h3>How might we encourage people to reuse daily kitchen waste in a way that feels simple, rewarding, and easy to maintain?</h3>
+    <div class="principle-grid">
+      <div class="principle-card center-card"><h4>01 / Make the action easy</h4><p>The behaviour should fit into daily routines without requiring major lifestyle changes.</p></div>
+      <div class="principle-card center-card"><h4>02 / Make progress visible</h4><p>Users need to see the result of their small actions over time.</p></div>
+      <div class="principle-card center-card"><h4>03 / Make sustainability rewarding</h4><p>The experience should create motivation beyond guilt or obligation.</p></div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>My Role</h2>
+    <p>As a Product / UX Designer in the team, I contributed to framing the problem, shaping the product concept, designing the user journey, creating UI screens, and supporting the final pitch narrative.</p>
+    <h3>Key Responsibilities</h3>
+    <ul class="detail-list">
+      <li>Framed the sustainability problem and user opportunity</li>
+      <li>Developed the core product concept and habit loop</li>
+      <li>Mapped the user journey from waste collection to soil cultivation</li>
+      <li>Designed key app screens and interaction flow</li>
+      <li>Helped prepare the final pitch and storytelling</li>
+      <li>Collaborated with teammates under a 24-hour designathon timeline</li>
+    </ul>
+  </div>
+
+  <div class="detail-section">
+    <h2>Key Insight</h2>
+    <h3>Sustainable behaviour is easier to maintain when the action is small, visible, and rewarding.</h3>
+    <div class="resoil-insight-grid">
+      <div class="resoil-insight-card">
+        <div><div class="resoil-insight-label">BEHAVIOUR 01</div><h4>Small</h4></div>
+        <p>Users are more likely to continue when the action fits naturally into their daily routine.</p>
+      </div>
+      <div class="resoil-insight-card">
+        <div><div class="resoil-insight-label">BEHAVIOUR 02</div><h4>Visible</h4></div>
+        <p>Users need to see progress, such as soil growth, habit streaks, or environmental impact.</p>
+      </div>
+      <div class="resoil-insight-card">
+        <div><div class="resoil-insight-label">BEHAVIOUR 03</div><h4>Rewarding</h4></div>
+        <p>Positive feedback, milestones, and a sense of contribution can make sustainability feel motivating.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Product Concept</h2>
+    <p>ReSoil helps users turn kitchen waste into organic soil through a guided daily routine. The app supports users by reminding them what can be reused, tracking their contribution, showing soil progress, and rewarding consistent behaviour.</p>
+    <h3>Core Habit Loop</h3>
+    <div class="habit-loop">
+      <div class="habit-step"><div class="habit-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></div><h4>TRIGGER</h4><p>Reminder</p></div>
+      <div class="habit-arrow">→</div>
+      <div class="habit-step"><div class="habit-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M5 10c4 0 7-3 7-7"/><path d="M19 10c-4 0-7-3-7-7"/><path d="M7 18h10"/></svg></div><h4>ACTION</h4><p>Add kitchen waste</p></div>
+      <div class="habit-arrow">→</div>
+      <div class="habit-step"><div class="habit-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="m7 16 3-4 3 2 4-7"/></svg></div><h4>FEEDBACK</h4><p>Soil progress update</p></div>
+      <div class="habit-arrow">→</div>
+      <div class="habit-step"><div class="habit-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M5 6H3v2a4 4 0 0 0 4 4"/><path d="M19 6h2v2a4 4 0 0 1-4 4"/></svg></div><h4>REWARD</h4><p>Reward / milestone</p></div>
+      <div class="habit-arrow">→</div>
+      <div class="habit-step"><div class="habit-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.5 6.2"/><path d="M3 12A9 9 0 0 1 18.5 5.8"/><path d="M3 18h5v-5"/><path d="M21 6h-5v5"/></svg></div><h4>REPEAT</h4><p>Continue the habit</p></div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Behaviour Change Strategy</h2>
+    <p>Instead of asking users to make a large lifestyle change, ReSoil breaks sustainability into small repeatable actions. The app uses reminders, visible progress, and positive reinforcement to help users build a long-term habit.</p>
+    <div class="strategy-grid">
+      <div class="strategy-card"><div><div class="strategy-index">STRATEGY 01</div><h4>Reduce friction</h4></div><p>The app focuses on small daily actions, such as logging kitchen waste or checking what can be reused.</p></div>
+      <div class="strategy-card"><div><div class="strategy-index">STRATEGY 02</div><h4>Make progress visible</h4></div><p>Soil progress, contribution records, and milestones help users see the outcome of their actions.</p></div>
+      <div class="strategy-card"><div><div class="strategy-index">STRATEGY 03</div><h4>Use positive reinforcement</h4></div><p>Rewards and streaks create a sense of achievement without relying on guilt-based messaging.</p></div>
+      <div class="strategy-card"><div><div class="strategy-index">STRATEGY 04</div><h4>Connect action to impact</h4></div><p>Users can understand how small household actions contribute to broader sustainability goals.</p></div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>User Journey</h2>
+    <div class="journey-image-wrap" aria-label="ReSoil user journey with interactive hover regions">
+      <img src="suki_portfolio_assets/resoil-user-journey.jpg" alt="ReSoil user journey from awareness to repeat habit">
+      <div class="journey-hotspot" title="1. Awareness"></div>
+      <div class="journey-hotspot" title="2. Setup"></div>
+      <div class="journey-hotspot" title="3. Daily Action"></div>
+      <div class="journey-hotspot" title="4. Feedback"></div>
+      <div class="journey-hotspot" title="5. Reward"></div>
+      <div class="journey-hotspot" title="6. Repeat"></div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Key Features</h2>
+    <div class="placeholder-grid">
+      <div class="feature-card"><h4>Waste Guide</h4><p>Helps users understand what kitchen waste can be reused and how to process it.</p></div>
+      <div class="feature-card"><h4>Daily Logging</h4><p>Allows users to record small daily actions and build a visible habit streak.</p></div>
+      <div class="feature-card"><h4>Soil Progress Tracking</h4><p>Shows how waste is gradually transformed into usable organic soil.</p></div>
+      <div class="feature-card"><h4>Rewards & Milestones</h4><p>Encourages consistency through positive feedback and achievement moments.</p></div>
+      <div class="feature-card"><h4>Plant Growth / Community Sharing</h4><p>Connects soil creation to visible outcomes, such as growing plants or sharing progress with others.</p></div>
+    </div>
+  </div>
+
+  <div class="detail-section decision-section">
+    <h2>Key Design Decisions</h2>
+    <h3>Design Decision 1: Make sustainable action feel small and achievable</h3>
+    <p>Users may feel sustainability is difficult when it requires major changes. I designed the experience around small daily actions, making kitchen waste reuse feel manageable and easy to repeat.</p>
+    <div class="annotated-block"><img class="detail-image resoil-decision-image" src="suki_portfolio_assets/resoil-decision-1-small-action.png" alt="ReSoil design decision showing small sustainable action flow"><div class="wire-notes"><div class="wire-note"><span>A</span><div>Daily task is clear and lightweight</div></div><div class="wire-note"><span>B</span><div>Simple input reduces effort</div></div><div class="wire-note"><span>C</span><div>Tips help users know what to do</div></div><div class="wire-note"><span>D</span><div>Completion feedback reinforces the action</div></div></div></div>
+    <h3>Design Decision 2: Visualise progress to maintain motivation</h3>
+    <p>Sustainability impact can feel invisible. ReSoil makes progress visible through soil growth, habit streaks, and contribution summaries, helping users understand the value of their repeated actions.</p>
+    <div class="annotated-block"><img class="detail-image resoil-decision-image" src="suki_portfolio_assets/resoil-decision-2-progress-motivation.png" alt="ReSoil design decision showing visible progress and motivation"><div class="wire-notes"><div class="wire-note"><span>A</span><div>Soil progress shows visible transformation</div></div><div class="wire-note"><span>B</span><div>Streaks encourage consistency</div></div><div class="wire-note"><span>C</span><div>Impact summary connects action to outcome</div></div><div class="wire-note"><span>D</span><div>Milestones reward continued participation</div></div></div></div>
+    <h3>Design Decision 3: Use positive reinforcement instead of guilt</h3>
+    <p>Rather than relying on negative messaging about waste, the app uses encouraging feedback, rewards, and growth-oriented visuals to make sustainable behaviour feel satisfying.</p>
+    <div class="annotated-block"><img class="detail-image resoil-decision-image" src="suki_portfolio_assets/resoil-decision-3-positive-reinforcement.jpg" alt="ReSoil design decision showing positive reinforcement and rewards"><div class="wire-notes"><div class="wire-note"><span>A</span><div>Encouraging tone supports motivation</div></div><div class="wire-note"><span>B</span><div>Rewards celebrate small achievements</div></div><div class="wire-note"><span>C</span><div>Growth visuals make the outcome feel tangible</div></div><div class="wire-note"><span>D</span><div>Friendly UI reduces pressure</div></div></div></div>
+    <h3>Design Decision 4: Connect digital tracking with real-world action</h3>
+    <p>The app is designed to support a physical household habit. Digital reminders and progress tracking are connected to the real-world process of collecting kitchen waste and cultivating soil.</p>
+    <div class="annotated-block"><img class="detail-image resoil-decision-image" src="suki_portfolio_assets/resoil-decision-4-real-world-action.png" alt="ReSoil design decision connecting digital tracking with real-world action"><div class="wire-notes"><div class="wire-note"><span>A</span><div>Reminder prompts real-world action</div></div><div class="wire-note"><span>B</span><div>Logging connects behaviour to progress</div></div><div class="wire-note"><span>C</span><div>Soil status reflects physical activity</div></div><div class="wire-note"><span>D</span><div>Planting outcome completes the loop</div></div></div></div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Final Design</h2>
+    <p>The final prototype presents ReSoil as a friendly and motivating sustainability companion, helping users understand what to reuse, track their progress, and build a more sustainable household routine.</p>
+    <img class="detail-image" src="suki_portfolio_assets/resoil-final-design.jpg" alt="ReSoil final design prototype overview">
+  </div>
+
+  <div class="detail-section">
+    <h2>Designathon Process</h2>
+    <h3>Designing Under a 24-hour Constraint</h3>
+    <p>Because the project was created during a 24-hour designathon, we had to make fast product decisions and focus on the clearest version of the concept. Instead of exploring every possible sustainability feature, we prioritised a simple behaviour loop that could be explained, prototyped, and pitched within the limited timeframe.</p>
+    <div class="process-timeline">
+      <div class="timeline-item"><div class="timeline-time">0-4H</div><p>Problem framing and research</p></div>
+      <div class="timeline-item"><div class="timeline-time">4-8H</div><p>Concept development</p></div>
+      <div class="timeline-item"><div class="timeline-time">8-14H</div><p>User journey and feature prioritisation</p></div>
+      <div class="timeline-item"><div class="timeline-time">14-20H</div><p>UI design and prototype</p></div>
+      <div class="timeline-item"><div class="timeline-time">20-24H</div><p>Pitch preparation and final refinement</p></div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <h2>Outcome</h2>
+    <p>ReSoil was completed as a working product concept and interactive prototype within 24 hours. Our team presented the concept to the judging panel and achieved second place in the SUEDE 24-hour Designathon.</p>
+    <ul class="detail-list">
+      <li>Developed a complete sustainability product concept within 24 hours</li>
+      <li>Created a clear behaviour loop around kitchen waste reuse</li>
+      <li>Designed key screens and prototype flow for the final pitch</li>
+      <li>Communicated the concept through storytelling and visual presentation</li>
+      <li>Awarded second place in the designathon</li>
+    </ul>
+  </div>
+
+  <div class="detail-section">
+    <h2>Reflection</h2>
+    <p>This project helped me understand how important focus is in rapid product design. Under a 24-hour constraint, the strongest idea is not always the one with the most features, but the one with the clearest behaviour loop and story.</p>
+    <p>I also learned that sustainability design should not rely only on awareness or guilt. To create lasting behaviour change, the experience needs to make the action easy, visible, and rewarding.</p>
+    <p>ReSoil strengthened my ability to turn a broad social issue into a focused product concept, collaborate quickly with a team, and communicate design value through a clear pitch narrative.</p>
+  </div>
+</section>
+
+<section id="about">
+  <button class="back-btn" onclick="showMain('hero')">← BACK HOME</button>
+  <div class="sec-header">
+    <span class="sec-num">ABOUT</span>
+    <h2 class="sec-title">About</h2>
+  </div>
+  <div class="about-photo-placeholder" aria-label="Suki profile image with interactive reveal">
+    <img class="about-photo-real" src="suki_portfolio_assets/about-real-photo.jpg" alt="Suki portrait photo">
+    <img class="about-photo-watercolor" src="suki_portfolio_assets/about-watercolor.jpg" alt="Watercolor portrait of Suki">
+  </div>
+  <div class="about-grid">
+    <div class="about-left">
+      <p class="about-text">Hi, I'm Suki — a UI/UX designer and Master of Computer Science student at the University of Sydney. I design digital products that make complex workflows feel simple and reliable.</p>
+      <p class="about-text">My background spans B2B SaaS, mobile, and web — with a focus on operational and workflow-heavy products where clarity matters most. I care about bridging the gap between user needs and technical feasibility.</p>
+      <p class="about-text">Currently working part-time at MotorPlatform, designing mobile-first experiences for automotive dealership operations.</p>
+      <div class="skills-block">
+        <div class="skills-label">DESIGN METHODS</div>
+        <div class="skill-tags">
+          <span class="skill-tag">User Research</span>
+          <span class="skill-tag">User Interviews</span>
+          <span class="skill-tag">Usability Testing</span>
+          <span class="skill-tag">Competitor Analysis</span>
+          <span class="skill-tag">User Flows</span>
+          <span class="skill-tag">Wireframing</span>
+          <span class="skill-tag">Prototyping</span>
+          <span class="skill-tag">Responsive Design</span>
+        </div>
+      </div>
+      <div class="skills-block" style="margin-top:1.25rem">
+        <div class="skills-label">TOOLS</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Figma</span>
+          <span class="skill-tag">Framer</span>
+          <span class="skill-tag">Adobe XD</span>
+          <span class="skill-tag">Photoshop</span>
+          <span class="skill-tag">Illustrator</span>
+          <span class="skill-tag">HTML / CSS / JS</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="skills-label" style="margin-bottom:1.25rem">EXPERIENCE</div>
+      <div class="exp-item">
+        <div class="exp-company"><a href="https://www.linkedin.com/company/motorplatform-au/about/" target="_blank" rel="noopener noreferrer">MotorPlatform</a></div>
+        <div class="exp-role">UX Designer (Part-time)</div>
+        <div class="exp-period">July 2025 – Present</div>
+        <div class="exp-desc">Designing mobile-first flows for B2B automotive SaaS. Scalable UI patterns, competitor analysis, iterative collaboration with product and engineering.</div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-company"><a href="https://www.linkedin.com/company/cultiv8-pty-ltd/" target="_blank" rel="noopener noreferrer">Cultiv8 Pty Ltd</a></div>
+        <div class="exp-role">Brand & UI/UX Designer (Contract)</div>
+        <div class="exp-period">Jan 2024 – Dec 2024</div>
+        <div class="exp-desc">End-to-end design for 4 products across smart home, AI education, AR training, and game asset management. 25% engagement uplift, 15% drop-off reduction.</div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-company"><a href="https://www.linkedin.com/company/paxform/" target="_blank" rel="noopener noreferrer">Paxform Pty Ltd</a></div>
+        <div class="exp-role">UI/UX Design Intern</div>
+        <div class="exp-period">Feb – Jun 2023</div>
+        <div class="exp-desc">0-to-1 digital check-in experience. Figma & Adobe XD dashboard design, usability testing with 10 participants, user flow improvements.</div>
+      </div>
+      <div style="margin-top:1.5rem">
+        <div class="skills-label" style="margin-bottom:1rem">EDUCATION</div>
+        <div class="exp-desc"><strong>Master of Computer Science</strong> — University of Sydney, 2025–2026</div>
+        <div class="exp-desc" style="margin-top:0.5rem"><strong>Bachelor of Design Computing</strong> — University of Sydney, 2022–2024</div>
+        <div class="exp-desc" style="margin-top:0.5rem;color:#8a8784">Both with Weighted Average Mark with Distinction</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <button class="back-btn" onclick="showMain('hero')">← BACK HOME</button>
+  <div class="contact-inner">
+    <div class="contact-eyebrow">GET IN TOUCH</div>
+    <h2 class="contact-title">Let's work<br>together</h2>
+    <p class="contact-sub">Open to graduate opportunities in UI/UX, product design, and digital experience design across Australia. Say hello.</p>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:liushuqi12@gmail.com">
+        <div>
+          <div class="contact-link-label">EMAIL</div>
+          <div class="contact-link-val">liushuqi12@gmail.com</div>
+        </div>
+        <div class="contact-arr">↗</div>
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/shuqi-l-216a8a260/" target="_blank">
+        <div>
+          <div class="contact-link-label">LINKEDIN</div>
+          <div class="contact-link-val">Open my LinkedIn profile</div>
+        </div>
+        <div class="contact-arr">↗</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+// ── CURSOR ──
+const cur = document.getElementById('cur');
+let cx=window.innerWidth/2, cy=window.innerHeight/2;
+const mainSections = ['hero','about','projects'];
+const detailSections = ['project-detail','digiguard-detail','edi-detail','resoil-detail','contact'];
+document.getElementById('hero').after(document.getElementById('about'));
+
+const aboutPortrait = document.querySelector('.about-photo-placeholder');
+if(aboutPortrait){
+  aboutPortrait.addEventListener('mousemove', e=>{
+    const rect = aboutPortrait.getBoundingClientRect();
+    aboutPortrait.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+    aboutPortrait.style.setProperty('--my', `${e.clientY - rect.top}px`);
+  });
+}
+
+function showMain(target){
+  mainSections.forEach(id=>{document.getElementById(id).style.display='';});
+  detailSections.forEach(id=>{document.getElementById(id).style.display='none';});
+  document.getElementById(target).scrollIntoView({behavior:'smooth'});
+}
+
+function showDetail(target){
+  mainSections.forEach(id=>{document.getElementById(id).style.display='none';});
+  detailSections.forEach(id=>{document.getElementById(id).style.display='none';});
+  document.getElementById(target).style.display=target==='contact'?'flex':'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(document.getElementById(target).querySelector('.case-nav'))setTimeout(updateProjectNav,120);
+}
+
+function slugify(text){
+  return text.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
+function setupProjectNav(){
+  document.querySelectorAll('section .case-nav-list').forEach(list=>{
+    const detail=list.closest('section');
+    if(!detail)return;
+    const sections=[...detail.querySelectorAll('.detail-section')];
+    list.innerHTML='';
+    sections.forEach((section,index)=>{
+      const title=section.querySelector('h2')?.textContent?.trim()||`Section ${index+1}`;
+      if(!section.id)section.id=`${detail.id}-case-${slugify(title)}`;
+      const btn=document.createElement('button');
+      btn.className='case-nav-link';
+      btn.type='button';
+      btn.textContent=title;
+      btn.addEventListener('click',()=>section.scrollIntoView({behavior:'smooth',block:'start'}));
+      list.appendChild(btn);
+    });
+  });
+  updateProjectNav();
+}
+
+function updateProjectNav(){
+  const activeDetail=[...document.querySelectorAll('#project-detail,#digiguard-detail,#edi-detail,#resoil-detail')].find(section=>getComputedStyle(section).display!=='none');
+  if(!activeDetail)return;
+  const sections=[...activeDetail.querySelectorAll('.detail-section')];
+  const links=[...activeDetail.querySelectorAll('.case-nav-link')];
+  if(!sections.length||!links.length)return;
+  let activeIndex=0;
+  sections.forEach((section,index)=>{
+    if(section.getBoundingClientRect().top<=window.innerHeight*0.38)activeIndex=index;
+  });
+  links.forEach((link,index)=>link.classList.toggle('active',index===activeIndex));
+  sections.forEach((section,index)=>{
+    section.classList.toggle('active-section',index===activeIndex);
+    section.classList.toggle('near-section',Math.abs(index-activeIndex)===1);
+  });
+}
+
+document.addEventListener('mousemove', e=>{
+  cx=e.clientX; cy=e.clientY;
+  cur.style.left=cx+'px'; cur.style.top=cy+'px';
+});
+setupProjectNav();
+window.addEventListener('scroll',updateProjectNav,{passive:true});
+window.addEventListener('resize',updateProjectNav);
+
+document.querySelectorAll('.interactive-phone').forEach(phone=>{
+  const block=phone.closest('.annotated-block');
+  const notes=block?[...block.querySelectorAll('.wire-note[data-anchor]')]:[];
+  const hotspots=[...phone.querySelectorAll('.ui-hotspot[data-anchor]')];
+  const setActive=anchor=>{
+    notes.forEach(note=>note.classList.toggle('active',note.dataset.anchor===anchor));
+    hotspots.forEach(hotspot=>hotspot.classList.toggle('active',hotspot.dataset.anchor===anchor));
+  };
+  const clearActive=()=>{
+    notes.forEach(note=>note.classList.remove('active'));
+    hotspots.forEach(hotspot=>hotspot.classList.remove('active'));
+  };
+  hotspots.forEach(hotspot=>{
+    hotspot.addEventListener('mouseenter',()=>setActive(hotspot.dataset.anchor));
+    hotspot.addEventListener('focus',()=>setActive(hotspot.dataset.anchor));
+    hotspot.addEventListener('mouseleave',clearActive);
+    hotspot.addEventListener('blur',clearActive);
+  });
+  notes.forEach(note=>{
+    note.addEventListener('mouseenter',()=>setActive(note.dataset.anchor));
+    note.addEventListener('mouseleave',clearActive);
+  });
+});
+
+document.querySelectorAll('.hero-title,.detail-list li,.phone-shot,.problem-step,.challenge-quote,.flow-terminal,.flow-node,.flow-decision,.flow-branch-card,.flow-arrow-down,.project-card:not(.soon),.cta,.nav-link,.nav-logo,.contact-link,.back-btn,.case-nav-link,.case-tag,.image-placeholder,.hifi-placeholder,.diagram-node,.diagram-arrow,.process-card,.metric-card,.phone-frame,.scope-col,.outcome-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+});
+
+const orbCanvas=document.getElementById('heroOrb');
+const orbCtx=orbCanvas.getContext('2d');
+let orbMx=0, orbMy=0, orbTx=0, orbTy=0, orbT=0;
+
+function resizeOrb(){
+  const rect=orbCanvas.getBoundingClientRect();
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  orbCanvas.width=Math.max(1,Math.floor(rect.width*dpr));
+  orbCanvas.height=Math.max(1,Math.floor(rect.height*dpr));
+  orbCtx.setTransform(dpr,0,0,dpr,0,0);
+}
+
+document.addEventListener('mousemove',e=>{
+  orbTx=(e.clientX/window.innerWidth-0.5);
+  orbTy=(e.clientY/window.innerHeight-0.5);
+});
+
+function drawOrb(){
+  orbT+=0.012;
+  orbMx+=(orbTx-orbMx)*0.055;
+  orbMy+=(orbTy-orbMy)*0.055;
+
+  const w=orbCanvas.clientWidth;
+  const h=orbCanvas.clientHeight;
+  const cx=w*0.5+orbMx*26;
+  const cy=h*0.5+orbMy*22;
+  const r=Math.min(w,h)*0.36;
+  orbCtx.clearRect(0,0,w,h);
+  orbCtx.save();
+  orbCtx.translate(cx,cy);
+  orbCtx.rotate(orbMx*0.16);
+  orbCtx.scale(1+orbMy*0.035,1-orbMy*0.025);
+
+  const grad=orbCtx.createRadialGradient(-r*0.25,-r*0.35,r*0.05,0,0,r*1.1);
+  grad.addColorStop(0,'rgba(236,234,253,0.55)');
+  grad.addColorStop(0.48,'rgba(107,92,231,0.16)');
+  grad.addColorStop(1,'rgba(61,53,200,0.04)');
+
+  orbCtx.beginPath();
+  const points=160;
+  for(let i=0;i<=points;i++){
+    const a=(Math.PI*2*i)/points;
+    const wobble=1
+      +Math.sin(a*3+orbT*1.4)*0.035
+      +Math.sin(a*7-orbT*1.1)*0.018
+      +orbMx*Math.cos(a)*0.04
+      +orbMy*Math.sin(a)*0.035;
+    const x=Math.cos(a)*r*wobble;
+    const y=Math.sin(a)*r*wobble;
+    if(i===0)orbCtx.moveTo(x,y);else orbCtx.lineTo(x,y);
+  }
+  orbCtx.closePath();
+  orbCtx.fillStyle=grad;
+  orbCtx.fill();
+  orbCtx.strokeStyle='rgba(61,53,200,0.28)';
+  orbCtx.lineWidth=1;
+  orbCtx.stroke();
+  orbCtx.clip();
+
+  orbCtx.globalAlpha=0.72;
+  for(let i=-5;i<=5;i++){
+    const yy=(i/5)*r*0.72;
+    const width=Math.sqrt(Math.max(0,r*r-yy*yy))*1.72;
+    orbCtx.beginPath();
+    for(let s=0;s<=80;s++){
+      const p=s/80;
+      const x=(p-0.5)*width;
+      const wave=Math.sin(p*Math.PI*2+orbT*1.5+i)*r*0.018;
+      const y=yy+wave+orbMy*i*1.4;
+      if(s===0)orbCtx.moveTo(x,y);else orbCtx.lineTo(x,y);
+    }
+    orbCtx.strokeStyle=`rgba(61,53,200,${0.08+Math.abs(i)*0.012})`;
+    orbCtx.lineWidth=0.9;
+    orbCtx.stroke();
+  }
+
+  for(let i=-7;i<=7;i++){
+    const xx=(i/7)*r*0.78;
+    const height=Math.sqrt(Math.max(0,r*r-xx*xx))*1.72;
+    orbCtx.beginPath();
+    for(let s=0;s<=80;s++){
+      const p=s/80;
+      const y=(p-0.5)*height;
+      const wave=Math.sin(p*Math.PI*2+orbT*1.2+i)*r*0.014;
+      const x=xx+wave+orbMx*i*1.2;
+      if(s===0)orbCtx.moveTo(x,y);else orbCtx.lineTo(x,y);
+    }
+    orbCtx.strokeStyle=`rgba(61,53,200,${0.055+Math.abs(i)*0.008})`;
+    orbCtx.lineWidth=0.75;
+    orbCtx.stroke();
+  }
+
+  orbCtx.globalAlpha=1;
+  for(let i=0;i<34;i++){
+    const a=i*2.399+orbT*0.15;
+    const rr=r*(0.12+((i*37)%100)/135);
+    const x=Math.cos(a)*rr+Math.sin(orbT+i)*3;
+    const y=Math.sin(a)*rr*0.9+Math.cos(orbT*0.8+i)*3;
+    const alpha=0.12+((i%7)/7)*0.2;
+    orbCtx.beginPath();
+    orbCtx.arc(x,y,1.2+(i%3)*0.35,0,Math.PI*2);
+    orbCtx.fillStyle=`rgba(61,53,200,${alpha})`;
+    orbCtx.fill();
+  }
+
+  orbCtx.restore();
+  requestAnimationFrame(drawOrb);
+}
+
+resizeOrb();
+window.addEventListener('resize',resizeOrb);
+drawOrb();
+</script>
