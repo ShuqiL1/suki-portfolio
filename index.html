@@ -49,7 +49,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .project-card.soon{cursor:default;opacity:0.58}
 .project-card.soon:hover{transform:none;border-color:#e2e0da;box-shadow:none;background:#fafaf8}
 .project-media{position:relative;width:100%;max-width:100%;aspect-ratio:4/3;border-bottom:1px solid #e2e0da;background:linear-gradient(135deg,#f2f1ee,#eceafd);overflow:hidden}
-.project-media img{width:100%;max-width:100%;height:100%;object-fit:cover;object-position:center center;display:block;transition:transform 0.32s ease,filter 0.32s ease}
+.project-media img{width:100%;max-width:100%;height:100%;object-fit:cover;object-position:center bottom;display:block;transition:transform 0.32s ease,filter 0.32s ease}
 .project-card:hover .project-media img{transform:scale(1.035);filter:saturate(1.05)}
 .project-media-placeholder{height:100%;display:flex;align-items:center;justify-content:center;padding:1.25rem;text-align:center;font-family:'DM Mono',monospace;font-size:11px;color:#8a8784;letter-spacing:0.08em;line-height:1.6;background:linear-gradient(135deg,#f2f1ee,#fafaf8)}
 .project-card-body{padding:1.35rem}
@@ -66,7 +66,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .soon-badge{font-family:'DM Mono',monospace;font-size:9px;color:#8a8784;border:1px solid #e2e0da;padding:0.15rem 0.45rem;margin-top:0.5rem;display:inline-block;letter-spacing:0.08em}
 
 /* DETAIL PAGES */
-#project-detail,#digiguard-detail,#edi-detail,#resoil-detail{display:none;padding:5rem calc(13rem + 5rem) 8rem clamp(1.25rem,3vw,4rem);border-top:1px solid #e2e0da}
+#project-detail,#digiguard-detail,#edi-detail,#resoil-detail{display:none;padding:5rem calc(13rem + 5rem) 14rem clamp(1.25rem,3vw,4rem);border-top:1px solid #e2e0da}
 .back-btn{font-family:'DM Mono',monospace;font-size:11px;color:#8a8784;cursor:pointer;display:flex;align-items:center;gap:0.5rem;margin-bottom:3rem;background:none;border:none;letter-spacing:0.08em;transition:color 0.2s,transform 0.2s}
 .back-btn:hover{color:#3d35c8;transform:translateX(-4px)}
 .detail-hero{margin-bottom:5.5rem;width:100%;max-width:none}
@@ -94,7 +94,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .case-nav-link{font-family:'DM Mono',monospace;font-size:10px;line-height:1.35;color:#8a8784;text-align:left;background:none;border:none;border-left:2px solid transparent;padding:0.45rem 0 0.45rem 0.7rem;cursor:pointer;transition:color 0.18s,border-color 0.18s,transform 0.18s}
 .case-nav-link:hover{color:#3d35c8;transform:translateX(3px)}
 .case-nav-link.active{color:#0f0e0c;border-left-color:#3d35c8;background:linear-gradient(90deg,rgba(61,53,200,0.07),transparent)}
-.detail-section{width:100%;max-width:none;margin-bottom:8rem;padding-top:2rem;scroll-margin-top:6rem;opacity:0.2;filter:saturate(0.55);transform:translateY(10px);transition:opacity 0.45s ease,filter 0.45s ease,transform 0.45s ease}
+.detail-section{width:100%;max-width:none;margin-bottom:10rem;padding-top:2rem;scroll-margin-top:6rem;opacity:0.2;filter:saturate(0.55);transform:translateY(10px);transition:opacity 0.45s ease,filter 0.45s ease,transform 0.45s ease}
 .detail-section.active-section{opacity:1;filter:saturate(1);transform:translateY(0)}
 .detail-section.near-section{opacity:0.42;filter:saturate(0.7);transform:translateY(4px)}
 .detail-section h2{font-size:1rem;font-weight:500;font-family:'DM Mono',monospace;color:#3d35c8;letter-spacing:0.08em;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
@@ -297,6 +297,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .detail-image{display:block;width:100%;height:auto;margin:1.5rem 0;border:1px solid #e2e0da;background:#fafaf8;cursor:zoom-in;transition:transform 0.22s,border-color 0.22s,box-shadow 0.22s}
 .detail-image:hover{transform:translateY(-4px);border-color:#3d35c8;box-shadow:0 16px 36px rgba(15,14,12,0.08)}
 .detail-image.narrow-image{width:min(100%,760px);margin-left:auto;margin-right:auto}
+.motorplatform-context-image{width:100%;height:clamp(210px,26vw,350px);object-fit:cover;object-position:center bottom}
 .annotated-block .detail-image{margin-top:0;margin-bottom:0}
 .annotated-block:has(.decision-image-40){grid-template-columns:minmax(420px,40vw) minmax(240px,1fr)}
 .decision-image-40{width:100%;max-width:100%;height:auto}
@@ -701,7 +702,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 
     <article class="project-card" onclick="showDetail('project-detail')">
       <div class="project-media">
-        <img src="suki_portfolio_assets/project-1-motorplatform.jpg" alt="MotorPlatform vehicle record and media action sheet preview">
+        <img src="suki_portfolio_assets/project-1-motorplatform.png" alt="MotorPlatform vehicle record and media action sheet preview">
       </div>
       <div class="project-card-body">
         <div class="project-card-top">
@@ -722,7 +723,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 
     <article class="project-card" onclick="showDetail('digiguard-detail')">
       <div class="project-media">
-        <img src="suki_portfolio_assets/project-2-digiguard.jpg" alt="DigiGuard smart home security mobile app preview">
+        <img src="suki_portfolio_assets/project-2-digiguard.png" alt="DigiGuard smart home security mobile app preview">
       </div>
       <div class="project-card-body">
         <div class="project-card-top">
@@ -742,7 +743,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 
     <article class="project-card" onclick="showDetail('edi-detail')">
       <div class="project-media">
-        <img src="suki_portfolio_assets/project-3-edi.jpg" alt="EDI inclusive access and representation project preview">
+        <img src="suki_portfolio_assets/project-3-edi.png" alt="EDI inclusive access and representation project preview">
       </div>
       <div class="project-card-body">
         <div class="project-card-top">
@@ -762,7 +763,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 
     <article class="project-card" onclick="showDetail('resoil-detail')">
       <div class="project-media">
-        <img src="suki_portfolio_assets/project-4-resoil.jpg" alt="ReSoil sustainability habit app project preview">
+        <img src="suki_portfolio_assets/project-4-resoil.png" alt="ReSoil sustainability habit app project preview">
       </div>
       <div class="project-card-body">
         <div class="project-card-top">
@@ -836,6 +837,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
       <div class="diagram-arrow">→</div>
       <div class="diagram-node">Operations decision / valuation / next action</div>
     </div>
+    <img class="detail-image motorplatform-context-image" src="suki_portfolio_assets/motorplatform-context-overview.png" alt="MotorPlatform product context workflow overview visual">
   </div>
 
   <div class="detail-section">
@@ -872,7 +874,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
         <figcaption class="phone-shot-label">SCREEN 01</figcaption>
       </figure>
       <figure class="phone-shot">
-        <img src="suki_portfolio_assets/photo-flow-screen-1.jpg" alt="Photo Flow mobile screen 1">
+        <img src="suki_portfolio_assets/photo-flow-screen-1.png" alt="Photo Flow mobile screen 1">
         <div class="screen-overlay">
           <div class="screen-overlay-title">Screen 02 — Guided Capture</div>
           <p>The camera screen uses visual guidance and photo type labels to help users capture the expected vehicle angle.</p>
@@ -880,7 +882,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
         <figcaption class="phone-shot-label">SCREEN 02</figcaption>
       </figure>
       <figure class="phone-shot">
-        <img src="suki_portfolio_assets/photo-flow-screen-3.jpg" alt="Photo Flow mobile screen 3">
+        <img src="suki_portfolio_assets/photo-flow-screen-3.png" alt="Photo Flow mobile screen 3">
         <div class="screen-overlay">
           <div class="screen-overlay-title">Screen 03 — Media Review</div>
           <p>Users can review the captured vehicle photo set before final submission.</p>
@@ -903,7 +905,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
     <p>The existing vehicle photo capture process created several operational risks. Users could take the wrong photo type, submit blurry or dark photos, miss mandatory shots, or require follow-up corrections after submission. These issues increased rework for the team and made it difficult to assess photo quality consistently at scale.</p>
     <div class="problem-loop" aria-label="Problem statement loop">
       <div class="problem-step">
-        <img class="problem-illustration" src="suki_portfolio_assets/problem-step-1.jpg" alt="Illustration of a user moving quickly">
+        <img class="problem-illustration" src="suki_portfolio_assets/problem-step-1.png" alt="Illustration of a user moving quickly">
         <div>
           <div class="problem-step-title">01 / USER WANTS TO MOVE FAST</div>
           <div class="problem-step-copy">Dealership users need to complete capture quickly while moving through operational tasks.</div>
@@ -911,7 +913,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
       </div>
       <div class="problem-arrow">→</div>
       <div class="problem-step">
-        <img class="problem-illustration" src="suki_portfolio_assets/problem-step-4.jpg" alt="Illustration of wrong or poor quality photos">
+        <img class="problem-illustration" src="suki_portfolio_assets/problem-step-4.png" alt="Illustration of wrong or poor quality photos">
         <div>
           <div class="problem-step-title">02 / WRONG OR LOW-QUALITY PHOTOS</div>
           <div class="problem-step-copy">They may capture the wrong type, miss required shots, or submit poor-quality images.</div>
@@ -919,7 +921,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
       </div>
       <div class="problem-arrow">→</div>
       <div class="problem-step">
-        <img class="problem-illustration" src="suki_portfolio_assets/problem-step-3.jpg" alt="Illustration of operations follow-up">
+        <img class="problem-illustration" src="suki_portfolio_assets/problem-step-3.png" alt="Illustration of operations follow-up">
         <div>
           <div class="problem-step-title">03 / OPS TEAM NEEDS FOLLOW-UP</div>
           <div class="problem-step-copy">Operations teams need to ask for corrections, clarification, or additional media.</div>
@@ -927,7 +929,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
       </div>
       <div class="problem-arrow">→</div>
       <div class="problem-step">
-        <img class="problem-illustration" src="suki_portfolio_assets/problem-step-2.jpg" alt="Illustration of higher rework and cost">
+        <img class="problem-illustration" src="suki_portfolio_assets/problem-step-2.png" alt="Illustration of higher rework and cost">
         <div>
           <div class="problem-step-title">04 / HIGHER REWORK AND COST</div>
           <div class="problem-step-copy">The process creates extra review work, coaching effort, and operational cost at scale.</div>
@@ -1055,7 +1057,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
       <div>
         <div class="phone-frame interactive-phone">
           <div class="phone-ui-wrap">
-            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-1-camera.jpg" alt="Guided camera screen for vehicle photo capture">
+            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-1-camera.png" alt="Guided camera screen for vehicle photo capture">
             <button class="ui-hotspot" data-anchor="a" type="button" aria-label="Expected photo label"></button>
             <button class="ui-hotspot" data-anchor="b" type="button" aria-label="Vehicle silhouette guide"></button>
             <button class="ui-hotspot" data-anchor="c" type="button" aria-label="Capture button"></button>
@@ -1077,7 +1079,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
       <div>
         <div class="phone-frame interactive-phone">
           <div class="phone-ui-wrap">
-            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-2-camera.jpg" alt="After capture camera screen with saved thumbnail">
+            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-2-camera.png" alt="After capture camera screen with saved thumbnail">
             <button class="ui-hotspot thumb-anchor" data-anchor="a" type="button" aria-label="Saved photo thumbnail"></button>
           </div>
         </div>
@@ -1095,7 +1097,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
       <div>
         <div class="phone-frame interactive-phone dd3-phone">
           <div class="phone-ui-wrap">
-            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-3-media.jpg" alt="Camera screen at the end of the capture process">
+            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-3-media.png" alt="Camera screen at the end of the capture process">
             <button class="ui-hotspot" data-anchor="a" type="button" aria-label="End of process without silhouette"></button>
             <button class="ui-hotspot" data-anchor="b" type="button" aria-label="Photo count thumbnail"></button>
             <button class="ui-hotspot" data-anchor="c" type="button" aria-label="Close process"></button>
@@ -1135,7 +1137,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
       <div>
         <div class="phone-frame interactive-phone dd5-phone">
           <div class="phone-ui-wrap">
-            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-5-media.jpg" alt="Media preview grid with selected vehicle photos">
+            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-5-media.png" alt="Media preview grid with selected vehicle photos">
             <button class="ui-hotspot" data-anchor="a" type="button" aria-label="Full photo preview"></button>
             <button class="ui-hotspot select-all-anchor" data-anchor="b" type="button" aria-label="Select all delete option"></button>
             <button class="ui-hotspot box-anchor-1" data-anchor="b" type="button" aria-label="Photo selection checkbox"></button>
@@ -1163,7 +1165,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
       <div>
         <div class="phone-frame interactive-phone dd6-phone">
           <div class="phone-ui-wrap">
-            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-6-wireframe.jpg" alt="Wireframe concept for non-blocking AI feedback">
+            <img class="phone-ui-image" src="suki_portfolio_assets/design-decision-6-wireframe.png" alt="Wireframe concept for non-blocking AI feedback">
             <button class="ui-hotspot" data-anchor="a" type="button" aria-label="Non-blocking warning text"></button>
             <button class="ui-hotspot" data-anchor="b" type="button" aria-label="Continue remains available"></button>
             <button class="ui-hotspot" data-anchor="c" type="button" aria-label="Retake suggested primary action"></button>
@@ -1275,7 +1277,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
     <h2>Project Overview</h2>
     <p>DigiGuard is a digital protection product concept developed during my work at Cultiv8 Group. The project focused on building a visual identity and digital interface that communicates security, reliability, and ease of use.</p>
     <p>My role was to explore the brand direction, define the visual style, design key digital touchpoints, and create a consistent UI experience that could help users quickly understand the product's value.</p>
-    <img class="detail-image" src="suki_portfolio_assets/digiguard-project-overview.jpg" alt="DigiGuard smart home security brand and product overview visual">
+    <img class="detail-image" src="suki_portfolio_assets/digiguard-project-overview.png" alt="DigiGuard smart home security brand and product overview visual">
   </div>
 
   <div class="detail-section">
@@ -1355,24 +1357,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
       </div>
       <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-02.png" alt="DigiGuard mood board color palette reference"></div>
       <div class="mood-placeholder mood-caption-card">
-        <div class="mood-caption-media"><img src="suki_portfolio_assets/digiguard-mood-placeholder-03.jpg" alt="DigiGuard pixelated house motif"></div>
+        <div class="mood-caption-media"><img src="suki_portfolio_assets/digiguard-mood-placeholder-03.png" alt="DigiGuard pixelated house motif"></div>
         <div class="mood-caption-text">The pixelated house motif represents smart protection that's always learning.</div>
       </div>
       <div class="mood-placeholder mood-caption-card">
-        <div class="mood-caption-media"><img src="suki_portfolio_assets/digiguard-mood-placeholder-04-clean.jpg" alt="Family using smart home security at home"></div>
+        <div class="mood-caption-media"><img src="suki_portfolio_assets/digiguard-mood-placeholder-04-clean.png" alt="Family using smart home security at home"></div>
         <div class="mood-caption-text">Peace of mind at home.<br>So you can focus on what matters.</div>
       </div>
-      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-05.jpg" alt="DigiGuard mood board image reference"></div>
-      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-06.jpg" alt="DigiGuard mood board image reference"></div>
-      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-07.jpg" alt="DigiGuard mood board image reference"></div>
-      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-08.jpg" alt="DigiGuard mood board image reference"></div>
-      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-09.jpg" alt="DigiGuard mood board image reference"></div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-05.png" alt="DigiGuard mood board image reference"></div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-06.png" alt="DigiGuard mood board image reference"></div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-07.png" alt="DigiGuard mood board image reference"></div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-08.png" alt="DigiGuard mood board image reference"></div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-09.png" alt="DigiGuard mood board image reference"></div>
       <div class="mood-placeholder mood-caption-card">
-        <div class="mood-caption-media"><img src="suki_portfolio_assets/digiguard-mood-placeholder-10.jpg" alt="DigiGuard layered protection visual reference"></div>
+        <div class="mood-caption-media"><img src="suki_portfolio_assets/digiguard-mood-placeholder-10.png" alt="DigiGuard layered protection visual reference"></div>
         <div class="mood-caption-text">Layers of protection.<br>Designed to adapt and respond.</div>
       </div>
-      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-11.jpg" alt="DigiGuard mood board image reference"></div>
-      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-12.jpg" alt="DigiGuard mood board image reference"></div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-11.png" alt="DigiGuard mood board image reference"></div>
+      <div class="mood-placeholder"><img src="suki_portfolio_assets/digiguard-mood-placeholder-12.png" alt="DigiGuard mood board image reference"></div>
     </div>
   </div>
 
@@ -1400,7 +1402,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
           <div class="visual-board-label" style="margin-top:1.45rem">2. Secondary Logo Variations</div>
           <div class="visual-variations">
             <div class="visual-mini-logo">
-              <img src="suki_portfolio_assets/digiguard-logo-red-variation.jpg" alt="DigiGuard red logo variation">
+              <img src="suki_portfolio_assets/digiguard-logo-red-variation.png" alt="DigiGuard red logo variation">
             </div>
             <div class="visual-mini-logo dark">
               <img src="suki_portfolio_assets/digiguard-logo-black-variation.png" alt="DigiGuard dark logo variation">
@@ -1507,7 +1509,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
     <p>Security products can become difficult to understand when information is too technical. I used feature cards, icons, and short descriptions to make the product benefits easier to scan.</p>
     <div class="annotated-block">
       <div class="ui-screen-card decision-phone">
-        <img src="suki_portfolio_assets/digiguard-design-decision-02.jpg" alt="DigiGuard feature card layout UI screen">
+        <img src="suki_portfolio_assets/digiguard-design-decision-02.png" alt="DigiGuard feature card layout UI screen">
       </div>
       <div class="wire-notes">
         <div class="wire-note"><span>A</span><div>Icon communicates feature category</div></div>
@@ -1570,7 +1572,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
         </div>
       </div>
       <div class="component-card">
-        <img src="suki_portfolio_assets/digiguard-component-smart-control.jpg" alt="DigiGuard Smart Control component">
+        <img src="suki_portfolio_assets/digiguard-component-smart-control.png" alt="DigiGuard Smart Control component">
         <div>
           <h4>Smart Control</h4>
           <p>Control cameras, sensors, and automations with ease and confidence.</p>
@@ -1710,7 +1712,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
     <h2>Project Overview</h2>
     <p>EDI is an inclusive design project focused on understanding how digital experiences can better support users with diverse needs, backgrounds, and access conditions. The project explored how design can reduce barriers, improve clarity, and create a more respectful and inclusive user experience.</p>
     <p>My role involved researching user needs, identifying accessibility and inclusion barriers, translating insights into design principles, and developing design responses that support clearer and more equitable access.</p>
-    <div class="image-placeholder overview-wide-placeholder">PROJECT OVERVIEW VISUAL PLACEHOLDER<br>Inclusive access, research synthesis, and design direction overview</div>
+    <img class="detail-image" src="suki_portfolio_assets/edi-project-overview.png" alt="EDI inclusive design project overview visual">
   </div>
 
   <div class="detail-section">
@@ -1909,7 +1911,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   <div class="detail-section">
     <h2>Final Design</h2>
     <p>The final design focuses on clarity, accessibility, and supportive guidance. It aims to help users understand information more easily, complete tasks with confidence, and feel respected throughout the experience.</p>
-    <img class="detail-image" src="suki_portfolio_assets/edi-final-design.jpg" alt="EDI final design screen overview">
+    <img class="detail-image" src="suki_portfolio_assets/edi-final-design.png" alt="EDI final design screen overview">
   </div>
 
   <div class="detail-section">
@@ -1968,7 +1970,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
     <h2>Project Overview</h2>
     <p>ReSoil is a sustainability app concept developed during a 24-hour designathon. The project encourages users to reuse daily kitchen waste to cultivate organic soil, turning a small household action into a visible and rewarding habit.</p>
     <p>My role focused on product concept development, user journey design, behaviour change strategy, UI design, and pitch storytelling. Our team developed the concept, prototype, and final presentation within 24 hours and achieved second place in the competition.</p>
-    <div class="image-placeholder placeholder-large">PROJECT OVERVIEW VISUAL PLACEHOLDER<br>ReSoil concept, app flow, and sustainability habit loop overview</div>
+    <img class="detail-image" src="suki_portfolio_assets/resoil-project-overview.png" alt="ReSoil sustainability app project overview visual">
   </div>
 
   <div class="detail-section">
@@ -2051,7 +2053,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   <div class="detail-section">
     <h2>User Journey</h2>
     <div class="journey-image-wrap" aria-label="ReSoil user journey with interactive hover regions">
-      <img src="suki_portfolio_assets/resoil-user-journey.jpg" alt="ReSoil user journey from awareness to repeat habit">
+      <img src="suki_portfolio_assets/resoil-user-journey.png" alt="ReSoil user journey from awareness to repeat habit">
       <div class="journey-hotspot" title="1. Awareness"></div>
       <div class="journey-hotspot" title="2. Setup"></div>
       <div class="journey-hotspot" title="3. Daily Action"></div>
@@ -2082,7 +2084,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
     <div class="annotated-block"><img class="detail-image resoil-decision-image" src="suki_portfolio_assets/resoil-decision-2-progress-motivation.png" alt="ReSoil design decision showing visible progress and motivation"><div class="wire-notes"><div class="wire-note"><span>A</span><div>Soil progress shows visible transformation</div></div><div class="wire-note"><span>B</span><div>Streaks encourage consistency</div></div><div class="wire-note"><span>C</span><div>Impact summary connects action to outcome</div></div><div class="wire-note"><span>D</span><div>Milestones reward continued participation</div></div></div></div>
     <h3>Design Decision 3: Use positive reinforcement instead of guilt</h3>
     <p>Rather than relying on negative messaging about waste, the app uses encouraging feedback, rewards, and growth-oriented visuals to make sustainable behaviour feel satisfying.</p>
-    <div class="annotated-block"><img class="detail-image resoil-decision-image" src="suki_portfolio_assets/resoil-decision-3-positive-reinforcement.jpg" alt="ReSoil design decision showing positive reinforcement and rewards"><div class="wire-notes"><div class="wire-note"><span>A</span><div>Encouraging tone supports motivation</div></div><div class="wire-note"><span>B</span><div>Rewards celebrate small achievements</div></div><div class="wire-note"><span>C</span><div>Growth visuals make the outcome feel tangible</div></div><div class="wire-note"><span>D</span><div>Friendly UI reduces pressure</div></div></div></div>
+    <div class="annotated-block"><img class="detail-image resoil-decision-image" src="suki_portfolio_assets/resoil-decision-3-positive-reinforcement.png" alt="ReSoil design decision showing positive reinforcement and rewards"><div class="wire-notes"><div class="wire-note"><span>A</span><div>Encouraging tone supports motivation</div></div><div class="wire-note"><span>B</span><div>Rewards celebrate small achievements</div></div><div class="wire-note"><span>C</span><div>Growth visuals make the outcome feel tangible</div></div><div class="wire-note"><span>D</span><div>Friendly UI reduces pressure</div></div></div></div>
     <h3>Design Decision 4: Connect digital tracking with real-world action</h3>
     <p>The app is designed to support a physical household habit. Digital reminders and progress tracking are connected to the real-world process of collecting kitchen waste and cultivating soil.</p>
     <div class="annotated-block"><img class="detail-image resoil-decision-image" src="suki_portfolio_assets/resoil-decision-4-real-world-action.png" alt="ReSoil design decision connecting digital tracking with real-world action"><div class="wire-notes"><div class="wire-note"><span>A</span><div>Reminder prompts real-world action</div></div><div class="wire-note"><span>B</span><div>Logging connects behaviour to progress</div></div><div class="wire-note"><span>C</span><div>Soil status reflects physical activity</div></div><div class="wire-note"><span>D</span><div>Planting outcome completes the loop</div></div></div></div>
@@ -2091,7 +2093,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   <div class="detail-section">
     <h2>Final Design</h2>
     <p>The final prototype presents ReSoil as a friendly and motivating sustainability companion, helping users understand what to reuse, track their progress, and build a more sustainable household routine.</p>
-    <img class="detail-image" src="suki_portfolio_assets/resoil-final-design.jpg" alt="ReSoil final design prototype overview">
+    <img class="detail-image" src="suki_portfolio_assets/resoil-final-design.png" alt="ReSoil final design prototype overview">
   </div>
 
   <div class="detail-section">
@@ -2134,8 +2136,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
     <h2 class="sec-title">About</h2>
   </div>
   <div class="about-photo-placeholder" aria-label="Suki profile image with interactive reveal">
-    <img class="about-photo-real" src="suki_portfolio_assets/about-real-photo.jpg" alt="Suki portrait photo">
-    <img class="about-photo-watercolor" src="suki_portfolio_assets/about-watercolor.jpg" alt="Watercolor portrait of Suki">
+    <img class="about-photo-real" src="suki_portfolio_assets/about-real-photo.png" alt="Suki portrait photo">
+    <img class="about-photo-watercolor" src="suki_portfolio_assets/about-watercolor.png" alt="Watercolor portrait of Suki">
   </div>
   <div class="about-grid">
     <div class="about-left">
@@ -2287,6 +2289,7 @@ function updateProjectNav(){
   sections.forEach((section,index)=>{
     if(section.getBoundingClientRect().top<=window.innerHeight*0.38)activeIndex=index;
   });
+  if(window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4)activeIndex=sections.length-1;
   links.forEach((link,index)=>link.classList.toggle('active',index===activeIndex));
   sections.forEach((section,index)=>{
     section.classList.toggle('active-section',index===activeIndex);
